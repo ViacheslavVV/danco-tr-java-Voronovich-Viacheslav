@@ -1,5 +1,7 @@
 package com.danco.training.ui.menu.item.ext;
 
+import java.util.List;
+
 import com.danco.training.ui.display.api.IEntityDisplayer;
 import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
@@ -16,10 +18,10 @@ public class CurrentCoursesSortedByLecturerItem extends MenuItem {
 	@Override
 	public Menu doWork(IEntityDisplayer entityDisplayer, IReader reader, IFacade facade) {
 		try{
-			Course[] courses = facade.getCurrentCoursesSortedByLecturer();
+			List<Course> courses = facade.getCurrentCoursesSortedByLecturer();
 			if (courses == null){
 				entityDisplayer.displayMessage("Courses not found.");
-			}else if (courses.length==0){
+			}else if (courses.size()==0){
 				entityDisplayer.displayMessage("Courses not found.");
 			}
 			else{

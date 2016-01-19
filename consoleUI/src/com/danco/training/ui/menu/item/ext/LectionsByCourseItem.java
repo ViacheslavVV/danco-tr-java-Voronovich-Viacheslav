@@ -1,5 +1,7 @@
 package com.danco.training.ui.menu.item.ext;
 
+import java.util.List;
+
 import com.danco.training.ui.display.api.IEntityDisplayer;
 import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
@@ -19,10 +21,10 @@ public class LectionsByCourseItem extends MenuItem {
 		try{
 			int courseId = reader.getCourseId();
 			Course course = facade.getCourse(courseId);
-			Lection[] lections = facade.getLectionsByCourse(courseId);
+			List<Lection> lections = facade.getLectionsByCourse(courseId);
 			if (lections == null){
 				entityDisplayer.displayMessage("Lections not found.");
-			}else if (lections.length==0){
+			}else if (lections.size()==0){
 				entityDisplayer.displayMessage("Lections not found.");
 			}
 			else{

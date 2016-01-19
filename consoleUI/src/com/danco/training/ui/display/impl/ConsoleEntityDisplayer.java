@@ -1,5 +1,7 @@
 package com.danco.training.ui.display.impl;
 
+import java.util.List;
+
 import com.danco.training.ui.display.api.IEntityDisplayer;
 import com.training.danco.model.Course;
 import com.training.danco.model.Lection;
@@ -22,7 +24,7 @@ public class ConsoleEntityDisplayer implements IEntityDisplayer {
 	}
 
 	@Override
-	public void displayCourses(Course[] courses, String header) {
+	public void displayCourses(List<Course> courses, String header) {
 		System.out.println(header);
 		System.out.printf("Id:    Name:       StartDate:    Final Date   MaxLections  MaxStudents\n");
 		for (Course course : courses){
@@ -41,7 +43,7 @@ public class ConsoleEntityDisplayer implements IEntityDisplayer {
 	}
 
 	@Override
-	public void displayLecturers(Lecturer[] lecturers, String header) {
+	public void displayLecturers(List<Lecturer> lecturers, String header) {
 		System.out.println(header);			
 		System.out.printf("Id        Name:       Age:        \n");
 		for (Lecturer lecturer : lecturers){
@@ -62,7 +64,7 @@ public class ConsoleEntityDisplayer implements IEntityDisplayer {
 	}
 
 	@Override
-	public void displayLections(Lection[] lections, String header) {
+	public void displayLections(List<Lection> lections, String header) {
 		System.out.println(header);
 		System.out.printf("Id        Name:       Date:           \n");
 		for (Lection lection : lections){
@@ -80,7 +82,7 @@ public class ConsoleEntityDisplayer implements IEntityDisplayer {
 	}
 
 	@Override
-	public void displayStudents(Student[] students, String header) {
+	public void displayStudents(List<Student> students, String header) {
 		System.out.println(header);			
 		System.out.printf("Id        Name:       Age:            \n");
 		for (Student student : students){

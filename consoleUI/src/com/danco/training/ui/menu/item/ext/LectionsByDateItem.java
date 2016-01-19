@@ -1,6 +1,7 @@
 package com.danco.training.ui.menu.item.ext;
 
 import java.util.Date;
+import java.util.List;
 
 import com.danco.training.ui.display.api.IEntityDisplayer;
 import com.danco.training.ui.menu.Menu;
@@ -20,10 +21,10 @@ public class LectionsByDateItem extends MenuItem {
 	public Menu doWork(IEntityDisplayer entityDisplayer, IReader reader, IFacade facade) {
 		try{
 			Date date = reader.getLectionDate();
-			Lection[] lections = facade.getLectionsByDate(date);
+			List<Lection> lections = facade.getLectionsByDate(date);
 			if (lections == null){
 				entityDisplayer.displayMessage("Lections not found.");
-			}else if (lections.length==0){
+			}else if (lections.size() == 0){
 				entityDisplayer.displayMessage("Lections not found.");
 			}
 			else{

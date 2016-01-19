@@ -1,5 +1,7 @@
 package com.danco.training.ui.menu.item.ext;
 
+import java.util.List;
+
 import com.danco.training.ui.display.api.IEntityDisplayer;
 import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
@@ -17,10 +19,10 @@ public class AllStudentsItem extends MenuItem {
 	@Override
 	public Menu doWork(IEntityDisplayer entityDisplayer, IReader reader, IFacade facade) {
 		try{
-			Student[] students = facade.getAllStudents();
+			List<Student> students = facade.getAllStudents();
 			if (students == null){
 				entityDisplayer.displayMessage("Students not found.");
-			}else if (students.length==0){
+			}else if (students.size()==0){
 				entityDisplayer.displayMessage("Students not found.");
 			}
 			else{

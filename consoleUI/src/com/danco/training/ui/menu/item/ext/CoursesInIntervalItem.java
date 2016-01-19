@@ -1,6 +1,7 @@
 package com.danco.training.ui.menu.item.ext;
 
 import java.util.Date;
+import java.util.List;
 
 import com.danco.training.ui.display.api.IEntityDisplayer;
 import com.danco.training.ui.menu.Menu;
@@ -22,10 +23,10 @@ public class CoursesInIntervalItem extends MenuItem {
 			entityDisplayer.displayMessage("Enter date interval");
 			Date startDate = reader.getDate("Input date from");
 			Date finalDate = reader.getDate("Input date to");
-			Course[] courses = facade.getCoursesInInterval(startDate, finalDate);
+			List<Course> courses = facade.getCoursesInInterval(startDate, finalDate);
 			if (courses == null){
 				entityDisplayer.displayMessage("Courses not found.");
-			}else if (courses.length==0){
+			}else if (courses.size()==0){
 				entityDisplayer.displayMessage("Courses not found.");
 			}
 			else{
