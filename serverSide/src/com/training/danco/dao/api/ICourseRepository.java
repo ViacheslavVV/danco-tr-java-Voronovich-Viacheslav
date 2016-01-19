@@ -1,6 +1,7 @@
 package com.training.danco.dao.api;
 
 import java.util.Date;
+import java.util.List;
 
 import com.training.danco.model.Course;
 
@@ -10,24 +11,24 @@ public interface ICourseRepository {
 	public Course get(int id);
 	public boolean update(Course course);
 	public boolean delete(Course course);
-	public Course[] getAll();
+	public List<Course> getAll();
 	
 	public int getCount();
 	
-	public Course[] getCoursesInInterval(Date dateFrom, Date dateTo);
+	public List<Course> getCoursesInInterval(Date dateFrom, Date dateTo);
 
-	public Course[] getSortedByStartDate();
-	public Course[] getSortedByStudentsCount();
-	public Course[] getSortedByLecturer();
-	public Course[] getSortedByName();
+	public List<Course> getSortedByStartDate();
+	public List<Course> getSortedByStudentsCount();
+	public List<Course> getSortedByLecturer();
+	public List<Course> getSortedByName();
 	
-	public Course[] getCurrentCoursesSortedByStartDate();
-	public Course[] getCurrentCoursesSortedByStudentsCount();
-	public Course[] getCurrentCoursesSortedByLecturer();
-	public Course[] getCurrentCoursesSortedByName();
+	public List<Course> getCurrentCoursesSortedByStartDate();
+	public List<Course> getCurrentCoursesSortedByStudentsCount();
+	public List<Course> getCurrentCoursesSortedByLecturer();
+	public List<Course> getCurrentCoursesSortedByName();
 
-	public Course[] getCoursesAfterDateSortedByStartDate(Date date);
-	public Course[] getCoursesAfterDateSortedByStudentsCount(Date date);
-	public Course[] getCoursesAfterDateSortedByLecturer(Date date);
-	public Course[] getCoursesAfterDateSortedByName(Date date);
+	public List<Course> getCoursesAfterDateSortedByStartDate(Date date);
+	public List<Course> getCoursesAfterDateSortedByStudentsCount(Date date);
+	public List<Course> getCoursesAfterDateSortedByLecturer(Date date);
+	public List<Course> getCoursesAfterDateSortedByName(Date date);
 }

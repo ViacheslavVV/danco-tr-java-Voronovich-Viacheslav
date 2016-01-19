@@ -1,6 +1,7 @@
 package com.training.danco.facade.api;
 
 import java.util.Date;
+import java.util.List;
 
 import com.training.danco.model.Course;
 import com.training.danco.model.Lection;
@@ -18,7 +19,7 @@ public interface IFacade {
 	
 	public Lecturer getLecturerByCourse(int courseId);
 	
-	public Course[] getAllCourses();
+	public List<Course> getAllCourses();
 	
 	public boolean setLecturerToCourse(int courseId, int lecturerId);
 	
@@ -32,35 +33,35 @@ public interface IFacade {
 	
 	public int getCoursesCount();
 	
-	public Lection[] getLectionsByCourse(int courseId);
+	public List<Lection> getLectionsByCourse(int courseId);
 	
-	public Student[] getStudentsByCourse(int courseId);
+	public List<Student> getStudentsByCourse(int courseId);
 	
-	public Course[] getCoursesInInterval(Date dateFrom, Date dateTo);
+	public List<Course> getCoursesInInterval(Date dateFrom, Date dateTo);
 	
-	public Course[] getCoursesSortedByStartDate();
+	public List<Course> getCoursesSortedByStartDate();
 	
-	public Course[] getCoursesSortedByStudentsCount();
+	public List<Course> getCoursesSortedByStudentsCount();
 	
-	public Course[] getCoursesSortedByLecturer();
+	public List<Course> getCoursesSortedByLecturer();
 	
-	public Course[] getCoursesSortedByName();
+	public List<Course> getCoursesSortedByName();
 	
-	public Course[] getCurrentCoursesSortedByStartDate();
+	public List<Course> getCurrentCoursesSortedByStartDate();
 	
-	public Course[] getCurrentCoursesSortedByStudentsCount();
+	public List<Course> getCurrentCoursesSortedByStudentsCount();
 	
-	public Course[] getCurrentCoursesSortedByLecturer();
+	public List<Course> getCurrentCoursesSortedByLecturer();
 	
-	public Course[] getCurrentCoursesSortedByName();
+	public List<Course> getCurrentCoursesSortedByName();
 	
-	public Course[] getCoursesAfterDateSortedByStartDate(Date date);
+	public List<Course> getCoursesAfterDateSortedByStartDate(Date date);
 	
-	public Course[] getCoursesAfterDateSortedByStudentsCount(Date date);
+	public List<Course> getCoursesAfterDateSortedByStudentsCount(Date date);
 	
-	public Course[] getCoursesAfterDateSortedByLecturer(Date date);
+	public List<Course> getCoursesAfterDateSortedByLecturer(Date date);
 	
-	public Course[] getCoursesAfterDateSortedByName(Date date);
+	public List<Course> getCoursesAfterDateSortedByName(Date date);
 		
 	public boolean setLection(Lection lection);
 	
@@ -70,13 +71,13 @@ public interface IFacade {
 	
 	public boolean deleteLection(int lectionId);
 	
-	public Lection[] getAllLections();
+	public List<Lection> getAllLections();
 
-	public Lection[] getLectionsSortedByDate();
+	public List<Lection> getLectionsSortedByDate();
 	
-	public Lection[] getLectionsSortedByName();
+	public List<Lection> getLectionsSortedByName();
 	
-	public Lection[] getLectionsByDate(Date date);
+	public List<Lection> getLectionsByDate(Date date);
 	
 	public int getLectionsCount();
 	
@@ -88,11 +89,11 @@ public interface IFacade {
 	
 	public boolean deleteLecturer(int lecturerId);
 	
-	public Lecturer[] getAllLecturers();
+	public List<Lecturer> getAllLecturers();
 
-	public Lecturer[] getLecturersSortedByName();
+	public List<Lecturer> getLecturersSortedByName();
 	
-	public Lecturer[] getLecturersSortedByCoursesCount();
+	public List<Lecturer> getLecturersSortedByCoursesCount();
 	
 	public int getLecturersCount();
 	
@@ -104,7 +105,7 @@ public interface IFacade {
 	
 	public boolean deleteStudent(int studentId);
 	
-	public Student[] getAllStudents();
+	public List<Student> getAllStudents();
 	
 	public int getStudentsCount();
 	

@@ -1,6 +1,7 @@
 package com.training.danco.services.api;
 
 import java.util.Date;
+import java.util.List;
 
 import com.training.danco.model.Course;
 import com.training.danco.model.Lection;
@@ -13,13 +14,13 @@ public interface ICourseService {
 	public Course get(int id);
 	public boolean update(Course course);
 	public boolean delete(Course course);
-	public Course[] getAll();
+	public List<Course> getAll();
 	
 	public int getCount();
 	
 	public Lecturer getLectureByCourse(Course course);
-	public Lection[] getLectionsByCourse(Course course);
-	public Student[] getStudentsByCourse(Course course);
+	public List<Lection> getLectionsByCourse(Course course);
+	public List<Student> getStudentsByCourse(Course course);
 	
 	public boolean setLecturer(Course course, Lecturer lecturer);
 	public boolean addLection(Course course, Lection lection);
@@ -27,20 +28,20 @@ public interface ICourseService {
 	public boolean removeLection(Course course, Lection lection);
 	public boolean removeStudent(Course course, Student student);
 	
-	public Course[] getCoursesInInterval(Date dateFrom, Date dateTo);
+	public List<Course> getCoursesInInterval(Date dateFrom, Date dateTo);
 
-	public Course[] getSortedByStartDate();
-	public Course[] getSortedByStudentsCount();
-	public Course[] getSortedByLecturer();
-	public Course[] getSortedByName();
+	public List<Course> getSortedByStartDate();
+	public List<Course> getSortedByStudentsCount();
+	public List<Course> getSortedByLecturer();
+	public List<Course> getSortedByName();
 	
-	public Course[] getCurrentCoursesSortedByStartDate();
-	public Course[] getCurrentCoursesSortedByStudentsCount();
-	public Course[] getCurrentCoursesSortedByLecturer();
-	public Course[] getCurrentCoursesSortedByName();
+	public List<Course> getCurrentCoursesSortedByStartDate();
+	public List<Course> getCurrentCoursesSortedByStudentsCount();
+	public List<Course> getCurrentCoursesSortedByLecturer();
+	public List<Course> getCurrentCoursesSortedByName();
 
-	public Course[] getCoursesAfterDateSortedByStartDate(Date date);
-	public Course[] getCoursesAfterDateSortedByStudentsCount(Date date);
-	public Course[] getCoursesAfterDateSortedByLecturer(Date date);
-	public Course[] getCoursesAfterDateSortedByName(Date date);
+	public List<Course> getCoursesAfterDateSortedByStartDate(Date date);
+	public List<Course> getCoursesAfterDateSortedByStudentsCount(Date date);
+	public List<Course> getCoursesAfterDateSortedByLecturer(Date date);
+	public List<Course> getCoursesAfterDateSortedByName(Date date);
 }

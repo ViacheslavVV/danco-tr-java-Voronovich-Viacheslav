@@ -1,6 +1,7 @@
 package com.training.danco.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import com.training.danco.model.Lection;
 import com.training.danco.services.api.ILectionService;
@@ -35,20 +36,20 @@ public class LectionController {
 		return this.lectionService.delete(lection);
 	}
 	
-	public Lection[] getAll()
+	public List<Lection> getAll()
 	{
 		return this.lectionService.getAll();
 	}
 
-	public Lection[] getSortedByDate()
+	public List<Lection> getSortedByDate()
 	{
 		return this.lectionService.getSortedByDate();
 	}
-	public Lection[] getSortedByName()
+	public List<Lection> getSortedByName()
 	{
 		return this.lectionService.getSortedByName();
 	}
-	public Lection[] getLectionsByDate(Date date)
+	public List<Lection> getLectionsByDate(Date date)
 	{
 		return this.lectionService.getLectionsByDate(date);
 	}

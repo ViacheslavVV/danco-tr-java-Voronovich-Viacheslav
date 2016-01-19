@@ -1,9 +1,10 @@
 package com.training.danco.dao.impl;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import com.training.danco.comparator.Comparator;
-import com.training.danco.comparator.LecturerCoursesCountComporator;
+import com.training.danco.comparator.LecturerCoursesCountComparator;
 import com.training.danco.dao.api.ICourseRepository;
 import com.training.danco.dao.api.ILecturerRepository;
 import com.training.danco.model.Course;
@@ -12,29 +13,23 @@ import com.training.danco.model.Lecturer;
 public class LecturerRepository implements ILecturerRepository {
 
 	
-	private Lecturer[] lecturers;
+	private List<Lecturer> lecturers;
 	
-	public LecturerRepository(Lecturer[] lecturers) {
+	public LecturerRepository(List<Lecturer> lecturers) {
 		this.lecturers = lecturers;
 	}
-
+	
 	@Override
 	public boolean set(Lecturer lecturer) {
-		int index = getVocantLecturerNumber();
-		if (index != -1)
-		{
-			lecturers[index] = lecturer;
-			return true;
-		}
-		return false;
+		return this.lecturers.add(lecturer);
 	}
-
+	
 	@Override
 	public Lecturer get(int id) {
 		int index = getLecturerIndexById(id);
 		if (index != -1)
 		{
-			return lecturers[index];
+			return this.lecturers.get(index);
 		}
 		return null;
 	}
@@ -44,7 +39,7 @@ public class LecturerRepository implements ILecturerRepository {
 		int index = getLecturerIndexById(lecturer.getId());
 		if (index != -1)
 		{
-			lecturers[index] = lecturer;
+			this.lecturers.set(index, lecturer);
 			return true;
 		}
 		return false;
@@ -55,91 +50,56 @@ public class LecturerRepository implements ILecturerRepository {
 		int index = getLecturerIndexById(lecturer.getId());
 		if (index != -1)
 		{
-			for (Course course : courseRepository.getAll())
-			{
-				course.setLecturer(null);
+			if (this.lecturers.remove(index) != null){
+				for (Course course : courseRepository.getAll())
+				{
+					if (course.getLecturer() == null){
+						continue;
+					}
+					if (course.getLecturer().getId() == lecturer.getId())
+					course.setLecturer(null);
+				}
+				return true;
 			}
-			lecturers[index] = null;
-			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public Lecturer[] getAll() {
+	public List<Lecturer> getAll() {
 
-		return getNotNullLecturers();
-	}
-	
-	private int getVocantLecturerNumber()
-	{
-		for (int i=0; i<lecturers.length; i++)
-		{
-			if (lecturers[i] == null)
-			{
-				return i;
-			}
-		}
-		return -1;
+		Collections.sort(this.lecturers,Comparator.LECTURER_ID_COMPARATOR);
+		return this.lecturers;
 	}
 	
 	private int getLecturerIndexById(int id)
 	{
-		for (int i=0; i<lecturers.length; i++)
+		for (int i=0; i<this.lecturers.size(); i++)
 		{
-			if (lecturers[i] == null)
-			{
-				continue;
-			}
-			
-			if (lecturers[i].getId() == id)
+			if (this.lecturers.get(i).getId() == id)
 			{
 				return i;
 			}
 		}
 		return -1;
 	}
-
-	private Lecturer[] getNotNullLecturers()
-	{
-		Lecturer[] notNullLecturers = new Lecturer[getCount()];
-		int currentIndex =0;
-		for (Lecturer lecturer: this.lecturers)
-		{
-			if (lecturer != null)
-			{
-				notNullLecturers[currentIndex++] = lecturer;
-			}
-		}
-		return notNullLecturers;
-	}
 	
 	@Override
-	public Lecturer[] getSortedByName() {
-		Lecturer[] lects = getNotNullLecturers();
-		Arrays.sort(lects, Comparator.LECTURER_NAME_COMPARATOR);
-		return lects;
+	public List<Lecturer> getSortedByName() {
+		Collections.sort(this.lecturers, Comparator.LECTURER_NAME_COMPARATOR);
+		return this.lecturers;
 	}
 
 	@Override
-	public Lecturer[] getSortedByCoursesCount(ICourseRepository courseRepository) {
-		Lecturer[] lects = getNotNullLecturers();
-		Arrays.sort(lects, new LecturerCoursesCountComporator(courseRepository));
-		return lects;
+	public List<Lecturer> getSortedByCoursesCount(ICourseRepository courseRepository) {
+		Collections.sort(this.lecturers, new LecturerCoursesCountComparator(courseRepository));
+		return this.lecturers;
 	}
 
 	
 	@Override
 	public int getCount() {
-		int count = 0;
-		for (Lecturer lecturer : this.lecturers)
-		{
-			if (lecturer != null)
-			{
-				count++;
-			}
-		}
-		return count;
+		return this.lecturers.size();
 	}
 	
 

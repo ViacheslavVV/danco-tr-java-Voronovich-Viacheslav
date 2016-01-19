@@ -1,26 +1,24 @@
 package com.training.danco.dao.impl;
 
+import java.util.Collections;
+import java.util.List;
+
+import com.training.danco.comparator.Comparator;
 import com.training.danco.dao.api.ICourseRepository;
 import com.training.danco.dao.api.IStudentRepository;
 import com.training.danco.model.*;
 
 public class StudentRepository implements IStudentRepository {
 
-	private Student[] students;
+	private List<Student> students;
 	
-	public StudentRepository(Student[] students) {
+	public StudentRepository(List<Student> students) {
 		this.students = students;
 	}
 
 	@Override
 	public boolean set(Student student) {
-		int index = getVocantStudentNumber();
-		if (index != -1)
-		{
-			students[index] = student;
-			return true;
-		}
-		return false;
+		return this.students.add(student);
 	}
 
 	@Override
@@ -28,7 +26,7 @@ public class StudentRepository implements IStudentRepository {
 		int index = getStudentIndexById(id);
 		if (index != -1)
 		{
-			return students[index];
+			return this.students.get(index);
 		}
 		return null;
 	}
@@ -38,7 +36,7 @@ public class StudentRepository implements IStudentRepository {
 		int index = getStudentIndexById(student.getId());
 		if (index != -1)
 		{
-			students[index] = student;
+			this.students.set(index, student);
 			return true;
 		}
 		return false;
@@ -49,44 +47,23 @@ public class StudentRepository implements IStudentRepository {
 		int index = getStudentIndexById(student.getId());
 		if (index != -1)
 		{
-			for (Course course : courseRepository.getAll())
-			{
-				course.removeStudent(student);
-			}
-			students[index] = null;
-			return true;
+			return this.students.remove(index) != null;
 		}
 		return false;
 	}
 
 	@Override
-	public Student[] getAll() {
-
-		return getNotNullStudents();
-	}
-
-	private int getVocantStudentNumber()
-	{
-		for (int i=0; i<students.length; i++)
-		{
-			if (students[i] == null)
-			{
-				return i;
-			}
-		}
-		return -1;
+	public List<Student> getAll() {
+		
+		Collections.sort(this.students,Comparator.STUDENT_ID_COMPARATOR);
+		return this.students;
 	}
 	
 	private int getStudentIndexById(int id)
 	{
-		for (int i=0; i<students.length; i++)
-		{
-			if (students[i] == null)
-			{
-				continue;
-			}
-			
-			if (students[i].getId() == id)
+		for (int i=0; i<this.students.size(); i++)
+		{			
+			if (this.students.get(i).getId() == id)
 			{
 				return i;
 			}
@@ -96,29 +73,8 @@ public class StudentRepository implements IStudentRepository {
 
 	@Override
 	public int getCount() {
-		int count = 0;
-		for (Student student : this.students)
-		{
-			if (student != null)
-			{
-				count++;
-			}
-		}
-		return count;
-	}
-	
-	private Student[] getNotNullStudents()
-	{
-		Student[] notNullStudents = new Student[getCount()];
-		int currentIndex =0;
-		for (Student student: this.students)
-		{
-			if (student != null)
-			{
-				notNullStudents[currentIndex++] = student;
-			}
-		}
-		return notNullStudents;
+		
+		return this.students.size();
 	}
 	
 }

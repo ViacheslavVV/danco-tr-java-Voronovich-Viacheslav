@@ -3,8 +3,8 @@ package com.training.danco.facade.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
-import com.danco.training.TextFileWorker;
 import com.training.danco.controller.*;
 import com.training.danco.facade.api.IFacade;
 import com.training.danco.model.*;
@@ -12,7 +12,6 @@ import com.training.danco.text.converter.*;
 
 public class Facade implements IFacade{
 
-	private static final int MAX_REPOSITORY_SIZE = 100;
 	private static final String DEFAULT_FILE_NAME = "file.txt";
 	
 	private static Facade facade;
@@ -30,10 +29,10 @@ public class Facade implements IFacade{
 	private LecturerController lecturerController;
 	private StudentController studentController;
 	
-	private DataReader dataReader;
-	private DataWriter dataWriter;
+	private DataDeserializer dataDeserializer;
+	private DataSerializer dataSerializer;
 	
-	private TextFileWorker textFileWorker;
+	private String fileName = "file.txt";
 	
 	private Facade() throws RuntimeException
 	{
@@ -41,6 +40,13 @@ public class Facade implements IFacade{
 			
 			throw new RuntimeException("Can't create file with name '"+DEFAULT_FILE_NAME+"' !");
 		}
+		dataDeserializer = new DataDeserializer(this.fileName);
+		dataSerializer = new DataSerializer(this.fileName);
+		this.courseController = this.dataDeserializer.getCourseController();
+		this.lectionController = this.dataDeserializer.getLectionController();
+		this.lecturerController = this.dataDeserializer.getLecturerController();
+		this.studentController = this.dataDeserializer.getStudentController();
+		
 	}
 
 	//Course Region
@@ -69,7 +75,7 @@ public class Facade implements IFacade{
 		return courseController.getLecturerByCourse(courseId);
 	}
 	
-	public Course[] getAllCourses()
+	public List<Course> getAllCourses()
 	{
 		return courseController.getAll();
 	}
@@ -104,77 +110,77 @@ public class Facade implements IFacade{
 		return courseController.getCount();
 	}
 	
-	public Lection[] getLectionsByCourse(int courseId){
+	public List<Lection> getLectionsByCourse(int courseId){
 		
 		return courseController.getLectionsByCourse(courseId);
 	}
 	
-	public Student[] getStudentsByCourse(int courseId){
+	public List<Student> getStudentsByCourse(int courseId){
 		
 		return courseController.getStudentsByCourse(courseId);
 	}
 	
-	public Course[] getCoursesInInterval(Date dateFrom, Date dateTo)
+	public List<Course> getCoursesInInterval(Date dateFrom, Date dateTo)
 	{
 		return courseController.getCoursesInInterval(dateFrom, dateTo);
 	}
 	
-	public Course[] getCoursesSortedByStartDate()
+	public List<Course> getCoursesSortedByStartDate()
 	{
 		return courseController.getSortedByStartDate();
 	}
 	
-	public Course[] getCoursesSortedByStudentsCount()
+	public List<Course> getCoursesSortedByStudentsCount()
 	{
 		return courseController.getSortedByStudentsCount();
 	}
 	
-	public Course[] getCoursesSortedByLecturer()
+	public List<Course> getCoursesSortedByLecturer()
 	{
 		return courseController.getSortedByLecturer();
 	}
 	
-	public Course[] getCoursesSortedByName()
+	public List<Course> getCoursesSortedByName()
 	{
 		return courseController.getSortedByName();
 	}
 	
-	public Course[] getCurrentCoursesSortedByStartDate()
+	public List<Course> getCurrentCoursesSortedByStartDate()
 	{
 		return courseController.getCurrentCoursesSortedByStartDate();
 	}
 	
-	public Course[] getCurrentCoursesSortedByStudentsCount()
+	public List<Course> getCurrentCoursesSortedByStudentsCount()
 	{
 		return courseController.getCurrentCoursesSortedByStudentsCount();
 	}
 	
-	public Course[] getCurrentCoursesSortedByLecturer()
+	public List<Course> getCurrentCoursesSortedByLecturer()
 	{
 		return courseController.getCurrentCoursesSortedByLecturer();
 	}
 	
-	public Course[] getCurrentCoursesSortedByName()
+	public List<Course> getCurrentCoursesSortedByName()
 	{
 		return courseController.getCurrentCoursesSortedByName();
 	}
 	
-	public Course[] getCoursesAfterDateSortedByStartDate(Date date)
+	public List<Course> getCoursesAfterDateSortedByStartDate(Date date)
 	{
 		return courseController.getCoursesAfterDateSortedByStartDate(date);
 	}
 	
-	public Course[] getCoursesAfterDateSortedByStudentsCount(Date date)
+	public List<Course> getCoursesAfterDateSortedByStudentsCount(Date date)
 	{
 		return courseController.getCoursesAfterDateSortedByStudentsCount(date);
 	}
 	
-	public Course[] getCoursesAfterDateSortedByLecturer(Date date)
+	public List<Course> getCoursesAfterDateSortedByLecturer(Date date)
 	{
 		return courseController.getCoursesAfterDateSortedByLecturer(date);
 	}
 	
-	public Course[] getCoursesAfterDateSortedByName(Date date)
+	public List<Course> getCoursesAfterDateSortedByName(Date date)
 	{
 		return courseController.getCoursesAfterDateSortedByName(date);
 	}
@@ -201,22 +207,22 @@ public class Facade implements IFacade{
 		return lectionController.deleteLection(lectionId);
 	}
 	
-	public Lection[] getAllLections()
+	public List<Lection> getAllLections()
 	{
 		return lectionController.getAll();
 	}
 
-	public Lection[] getLectionsSortedByDate()
+	public List<Lection> getLectionsSortedByDate()
 	{
 		return lectionController.getSortedByDate();
 	}
 	
-	public Lection[] getLectionsSortedByName()
+	public List<Lection> getLectionsSortedByName()
 	{
 		return lectionController.getSortedByName();
 	}
 	
-	public Lection[] getLectionsByDate(Date date)
+	public List<Lection> getLectionsByDate(Date date)
 	{
 		return lectionController.getLectionsByDate(date);
 	}
@@ -248,17 +254,17 @@ public class Facade implements IFacade{
 		return lecturerController.deleteLecturer(lecturerId);
 	}
 	
-	public Lecturer[] getAllLecturers()
+	public List<Lecturer> getAllLecturers()
 	{
 		return lecturerController.getAll();
 	}
 
-	public Lecturer[] getLecturersSortedByName()
+	public List<Lecturer> getLecturersSortedByName()
 	{
 		return lecturerController.getSortedByName();
 	}
 	
-	public Lecturer[] getLecturersSortedByCoursesCount()
+	public List<Lecturer> getLecturersSortedByCoursesCount()
 	{
 		return lecturerController.getSortedByCoursesCount();
 	}
@@ -290,7 +296,7 @@ public class Facade implements IFacade{
 		return studentController.deleteStudent(studentId);
 	}
 	
-	public Student[] getAllStudents()
+	public List<Student> getAllStudents()
 	{
 		return studentController.getAll();
 	}
@@ -300,34 +306,29 @@ public class Facade implements IFacade{
 		return studentController.getCount();
 	}
 	
-	//
-	
 	public void loadDataFromFIle() 
 	{
-		dataReader = new DataReader(
-				MAX_REPOSITORY_SIZE, MAX_REPOSITORY_SIZE, MAX_REPOSITORY_SIZE, MAX_REPOSITORY_SIZE, this.textFileWorker);
 		try {
-			dataReader.loadData();
+			dataDeserializer.loadData();
 		} catch (IOException e) {
 			throw new RuntimeException("Data hasn't been loaded from file!");
 		}
 		
-		this.courseController = dataReader.getCourseController();
+		this.courseController = dataDeserializer.getCourseController();
 		
-		this.lectionController = dataReader.getLectionController();
+		this.lectionController = dataDeserializer.getLectionController();
 		
-		this.lecturerController = dataReader.getLecturerController();
+		this.lecturerController = dataDeserializer.getLecturerController();
 		
-		this.studentController = dataReader.getStudentController();
+		this.studentController = dataDeserializer.getStudentController();
 	}
 
 	public void saveDataToFile()
 	{
-		dataWriter = new DataWriter(this.courseController, this.lectionController, this.lecturerController, this.studentController, this.textFileWorker);
 		try {
-			dataWriter.saveData();
+			dataSerializer.saveData(this.getAllStudents(),this.getAllLections(),this.getAllLecturers(),this.getAllCourses());
 		} catch (IOException e) {
-			throw new RuntimeException("Output error");
+			throw new RuntimeException("Data hasn't been saved to file!");
 		}
 	}
 	
@@ -346,7 +347,7 @@ public class Facade implements IFacade{
 				return false;
 			}
 		}
-		this.textFileWorker = new TextFileWorker(fileName);
+		this.fileName = fileName;
 		return true;
 	}
 

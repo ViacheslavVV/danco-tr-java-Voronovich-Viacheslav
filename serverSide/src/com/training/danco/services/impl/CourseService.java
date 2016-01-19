@@ -1,6 +1,8 @@
 package com.training.danco.services.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -84,13 +86,14 @@ public class CourseService implements ICourseService {
 	}
 
 	@Override
-	public Course[] getAll() {
+	public List<Course> getAll() {
 
-		Course[] resultCourses = null;
+		List<Course> resultCourses = null;
 		try {
 			resultCourses = this.courseRepository.getAll();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			resultCourses = new ArrayList<Course>();
 		}
 		return resultCourses;
 	}
@@ -170,170 +173,185 @@ public class CourseService implements ICourseService {
 
 	
 	@Override
-	public Course[] getCoursesInInterval(Date dateFrom, Date dateTo) {
-		Course[] tempCourses = null;
+	public List<Course> getCoursesInInterval(Date dateFrom, Date dateTo) {
+		List<Course> tempCourses = null;
 		try {
 			tempCourses = this.courseRepository.getCoursesInInterval(dateFrom, dateTo);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempCourses = new ArrayList<Course>();
 		}
 		return tempCourses;
 	}
 
 	@Override
-	public Course[] getSortedByStartDate() {
-		Course[] tempCourses = null;
+	public List<Course> getSortedByStartDate() {
+		List<Course> tempCourses = null;
 		try {
 			tempCourses = this.courseRepository.getSortedByStartDate();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempCourses = new ArrayList<Course>();
 		}
 		return tempCourses;
 	}
 
 	@Override
-	public Course[] getSortedByStudentsCount() {
-		Course[] tempCourses = null;
+	public List<Course> getSortedByStudentsCount() {
+		List<Course> tempCourses = null;
 		try {
 			tempCourses = this.courseRepository.getSortedByStudentsCount();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempCourses = new ArrayList<Course>();
 		}
 		return tempCourses;
 	}
 
 	@Override
-	public Course[] getSortedByLecturer() {
-		Course[] tempCourses = null;
+	public List<Course> getSortedByLecturer() {
+		List<Course> tempCourses = null;
 		try {
 			tempCourses = this.courseRepository.getSortedByLecturer();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempCourses = new ArrayList<Course>();
 		}
 		return tempCourses;
 	}
 
 	@Override
-	public Course[] getSortedByName() {
-		Course[] tempCourses = null;
+	public List<Course> getSortedByName() {
+		List<Course> tempCourses = null;
 		try {
 			tempCourses = this.courseRepository.getSortedByName();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempCourses = new ArrayList<Course>();
 		}
 		return tempCourses;
 	}
 
 	@Override
-	public Course[] getCurrentCoursesSortedByStartDate() {
-		Course[] tempCourses = null;
+	public List<Course> getCurrentCoursesSortedByStartDate() {
+		List<Course> tempCourses = null;
 		try {
 			tempCourses = this.courseRepository.getCurrentCoursesSortedByStartDate();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempCourses = new ArrayList<Course>();
 		}
 		return tempCourses;
 	}
 
 	@Override
-	public Course[] getCurrentCoursesSortedByStudentsCount() {
-		Course[] tempCourses = null;
+	public List<Course> getCurrentCoursesSortedByStudentsCount() {
+		List<Course> tempCourses = null;
 		try {
 			tempCourses = this.courseRepository.getCurrentCoursesSortedByStudentsCount();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempCourses = new ArrayList<Course>();
 		}
 		return tempCourses;
 	}
 
 	@Override
-	public Course[] getCurrentCoursesSortedByLecturer() {
-		Course[] tempCourses = null;
+	public List<Course> getCurrentCoursesSortedByLecturer() {
+		List<Course> tempCourses = null;
 		try {
 			tempCourses = this.courseRepository.getCurrentCoursesSortedByLecturer();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempCourses = new ArrayList<Course>();
 		}
 		return tempCourses;
 	}
 
 	@Override
-	public Course[] getCurrentCoursesSortedByName() {
-		Course[] tempCourses = null;
+	public List<Course> getCurrentCoursesSortedByName() {
+		List<Course> tempCourses = null;
 		try {
 			tempCourses = this.courseRepository.getCurrentCoursesSortedByName();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempCourses = new ArrayList<Course>();
 		}
 		return tempCourses;
 	}
 
 	@Override
-	public Course[] getCoursesAfterDateSortedByStartDate(Date date) {
-		Course[] tempCourses = null;
+	public List<Course> getCoursesAfterDateSortedByStartDate(Date date) {
+		List<Course> tempCourses = null;
 		try {
 			tempCourses = this.courseRepository.getCoursesAfterDateSortedByStartDate(date);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempCourses = new ArrayList<Course>();
 		}
 		return tempCourses;
 	}
 
 	@Override
-	public Course[] getCoursesAfterDateSortedByStudentsCount(Date date) {
-		Course[] tempCourses = null;
+	public List<Course> getCoursesAfterDateSortedByStudentsCount(Date date) {
+		List<Course> tempCourses = null;
 		try {
 			tempCourses = this.courseRepository.getCoursesAfterDateSortedByStudentsCount(date);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempCourses = new ArrayList<Course>();
 		}
 		return tempCourses;
 	}
 
 	@Override
-	public Course[] getCoursesAfterDateSortedByLecturer(Date date) {
-		Course[] tempCourses = null;
+	public List<Course> getCoursesAfterDateSortedByLecturer(Date date) {
+		List<Course> tempCourses = null;
 		try {
 			tempCourses = this.courseRepository.getCoursesAfterDateSortedByLecturer(date);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempCourses = new ArrayList<Course>();
 		}
 		return tempCourses;
 	}
 
 	@Override
-	public Course[] getCoursesAfterDateSortedByName(Date date) {
-		Course[] tempCourses = null;
+	public List<Course> getCoursesAfterDateSortedByName(Date date) {
+		List<Course> tempCourses = null;
 		try {
 			tempCourses = this.courseRepository.getCoursesAfterDateSortedByName(date);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempCourses = new ArrayList<Course>();
 		}
 		return tempCourses;
 	}
 
 	@Override
-	public Lection[] getLectionsByCourse(Course course) {
-		Lection[] tempLections = null;
+	public List<Lection> getLectionsByCourse(Course course) {
+		List<Lection> tempLections = null;
 		try {
 			if (course != null){
 				tempLections = course.getLections();
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempLections = new ArrayList<Lection>();
 		}
 		return tempLections;
 	}
 
 	@Override
-	public Student[] getStudentsByCourse(Course course) {
-		Student[] tempStudents = null;
+	public List<Student> getStudentsByCourse(Course course) {
+		List<Student> tempStudents = null;
 		try {
 			if (course != null){
 				tempStudents = course.getStudents();
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempStudents = new ArrayList<Student>();
 		}
 		return tempStudents;
 	}

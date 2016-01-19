@@ -1,5 +1,7 @@
 package com.training.danco.controller;
 
+import java.util.List;
+
 import com.training.danco.model.Student;
 import com.training.danco.services.api.IStudentService;
 
@@ -33,7 +35,7 @@ public class StudentController {
 		return this.studentService.delete(student);
 	}
 	
-	public Student[] getAll()
+	public List<Student> getAll()
 	{
 		return this.studentService.getAll();
 	}

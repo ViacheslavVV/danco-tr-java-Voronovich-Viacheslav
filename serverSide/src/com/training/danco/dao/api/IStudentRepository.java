@@ -1,5 +1,7 @@
 package com.training.danco.dao.api;
 
+import java.util.List;
+
 import com.training.danco.model.Student;
 
 public interface IStudentRepository {
@@ -8,6 +10,6 @@ public interface IStudentRepository {
 	public Student get(int id);
 	public boolean update(Student student);
 	public boolean delete(Student student,ICourseRepository courseRepository);
-	public Student[] getAll();
+	public List<Student> getAll();
 	public int getCount();
 }

@@ -1,5 +1,7 @@
 package com.training.danco.services.api;
 
+import java.util.List;
+
 import com.training.danco.model.Student;
 
 public interface IStudentService {
@@ -8,6 +10,6 @@ public interface IStudentService {
 	public Student get(int id);
 	public boolean update(Student student);
 	public boolean delete(Student student);
-	public Student[] getAll();
+	public List<Student> getAll();
 	public int getCount();
 }

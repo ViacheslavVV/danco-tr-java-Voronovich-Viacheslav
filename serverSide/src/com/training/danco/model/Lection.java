@@ -4,6 +4,10 @@ import java.util.Date;
 
 public class Lection extends BaseModel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2546588600372557892L;
 	static private int lectionId = 1;
 	static public void setLectionId(int id)	{
 		lectionId = id;

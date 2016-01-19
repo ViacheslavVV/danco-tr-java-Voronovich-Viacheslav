@@ -9,4 +9,8 @@ public class Comparator {
 	static final public LectionDateComparator LECTION_DATE_COMPARATOR = new LectionDateComparator();
 	static final public LectionNameComparator LECTION_NAME_COMPARATOR = new LectionNameComparator();
 	static final public LecturerNameComparator LECTURER_NAME_COMPARATOR = new LecturerNameComparator();
+	static final public LecturerIdComparator LECTURER_ID_COMPARATOR = new LecturerIdComparator();
+	static final public CourseIdComparator COURSE_ID_COMPARATOR = new CourseIdComparator();
+	static final public LectionIdComparator LECTION_ID_COMPARATOR = new LectionIdComparator();
+	static final public StudentIdComparator STUDENT_ID_COMPARATOR = new StudentIdComparator();
 }

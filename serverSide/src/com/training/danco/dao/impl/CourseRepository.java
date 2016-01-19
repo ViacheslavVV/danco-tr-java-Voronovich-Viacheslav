@@ -1,7 +1,9 @@
 package com.training.danco.dao.impl;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import com.training.danco.comparator.Comparator;
 import com.training.danco.dao.api.ICourseRepository;
@@ -10,21 +12,16 @@ import com.training.danco.model.Course;
 public class CourseRepository implements ICourseRepository {
 
 	
-	private Course[] courses; 
+	private List<Course> courses; 
 	
-	public CourseRepository(Course[] courses) {
+	public CourseRepository(List<Course> courses) {
 		this.courses = courses;
 	}
 
 	@Override
 	public boolean set(Course course) {
-		int index = getVocantCourseNumber();
-		if (index != -1)
-		{
-			courses[index] = course;
-			return true;
-		}
-		return false;
+		
+		return this.courses.add(course);
 	}
 
 	@Override
@@ -32,7 +29,7 @@ public class CourseRepository implements ICourseRepository {
 		int index = getCourseIndexById(id);
 		if (index != -1)
 		{
-			return courses[index];
+			return this.courses.get(index);
 		}
 		return null;
 	}
@@ -42,9 +39,10 @@ public class CourseRepository implements ICourseRepository {
 		int index = getCourseIndexById(course.getId());
 		if (index != -1)
 		{
-			return false;
+			this.courses.set(index, course);
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -52,40 +50,23 @@ public class CourseRepository implements ICourseRepository {
 		int index = getCourseIndexById(course.getId());
 		if (index != -1)
 		{
-			courses[index] = null;
-			return true;
+			return this.courses.remove(index) != null;
 		}
 		return false;
 	}
 
 	@Override
-	public Course[] getAll() {
+	public List<Course> getAll() {
 
-		return getNotNullCourses();
-	}
-	
-	private int getVocantCourseNumber()
-	{
-		for (int i=0; i<courses.length; i++)
-		{
-			if (courses[i] == null)
-			{
-				return i;
-			}
-		}
-		return -1;
+		Collections.sort(this.courses,Comparator.COURSE_ID_COMPARATOR);
+		return this.courses;
 	}
 	
 	private int getCourseIndexById(int id)
 	{
-		for (int i=0; i<courses.length; i++)
-		{
-			if (courses[i] == null)
-			{
-				continue;
-			}
-			
-			if (courses[i].getId() == id)
+		for (int i=0; i<this.courses.size(); i++)
+		{			
+			if (this.courses.get(i).getId() == id)
 			{
 				return i;
 			}
@@ -93,226 +74,136 @@ public class CourseRepository implements ICourseRepository {
 		return -1;
 	}
 	
-	private Course[] getNotNullCourses()
-	{
-		Course[] notNullCourses = new Course[getCount()];
-		int currentIndex =0;
-		for (Course course: this.courses)
-		{
-			if (course != null)
-			{
-				notNullCourses[currentIndex++] = course;
-			}
-		}
-		return notNullCourses;
-	}
-	
-	private int getCoursesIntervalCount(Date dateFrom, Date dateTo)
-	{
-		int count=0;
-		for (Course course : this.courses)
-		{
-			if (course == null)
-			{
-				continue;
-			}
-			if (course.getFinalDate().compareTo(dateTo) <= 0 
-					&& course.getStartDate().compareTo(dateFrom) >= 0)
-			{
-				count++;
-			}
-		}
-		return count;
-	}
-	
-	private int getCurrentCoursesCount(Date curDate)
-	{
-		int count = 0;
-		for (Course course : this.courses)
-		{
-			if (course == null)
-			{
-				continue;
-			}
-			if (course.getFinalDate().compareTo(curDate) < 0 &&
-					course.getStartDate().compareTo(curDate) > 0)
-			{
-				count++;
-			}
-		}
-		return count;
-	}
-	
-	private Course[] getCurrentCourses()
+	private List<Course> getCurrentCourses()
 	{
 		Date curDate = new Date(System.currentTimeMillis());
-		Course[] cours = new Course[getCurrentCoursesCount(curDate)];
-		int index = 0;
+		List<Course> currentCourses = new ArrayList<Course>();
 		for (Course course : this.courses)
 		{
-			if (course == null)
+			if (course.getFinalDate().after(curDate) &&
+					course.getStartDate().before(curDate))
 			{
-				continue;
-			}
-			if (course.getFinalDate().compareTo(curDate) < 0 &&
-					course.getStartDate().compareTo(curDate) > 0)
-			{
-				cours[index++] = course;
+				currentCourses.add(course);
 			}
 		}
-		return cours;
+		return currentCourses;
 	}
 	
-	private int getCoursesAfterDateCount(Date date)
+	private List<Course> getCoursesAfterDate(Date date)
 	{
-		int count = 0;
+		List<Course> coursesAfterDate = new ArrayList<Course>();
 		for (Course course : this.courses)
 		{
-			if (course == null)
+			if (course.getStartDate().after(date))
 			{
-				continue;
-			}
-			if (course.getStartDate().compareTo(date) > 0 )
-			{
-				count++;
+				coursesAfterDate.add(course);
 			}
 		}
-		return count;
-	}
-	
-	private Course[] getCoursesAfterDate(Date date)
-	{
-		Course[] cours = new Course[getCoursesAfterDateCount(date)];
-		int index = 0;
-		for (Course course : this.courses)
-		{
-			if (course == null)
-			{
-				continue;
-			}
-			if (course.getFinalDate().compareTo(date) > 0 )
-			{
-				cours[index++] = course;
-			}
-		}
-		return cours;
+		return coursesAfterDate;
 	}
 	
 	@Override
-	public Course[] getSortedByStartDate() {
+	public List<Course> getSortedByStartDate() {
 		
-		Course[] cours = getNotNullCourses();
-		Arrays.sort(cours, Comparator.COURSE_START_DATE_COMPARATOR);
-		return cours;
+		Collections.sort(this.courses, Comparator.COURSE_START_DATE_COMPARATOR);
+		return this.courses;
 	}
 
 	@Override
-	public Course[] getSortedByStudentsCount() {
-		Course[] cours = getNotNullCourses();
-		Arrays.sort(cours,Comparator.COURSE_STUDENT_COUNT_COMPARATOR);
-		return cours;
+	public List<Course> getSortedByStudentsCount() {
+		Collections.sort(this.courses,Comparator.COURSE_STUDENT_COUNT_COMPARATOR);
+		return this.courses;
 	}
 
 	@Override
-	public Course[] getSortedByLecturer() {
-		Course[] cours = getNotNullCourses();
-		Arrays.sort(cours,Comparator.COURSE_LECTURER_COMPARATOR);
-		return cours;
+	public List<Course> getSortedByLecturer() {
+		Collections.sort(this.courses,Comparator.COURSE_LECTURER_COMPARATOR);
+		return this.courses;
 	}
 
 	@Override
-	public Course[] getSortedByName() {
-
-		Course[] cours = getNotNullCourses();
-		Arrays.sort(cours,Comparator.COURSE_NAME_COMPARATOR);
-		return cours;
+	public List<Course> getSortedByName() {
+		Collections.sort(this.courses,Comparator.COURSE_NAME_COMPARATOR);
+		return this.courses;
 	}
 
 	@Override
 	public int getCount() {
-		int count = 0;
-		for (Course course: this.courses)
-		{
-			if (course != null)
-			{
-				count++;
-			}
-		}
-		return count;
+		
+		return this.courses.size();
 	}
 
 	@Override
-	public Course[] getCoursesInInterval(Date dateFrom, Date dateTo) {
+	public List<Course> getCoursesInInterval(Date dateFrom, Date dateTo) {
 		
-		Course[] cours = new Course[getCoursesIntervalCount(dateFrom, dateTo)];
-		int index = 0;
+		List<Course> coursesInInterval = new ArrayList<Course>();
 		for (Course course : this.courses)
 		{
-			if (course.getFinalDate().compareTo(dateTo) <= 0 
-					&& course.getStartDate().compareTo(dateFrom) >= 0)
+			if (course.getStartDate().before(dateTo) 
+					&& course.getStartDate().after(dateFrom))
 			{
-				cours[index++]=course;
+				coursesInInterval.add(course);
 			}
 		}
+		return coursesInInterval;
+	}
+
+	@Override
+	public List<Course> getCurrentCoursesSortedByStartDate() {
+
+		List<Course> cours = getCurrentCourses();
+		Collections.sort(this.courses, Comparator.COURSE_START_DATE_COMPARATOR);
 		return cours;
 	}
 
 	@Override
-	public Course[] getCurrentCoursesSortedByStartDate() {
-
-		Course[] cours = getCurrentCourses();
-		Arrays.sort(cours, Comparator.COURSE_START_DATE_COMPARATOR);
+	public List<Course> getCurrentCoursesSortedByStudentsCount() {
+		List<Course> cours = getCurrentCourses();
+		Collections.sort(this.courses, Comparator.COURSE_STUDENT_COUNT_COMPARATOR);
 		return cours;
 	}
 
 	@Override
-	public Course[] getCurrentCoursesSortedByStudentsCount() {
-		Course[] cours = getCurrentCourses();
-		Arrays.sort(cours, Comparator.COURSE_STUDENT_COUNT_COMPARATOR);
+	public List<Course> getCurrentCoursesSortedByLecturer() {
+		List<Course> cours = getCurrentCourses();
+		Collections.sort(this.courses, Comparator.COURSE_LECTURER_COMPARATOR);
 		return cours;
 	}
 
 	@Override
-	public Course[] getCurrentCoursesSortedByLecturer() {
-		Course[] cours = getCurrentCourses();
-		Arrays.sort(cours, Comparator.COURSE_LECTURER_COMPARATOR);
+	public List<Course> getCurrentCoursesSortedByName() {
+		List<Course> cours = getCurrentCourses();
+		Collections.sort(this.courses, Comparator.COURSE_NAME_COMPARATOR);
 		return cours;
 	}
 
 	@Override
-	public Course[] getCurrentCoursesSortedByName() {
-		Course[] cours = getCurrentCourses();
-		Arrays.sort(cours, Comparator.COURSE_NAME_COMPARATOR);
+	public List<Course> getCoursesAfterDateSortedByStartDate(Date date) {
+		List<Course> cours = getCoursesAfterDate(date);
+		Collections.sort(this.courses, Comparator.COURSE_START_DATE_COMPARATOR);
 		return cours;
 	}
 
 	@Override
-	public Course[] getCoursesAfterDateSortedByStartDate(Date date) {
-		Course[] cours = getCoursesAfterDate(date);
-		Arrays.sort(cours, Comparator.COURSE_START_DATE_COMPARATOR);
+	public List<Course> getCoursesAfterDateSortedByStudentsCount(Date date) {
+
+		List<Course> cours = getCoursesAfterDate(date);
+		Collections.sort(this.courses, Comparator.COURSE_STUDENT_COUNT_COMPARATOR);
 		return cours;
 	}
 
 	@Override
-	public Course[] getCoursesAfterDateSortedByStudentsCount(Date date) {
-
-		Course[] cours = getCoursesAfterDate(date);
-		Arrays.sort(cours, Comparator.COURSE_STUDENT_COUNT_COMPARATOR);
+	public List<Course> getCoursesAfterDateSortedByLecturer(Date date) {
+		List<Course> cours = getCoursesAfterDate(date);
+		Collections.sort(this.courses,  Comparator.COURSE_LECTURER_COMPARATOR);
 		return cours;
 	}
 
 	@Override
-	public Course[] getCoursesAfterDateSortedByLecturer(Date date) {
-		Course[] cours = getCoursesAfterDate(date);
-		Arrays.sort(cours,  Comparator.COURSE_LECTURER_COMPARATOR);
-		return cours;
-	}
+	public List<Course> getCoursesAfterDateSortedByName(Date date) {
 
-	@Override
-	public Course[] getCoursesAfterDateSortedByName(Date date) {
-
-		Course[] cours = getCoursesAfterDate(date);
-		Arrays.sort(cours, Comparator.COURSE_NAME_COMPARATOR);
+		List<Course> cours = getCoursesAfterDate(date);
+		Collections.sort(this.courses, Comparator.COURSE_NAME_COMPARATOR);
 		return cours;
 	}
 

@@ -1,5 +1,8 @@
 package com.training.danco.services.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -82,13 +85,14 @@ public class StudentService implements IStudentService {
 	}
 
 	@Override
-	public Student[] getAll() {
+	public List<Student> getAll() {
 
-		Student[] resultStudents = null;
+		List<Student> resultStudents = null;
 		try {
 			resultStudents = this.studentRepository.getAll();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			resultStudents = new ArrayList<Student>();
 		}
 		return resultStudents;
 	}

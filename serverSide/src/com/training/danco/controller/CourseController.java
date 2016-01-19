@@ -1,6 +1,7 @@
 package com.training.danco.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import com.training.danco.model.Course;
 import com.training.danco.model.Lection;
@@ -48,7 +49,7 @@ public class CourseController {
 		return this.courseService.delete(course);
 	}
 	
-	public Course[] getAll()
+	public List<Course> getAll()
 	{
 		return this.courseService.getAll();
 	}
@@ -98,67 +99,67 @@ public class CourseController {
 		return this.courseService.getCount();
 	}
 	
-	public Lection[] getLectionsByCourse(int courseId){
+	public List<Lection> getLectionsByCourse(int courseId){
 		
 		Course course = this.courseService.get(courseId);
 		return this.courseService.getLectionsByCourse(course);
 	}
 	
-	public Student[] getStudentsByCourse(int courseId){
+	public List<Student> getStudentsByCourse(int courseId){
 		
 		Course course = this.courseService.get(courseId);
 		return this.courseService.getStudentsByCourse(course);
 	}
 	
-	public Course[] getCoursesInInterval(Date dateFrom, Date dateTo)
+	public List<Course> getCoursesInInterval(Date dateFrom, Date dateTo)
 	{
 		return this.courseService.getCoursesInInterval(dateFrom, dateTo);
 	}
-	public Course[] getSortedByStartDate()
+	public List<Course> getSortedByStartDate()
 	{
 		return this.courseService.getSortedByStartDate();
 	}
-	public Course[] getSortedByStudentsCount()
+	public List<Course> getSortedByStudentsCount()
 	{
 		return this.courseService.getSortedByStudentsCount();
 	}
-	public Course[] getSortedByLecturer()
+	public List<Course> getSortedByLecturer()
 	{
 		return this.courseService.getSortedByLecturer();
 	}
-	public Course[] getSortedByName()
+	public List<Course> getSortedByName()
 	{
 		return this.courseService.getSortedByName();
 	}
-	public Course[] getCurrentCoursesSortedByStartDate()
+	public List<Course> getCurrentCoursesSortedByStartDate()
 	{
 		return this.courseService.getCurrentCoursesSortedByStartDate();
 	}
-	public Course[] getCurrentCoursesSortedByStudentsCount()
+	public List<Course> getCurrentCoursesSortedByStudentsCount()
 	{
 		return this.courseService.getCurrentCoursesSortedByStudentsCount();
 	}
-	public Course[] getCurrentCoursesSortedByLecturer()
+	public List<Course> getCurrentCoursesSortedByLecturer()
 	{
 		return this.courseService.getCurrentCoursesSortedByLecturer();
 	}
-	public Course[] getCurrentCoursesSortedByName()
+	public List<Course> getCurrentCoursesSortedByName()
 	{
 		return this.courseService.getCurrentCoursesSortedByName();
 	}
-	public Course[] getCoursesAfterDateSortedByStartDate(Date date)
+	public List<Course> getCoursesAfterDateSortedByStartDate(Date date)
 	{
 		return this.courseService.getCoursesAfterDateSortedByStartDate(date);
 	}
-	public Course[] getCoursesAfterDateSortedByStudentsCount(Date date)
+	public List<Course> getCoursesAfterDateSortedByStudentsCount(Date date)
 	{
 		return this.courseService.getCoursesAfterDateSortedByStudentsCount(date);
 	}
-	public Course[] getCoursesAfterDateSortedByLecturer(Date date)
+	public List<Course> getCoursesAfterDateSortedByLecturer(Date date)
 	{
 		return this.courseService.getCoursesAfterDateSortedByLecturer(date);
 	}
-	public Course[] getCoursesAfterDateSortedByName(Date date)
+	public List<Course> getCoursesAfterDateSortedByName(Date date)
 	{
 		return this.courseService.getCoursesAfterDateSortedByName(date);
 	}

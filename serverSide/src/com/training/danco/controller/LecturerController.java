@@ -1,5 +1,7 @@
 package com.training.danco.controller;
 
+import java.util.List;
+
 import com.training.danco.model.Lecturer;
 import com.training.danco.services.api.ILecturerService;
 
@@ -33,17 +35,17 @@ public class LecturerController {
 		return this.lecturerService.delete(lecturer);
 	}
 	
-	public Lecturer[] getAll()
+	public List<Lecturer> getAll()
 	{
 		return this.lecturerService.getAll();
 	}
 	
 
-	public Lecturer[] getSortedByName()
+	public List<Lecturer> getSortedByName()
 	{
 		return this.lecturerService.getSortedByName();
 	}
-	public Lecturer[] getSortedByCoursesCount()
+	public List<Lecturer> getSortedByCoursesCount()
 	{
 		return this.lecturerService.getSortedByCoursesCount();
 	}

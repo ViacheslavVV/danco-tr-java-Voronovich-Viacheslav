@@ -1,6 +1,8 @@
 package com.training.danco.services.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -63,7 +65,6 @@ public class LectionService implements ILectionService {
 				}
 			}
 			
-			
 			this.lectionRepository.update(resultLection);
 		
 		} catch (Exception e) {
@@ -87,46 +88,50 @@ public class LectionService implements ILectionService {
 	}
 
 	@Override
-	public Lection[] getAll() {
+	public List<Lection> getAll() {
 
-		Lection[] resultLections = null;
+		List<Lection> resultLections = null;
 		try {
 			resultLections = this.lectionRepository.getAll();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			resultLections = new ArrayList<Lection>();
 		}
 		return resultLections;
 	}
 
 	@Override
-	public Lection[] getSortedByDate() {
-		Lection[] tempLections = null;
+	public List<Lection> getSortedByDate() {
+		List<Lection> tempLections = null;
 		try {
 			tempLections = this.lectionRepository.getSortedByDate();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempLections = new ArrayList<Lection>();
 		}
 		return tempLections;
 	}
 
 	@Override
-	public Lection[] getSortedByName() {
-		Lection[] tempLections = null;
+	public List<Lection> getSortedByName() {
+		List<Lection> tempLections = null;
 		try {
 			tempLections = this.lectionRepository.getSortedByName();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempLections = new ArrayList<Lection>();
 		}
 		return tempLections;
 	}
 
 	@Override
-	public Lection[] getLectionsByDate(Date date) {
-		Lection[] tempLections = null;
+	public List<Lection> getLectionsByDate(Date date) {
+		List<Lection> tempLections = null;
 		try {
 			tempLections = this.lectionRepository.getLectionsByDate(date);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			tempLections = new ArrayList<Lection>();
 		}
 		return tempLections;
 	}

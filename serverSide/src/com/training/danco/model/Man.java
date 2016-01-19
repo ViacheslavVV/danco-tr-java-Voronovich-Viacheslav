@@ -2,6 +2,10 @@ package com.training.danco.model;
 
 public class Man extends BaseModel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3158557603167860255L;
 	protected String name;
 	protected int age;
 	
