@@ -91,7 +91,8 @@ public class CourseController {
 	
 	public Lecturer getLecturerByCourse(int courseId){
 		
-		return this.getLecturerByCourse(courseId);
+		Course course = this.courseService.get(courseId);
+		return this.courseService.getLecturerByCourse(course);
 	}
 	
 	public int getCount()

@@ -357,7 +357,7 @@ public class CourseService implements ICourseService {
 	}
 
 	@Override
-	public Lecturer getLectureByCourse(Course course) {
+	public Lecturer getLecturerByCourse(Course course) {
 		
 		Lecturer lecturer = null;
 		try {

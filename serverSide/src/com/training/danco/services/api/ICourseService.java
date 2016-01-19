@@ -18,7 +18,7 @@ public interface ICourseService {
 	
 	public int getCount();
 	
-	public Lecturer getLectureByCourse(Course course);
+	public Lecturer getLecturerByCourse(Course course);
 	public List<Lection> getLectionsByCourse(Course course);
 	public List<Student> getStudentsByCourse(Course course);
 	
