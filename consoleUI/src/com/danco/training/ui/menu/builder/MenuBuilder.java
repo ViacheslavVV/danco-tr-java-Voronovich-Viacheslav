@@ -36,6 +36,7 @@ public class MenuBuilder {
 		courseMenu.addMenuItem(new NewCourseItem(courseMenu));
 		courseMenu.addMenuItem(new CourseItem(courseMenu));
 		courseMenu.addMenuItem(new DeleteCourseItem(courseMenu));
+		courseMenu.addMenuItem(new CourseCloneItem(courseMenu));
 		courseMenu.addMenuItem(new SetLecturerToCourseItem(courseMenu));
 		courseMenu.addMenuItem(new AddLectionToCourseItem(courseMenu));
 		courseMenu.addMenuItem(new AddStudentToCourseItem(courseMenu));
