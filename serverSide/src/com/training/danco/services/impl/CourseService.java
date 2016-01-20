@@ -370,4 +370,21 @@ public class CourseService implements ICourseService {
 		return lecturer;
 	}
 
+	@Override
+	public boolean cloneCourse(Course course) {
+		boolean result = true;
+		try {
+			Course newCourse = this.courseRepository.cloneCourse(course);
+			if (newCourse == null){
+				result = false;
+			}
+			result = this.courseRepository.set(newCourse);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			result = false;
+		}
+		
+		return result;
+	}
+
 }

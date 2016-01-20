@@ -15,7 +15,7 @@ public interface ICourseService {
 	public boolean update(Course course);
 	public boolean delete(Course course);
 	public List<Course> getAll();
-	
+	public boolean cloneCourse(Course course);
 	public int getCount();
 	
 	public Lecturer getLecturerByCourse(Course course);

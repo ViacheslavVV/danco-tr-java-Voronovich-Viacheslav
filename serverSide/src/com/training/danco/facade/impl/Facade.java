@@ -351,4 +351,9 @@ public class Facade implements IFacade{
 		return true;
 	}
 
+	@Override
+	public boolean cloneCourse(int courseId) {
+		return this.courseController.cloneCourse(courseId);
+	}
+
 }

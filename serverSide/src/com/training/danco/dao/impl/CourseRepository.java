@@ -207,4 +207,10 @@ public class CourseRepository implements ICourseRepository {
 		return cours;
 	}
 
+	@Override
+	public Course cloneCourse(Course course) {
+		
+		return course == null ? null : course.clone();
+	}
+
 }

@@ -12,7 +12,7 @@ public interface ICourseRepository {
 	public boolean update(Course course);
 	public boolean delete(Course course);
 	public List<Course> getAll();
-	
+	public Course cloneCourse(Course course);
 	public int getCount();
 	
 	public List<Course> getCoursesInInterval(Date dateFrom, Date dateTo);

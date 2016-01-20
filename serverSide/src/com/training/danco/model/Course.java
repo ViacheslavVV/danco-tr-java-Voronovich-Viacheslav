@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Course extends BaseModel{
+public class Course extends BaseModel implements Cloneable{
 
 	/**
 	 * 
@@ -130,5 +130,13 @@ public class Course extends BaseModel{
 
 	public int getMaxLections() {
 		return this.maxLections;
+	}
+	
+	public Course clone()
+	{
+		Course course = new Course(this.name, this.startDate, this.finalDate, this.maxStudents, this.maxLections);
+		course.setLections(this.lections);
+		course.setLecturer(this.lecturer);
+		return course;
 	}
 }

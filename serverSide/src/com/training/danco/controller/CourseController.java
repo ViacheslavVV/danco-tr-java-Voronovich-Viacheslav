@@ -49,6 +49,11 @@ public class CourseController {
 		return this.courseService.delete(course);
 	}
 	
+	public boolean cloneCourse(int courseId){
+		Course course = this.courseService.get(courseId);
+		return this.courseService.cloneCourse(course);
+	}
+	
 	public List<Course> getAll()
 	{
 		return this.courseService.getAll();

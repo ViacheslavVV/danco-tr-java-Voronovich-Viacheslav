@@ -19,6 +19,8 @@ public interface IFacade {
 	
 	public Lecturer getLecturerByCourse(int courseId);
 	
+	public boolean cloneCourse(int courseId);
+	
 	public List<Course> getAllCourses();
 	
 	public boolean setLecturerToCourse(int courseId, int lecturerId);
