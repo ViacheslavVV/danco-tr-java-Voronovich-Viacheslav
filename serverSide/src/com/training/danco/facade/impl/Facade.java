@@ -5,14 +5,15 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import com.danco.training.configuration.manager.PropertyManager;
 import com.training.danco.controller.*;
+import com.training.danco.data.manager.DataDeserializer;
+import com.training.danco.data.manager.DataSerializer;
 import com.training.danco.facade.api.IFacade;
 import com.training.danco.model.*;
-import com.training.danco.text.converter.*;
+import com.training.danco.text.converter.DataConverter;
 
 public class Facade implements IFacade{
-
-	private static final String DEFAULT_FILE_NAME = "file.txt";
 	
 	private static Facade facade;
 	
@@ -31,22 +32,34 @@ public class Facade implements IFacade{
 	
 	private DataDeserializer dataDeserializer;
 	private DataSerializer dataSerializer;
+	private DataConverter dataConverter;
 	
-	private String fileName = "file.txt";
+	private String fileName;
 	
 	private Facade() throws RuntimeException
 	{
-		if (!setFileName(DEFAULT_FILE_NAME)){
+		this.fileName = PropertyManager.getInstance().getDataFileName();
+		if (!setFileName(this.fileName)){
 			
-			throw new RuntimeException("Can't create file with name '"+DEFAULT_FILE_NAME+"' !");
+			throw new RuntimeException("Can't create file with name '"+this.fileName+"' !");
 		}
-		dataDeserializer = new DataDeserializer(this.fileName);
-		dataSerializer = new DataSerializer(this.fileName);
-		this.courseController = this.dataDeserializer.getCourseController();
-		this.lectionController = this.dataDeserializer.getLectionController();
-		this.lecturerController = this.dataDeserializer.getLecturerController();
-		this.studentController = this.dataDeserializer.getStudentController();
-		
+		this.dataDeserializer = new DataDeserializer(this.fileName);
+		this.dataSerializer = new DataSerializer(this.fileName);
+		this.dataConverter = new DataConverter();
+		List<Object> data  = this.dataDeserializer.getDataObjects();
+		if (!this.dataConverter.convertObjectsToEntities(data)){
+			throw new RuntimeException("Data hasn't been read from file '"+this.fileName+"'!");
+		}
+		this.dataConverter.fillControllers();
+		this.fillControllersFromConvertor();
+	}
+
+	private void fillControllersFromConvertor() {
+				
+		this.courseController = this.dataConverter.getCourseController();
+		this.lectionController = this.dataConverter.getLectionController();
+		this.lecturerController = this.dataConverter.getLecturerController();
+		this.studentController = this.dataConverter.getStudentController();
 	}
 
 	//Course Region
@@ -306,30 +319,21 @@ public class Facade implements IFacade{
 		return studentController.getCount();
 	}
 	
-	public void loadDataFromFIle() 
+	public boolean loadDataFromFIle() 
 	{
-		try {
-			dataDeserializer.loadData();
-		} catch (IOException e) {
-			throw new RuntimeException("Data hasn't been loaded from file!");
+		List<Object> data  = this.dataDeserializer.getDataObjects();
+		if (this.dataConverter.convertObjectsToEntities(data)){
+			this.dataConverter.fillControllers();
+			this.fillControllersFromConvertor();
+			return true;
 		}
-		
-		this.courseController = dataDeserializer.getCourseController();
-		
-		this.lectionController = dataDeserializer.getLectionController();
-		
-		this.lecturerController = dataDeserializer.getLecturerController();
-		
-		this.studentController = dataDeserializer.getStudentController();
+		return false;
 	}
 
-	public void saveDataToFile()
+	public boolean saveDataToFile()
 	{
-		try {
-			dataSerializer.saveData(this.getAllStudents(),this.getAllLections(),this.getAllLecturers(),this.getAllCourses());
-		} catch (IOException e) {
-			throw new RuntimeException("Data hasn't been saved to file!");
-		}
+		Object data = this.dataConverter.convertDataToObject(this.getAllStudents(), this.getAllLections(), this.getAllLecturers(), this.getAllCourses());
+		return this.dataSerializer.saveData(data);
 	}
 	
 	public boolean setFileName(String fileName)

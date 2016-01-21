@@ -111,9 +111,9 @@ public interface IFacade {
 	
 	public int getStudentsCount();
 	
-	public void loadDataFromFIle();
+	public boolean loadDataFromFIle();
 
-	public void saveDataToFile();
+	public boolean saveDataToFile();
 	
 	public boolean setFileName(String fileName);
 }
