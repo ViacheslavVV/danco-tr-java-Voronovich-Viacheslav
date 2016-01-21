@@ -2,6 +2,9 @@ package com.danco.training.ui.menu.item.ext;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.danco.training.ui.display.api.IEntityDisplayer;
 import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
@@ -10,6 +13,8 @@ import com.training.danco.facade.api.IFacade;
 import com.training.danco.model.Lection;
 
 public class LectionsSortedByNameItem extends MenuItem {
+
+	private static final Logger LOGGER = LogManager.getLogger(LectionsSortedByNameItem.class);
 
 	public LectionsSortedByNameItem(Menu menu) {
 		super("Get lections sorted by name.", menu);
@@ -27,9 +32,8 @@ public class LectionsSortedByNameItem extends MenuItem {
 			else{
 				entityDisplayer.displayLections(lections, "Lections sorted by name");
 			}
-		}catch (RuntimeException e){
-			entityDisplayer.displayMessage(e.getMessage());
 		}catch (Exception e){
+			LOGGER.error(e.getMessage());
 			entityDisplayer.displayMessage("Technical error.");
 		}
 		

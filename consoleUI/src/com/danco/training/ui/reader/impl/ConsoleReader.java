@@ -3,9 +3,15 @@ package com.danco.training.ui.reader.impl;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.danco.training.ui.reader.api.IReader;
 
 public class ConsoleReader implements IReader {
+
+	private static final Logger LOGGER = LogManager.getLogger(ConsoleReader.class);
 
 	private Scanner scanner;
 	
@@ -29,6 +35,7 @@ public class ConsoleReader implements IReader {
 				}
 			}
 		}catch (Exception e){
+			LOGGER.error(e.getMessage());
 			throw new RuntimeException("Something wrong!");
 		}
 		return num;
@@ -50,6 +57,7 @@ public class ConsoleReader implements IReader {
 				}
 			}
 		}catch (Exception e){
+			LOGGER.error(e.getMessage());
 			throw new RuntimeException("Something wrong!");
 		}
 		return resultStr;
@@ -75,6 +83,7 @@ public class ConsoleReader implements IReader {
 				}
 			}
 		}catch (Exception e){
+			LOGGER.error(e.getMessage());
 			throw new RuntimeException("Something wrong!");
 		}
 		return resultDate;

@@ -2,6 +2,9 @@ package com.danco.training.ui.menu.item.ext;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.danco.training.ui.display.api.IEntityDisplayer;
 import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
@@ -12,6 +15,8 @@ import com.training.danco.model.Lection;
 
 public class LectionsByCourseItem extends MenuItem {
 
+	private static final Logger LOGGER = LogManager.getLogger(LectionsByCourseItem.class);
+	
 	public LectionsByCourseItem(Menu menu) {
 		super("Get lections by course", menu);
 	}
@@ -30,9 +35,8 @@ public class LectionsByCourseItem extends MenuItem {
 			else{
 				entityDisplayer.displayLections(lections, "Lections from course \""+course.getName()+"\"");
 			}
-		}catch (RuntimeException e){
-			entityDisplayer.displayMessage(e.getMessage());
 		}catch (Exception e){
+			LOGGER.error(e.getMessage());
 			entityDisplayer.displayMessage("Technical error.");
 		}
 		

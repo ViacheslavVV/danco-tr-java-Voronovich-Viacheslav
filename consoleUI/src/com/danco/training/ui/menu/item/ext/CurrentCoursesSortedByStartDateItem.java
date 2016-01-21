@@ -2,6 +2,9 @@ package com.danco.training.ui.menu.item.ext;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.danco.training.ui.display.api.IEntityDisplayer;
 import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
@@ -11,6 +14,8 @@ import com.training.danco.model.Course;
 
 public class CurrentCoursesSortedByStartDateItem extends MenuItem {
 
+	private static final Logger LOGGER = LogManager.getLogger(CurrentCoursesSortedByStartDateItem.class);
+	
 	public CurrentCoursesSortedByStartDateItem(Menu menu) {
 		super("Get current courses sorted by start date.", menu);
 	}
@@ -27,9 +32,8 @@ public class CurrentCoursesSortedByStartDateItem extends MenuItem {
 			else{
 				entityDisplayer.displayCourses(courses, "Current Courses sorted by start date");
 			}
-		}catch (RuntimeException e){
-			entityDisplayer.displayMessage(e.getMessage());
 		}catch (Exception e){
+			LOGGER.error(e.getMessage());
 			entityDisplayer.displayMessage("Technical error.");
 		}
 		

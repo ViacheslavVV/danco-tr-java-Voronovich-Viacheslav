@@ -1,5 +1,8 @@
 package com.danco.training.ui.menu.item.ext;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.danco.training.ui.display.api.IEntityDisplayer;
 import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
@@ -7,6 +10,8 @@ import com.danco.training.ui.reader.api.IReader;
 import com.training.danco.facade.api.IFacade;
 
 public class SetLecturerToCourseItem extends MenuItem {
+
+	private static final Logger LOGGER = LogManager.getLogger(SetLecturerToCourseItem.class);
 
 	public SetLecturerToCourseItem(Menu menu) {
 		super("Set lecturer to course item.", menu);
@@ -22,9 +27,8 @@ public class SetLecturerToCourseItem extends MenuItem {
 			} else {
 				entityDisplayer.displayMessage("The lecturer hasn't been apppointed.");
 			}
-		}catch (RuntimeException e){
-			entityDisplayer.displayMessage(e.getMessage());
 		}catch (Exception e){
+			LOGGER.error(e.getMessage());
 			entityDisplayer.displayMessage("Technical error.");
 		}
 		

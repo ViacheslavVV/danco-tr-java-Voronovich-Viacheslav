@@ -2,6 +2,9 @@ package com.danco.training.ui.menu.item.ext;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.danco.training.ui.display.api.IEntityDisplayer;
 import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
@@ -11,9 +14,10 @@ import com.training.danco.model.Student;
 
 public class AllStudentsItem extends MenuItem {
 
+	private static final Logger LOGGER = LogManager.getLogger(AllStudentsItem.class);
+
 	public AllStudentsItem( Menu menu) {
 		super("Get all students.", menu);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -28,9 +32,8 @@ public class AllStudentsItem extends MenuItem {
 			else{
 				entityDisplayer.displayStudents(students, "All students");
 			}
-		}catch (RuntimeException e){
-			entityDisplayer.displayMessage(e.getMessage());
 		}catch (Exception e){
+			LOGGER.error(e.getMessage());
 			entityDisplayer.displayMessage("Technical error.");
 		}
 		

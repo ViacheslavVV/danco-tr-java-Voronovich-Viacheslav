@@ -3,6 +3,9 @@ package com.danco.training.ui.menu.item.ext;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.danco.training.ui.display.api.IEntityDisplayer;
 import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
@@ -11,6 +14,8 @@ import com.training.danco.facade.api.IFacade;
 import com.training.danco.model.Course;
 
 public class CoursesInIntervalItem extends MenuItem {
+
+	private static final Logger LOGGER = LogManager.getLogger(CoursesInIntervalItem.class);
 
 	public CoursesInIntervalItem(Menu menu) {
 		super("Get courses in interval.", menu);
@@ -33,9 +38,8 @@ public class CoursesInIntervalItem extends MenuItem {
 				entityDisplayer.displayCourses(courses, "Courses in interval from "+startDate.getDay()+"-"+startDate.getMonth()+"-"+startDate.getYear()
 				+" to "+finalDate.getDay()+"-"+finalDate.getMonth()+"-"+finalDate.getYear());
 			}
-		}catch (RuntimeException e){
-			entityDisplayer.displayMessage(e.getMessage());
 		}catch (Exception e){
+			LOGGER.error(e.getMessage());
 			entityDisplayer.displayMessage("Technical error.");
 		}
 		
