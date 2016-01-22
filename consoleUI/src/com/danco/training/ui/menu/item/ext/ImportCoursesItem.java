@@ -9,23 +9,25 @@ import com.danco.training.ui.menu.item.MenuItem;
 import com.danco.training.ui.reader.api.IReader;
 import com.training.danco.facade.api.IFacade;
 
-public class SetLecturerToCourseItem extends MenuItem {
+public class ImportCoursesItem extends MenuItem {
 
-	private static final Logger LOGGER = LogManager.getLogger(SetLecturerToCourseItem.class);
+	private static final Logger LOGGER = LogManager.getLogger(ImportCoursesItem.class);
 
-	public SetLecturerToCourseItem(Menu menu) {
-		super("Set lecturer to course.", menu);
+	public ImportCoursesItem(Menu menu) {
+		super("Import courses", menu);
 	}
 
 	@Override
 	public Menu doWork(IEntityDisplayer entityDisplayer, IReader reader, IFacade facade) {
 		try{
-			int courseId = reader.getCourseId();
-			int lecturerId = reader.getLecturerId();
-			if (facade.setLecturerToCourse(courseId, lecturerId)){
-				entityDisplayer.displayMessage("The lecturer has been apppointed.");
+			String fileName = reader.getImportFileName();
+			if (fileName == null){
+				return this.menu;
+			}
+			if (facade.importCourses(fileName)){
+				entityDisplayer.displayMessage("Courses has been imported.");
 			} else {
-				entityDisplayer.displayMessage("The lecturer hasn't been apppointed.");
+				entityDisplayer.displayMessage("Courses hasn't been imported.");
 			}
 		}catch (Exception e){
 			LOGGER.error(e.getMessage());

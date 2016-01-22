@@ -1,7 +1,10 @@
 package com.danco.training.ui.reader.impl;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
@@ -72,10 +75,10 @@ public class ConsoleReader implements IReader {
 		try{
 			while(!validData){
 				try{
-					System.out.print(message+" (dd-mm-yyyy): ");
-					tempStr = scanner.next("\\d{1,2}-\\d{1,2}-\\d{4}");
+					System.out.print(message+" (dd-mm-yyyy-hour-min): ");
+					tempStr = scanner.next("\\d{1,2}-\\d{1,2}-\\d{4}-\\d{1,2}-\\d{1,2}");
 					String[] dateParts = tempStr.split("-");
-					resultDate = new Date(Integer.parseInt(dateParts[2]), Integer.parseInt(dateParts[1]), Integer.parseInt(dateParts[0]));
+					resultDate = new Date(Integer.parseInt(dateParts[2]), Integer.parseInt(dateParts[1]), Integer.parseInt(dateParts[0]),  Integer.parseInt(dateParts[3]),  Integer.parseInt(dateParts[4]));
 					validData = true;
 				}catch (InputMismatchException e) {
 					System.out.println("Incorrect input, try again.");
@@ -175,5 +178,119 @@ public class ConsoleReader implements IReader {
 	@Override
 	public int getMaxLectionsNumber() {
 		return this.getInt("Input max number of lections");
+	}
+
+	@Override
+	public String getImportFileName() {
+		File file;
+		String fileName = this.getString("Input file name('cancel' to exit)");
+		while (!fileName.equals("cancel")) {
+			file = new File(fileName);
+			if (!file.exists()){
+				System.out.println("File not found!");
+				fileName = this.getString("Input file name('cancel' to exit)");
+			} else {
+				return fileName;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String getExportFileName() {
+		
+		return this.getString("Input export file name");
+	}
+
+	@Override
+	public List<Object> getCourseIds() {
+		List<String> stringValues = new ArrayList<String>();
+		List<Object> result = new ArrayList<Object>();
+		String tempStr;
+		System.out.println("Input '-1' to exit");
+		int courseId;
+		do{
+			courseId = this.getCourseId();
+			if (courseId != -1){
+				tempStr = Integer.toString(courseId);
+				if (!stringValues.contains(tempStr)){
+					stringValues.add(tempStr);
+					result.add(courseId);
+				}
+			} else {
+				break;
+			}
+		}
+		while (true);
+		return result;
+	}
+
+	@Override
+	public List<Object> getLectionIds() {
+		List<String> stringValues = new ArrayList<String>();
+		List<Object> result = new ArrayList<Object>();
+		String tempStr;
+		System.out.println("Input '-1' to exit");
+		int courseId;
+		do{
+			courseId = this.getLectionId();
+			if (courseId != -1){
+				tempStr = Integer.toString(courseId);
+				if (!stringValues.contains(tempStr)){
+					stringValues.add(tempStr);
+					result.add(courseId);
+				}
+			} else {
+				break;
+			}
+		}
+		while (true);
+		return result;
+	}
+
+	@Override
+	public List<Object> getLecturerIds() {
+		List<String> stringValues = new ArrayList<String>();
+		List<Object> result = new ArrayList<Object>();
+		String tempStr;
+		System.out.println("Input '-1' to exit");
+		int courseId;
+		do{
+			courseId = this.getLecturerId();
+			if (courseId != -1){
+				tempStr = Integer.toString(courseId);
+				if (!stringValues.contains(tempStr)){
+					stringValues.add(tempStr);
+					result.add(courseId);
+				}
+			} else {
+				break;
+			}
+		}
+		while (true);
+		return result;
+	}
+
+	@Override
+	public List<Object> getStudentIds() {
+		List<String> stringValues = new ArrayList<String>();
+		List<Object> result = new ArrayList<Object>();
+		String tempStr;
+		System.out.println("Input '-1' to exit");
+		int courseId;
+		do{
+			courseId = this.getStudentId();
+			if (courseId != -1){
+				tempStr = Integer.toString(courseId);
+				if (!stringValues.contains(tempStr)){
+					stringValues.add(tempStr);
+					result.add(courseId);
+				}
+			} else {
+				break;
+			}
+		}
+		while (true);
+		return result;
 	}
 }

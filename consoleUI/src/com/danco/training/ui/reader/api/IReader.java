@@ -1,6 +1,7 @@
 package com.danco.training.ui.reader.api;
 
 import java.util.Date;
+import java.util.List;
 
 public interface IReader {
 
@@ -28,4 +29,12 @@ public interface IReader {
 	public int getLecturerId();
 	public int getLectionId();
 	public int getStudentId();
+	
+	public String getImportFileName();
+	public String getExportFileName();
+	
+	public List<Object> getCourseIds();
+	public List<Object> getLectionIds();
+	public List<Object> getLecturerIds();
+	public List<Object> getStudentIds();
 }

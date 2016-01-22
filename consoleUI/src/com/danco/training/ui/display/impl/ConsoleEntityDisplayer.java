@@ -17,9 +17,9 @@ public class ConsoleEntityDisplayer implements IEntityDisplayer {
 			System.out.println(header);
 			System.out.printf("Id:    Name:       StartDate:    Final Date   MaxLections  MaxStudents\n");
 		}
-		System.out.printf("%d     %s          %d-%d-%d       %d-%d-%d       %d            %d\n", course.getId(), course.getName(), 
-				course.getStartDate().getDay(),course.getStartDate().getMonth(),course.getStartDate().getYear(), 
-				course.getFinalDate().getDay(),course.getFinalDate().getMonth(),course.getFinalDate().getYear(),
+		System.out.printf("%d     %s          %d-%d-%d %d:%d   %d-%d-%d %d:%d     %d            %d\n", course.getId(), course.getName(), 
+				course.getStartDate().getDay(),course.getStartDate().getMonth(),course.getStartDate().getYear(),course.getStartDate().getHours(),course.getStartDate().getMinutes(), 
+				course.getFinalDate().getDay(),course.getFinalDate().getMonth(),course.getFinalDate().getYear(),course.getFinalDate().getHours(),course.getFinalDate().getMinutes(),
 				course.getMaxLections(), course.getMaxStudents());
 	}
 
@@ -59,8 +59,8 @@ public class ConsoleEntityDisplayer implements IEntityDisplayer {
 			System.out.println(header);
 			System.out.printf("Id        Name:       Date:           \n");
 		}
-		System.out.printf("%d         %s       %d-%d-%d          \n", lection.getId(), lection.getName(), 
-				lection.getDate().getDay(),lection.getDate().getMonth(),lection.getDate().getYear());
+		System.out.printf("%d         %s       %d-%d-%d %d:%d      \n", lection.getId(), lection.getName(), 
+				lection.getDate().getDay(),lection.getDate().getMonth(),lection.getDate().getYear(),lection.getDate().getHours(),lection.getDate().getMinutes());
 	}
 
 	@Override

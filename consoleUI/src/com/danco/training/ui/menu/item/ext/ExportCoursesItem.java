@@ -1,5 +1,7 @@
 package com.danco.training.ui.menu.item.ext;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,23 +11,23 @@ import com.danco.training.ui.menu.item.MenuItem;
 import com.danco.training.ui.reader.api.IReader;
 import com.training.danco.facade.api.IFacade;
 
-public class SetLecturerToCourseItem extends MenuItem {
+public class ExportCoursesItem extends MenuItem {
 
-	private static final Logger LOGGER = LogManager.getLogger(SetLecturerToCourseItem.class);
+	private static final Logger LOGGER = LogManager.getLogger(ExportCoursesItem.class);
 
-	public SetLecturerToCourseItem(Menu menu) {
-		super("Set lecturer to course.", menu);
+	public ExportCoursesItem( Menu menu) {
+		super("Export courses", menu);
 	}
 
 	@Override
 	public Menu doWork(IEntityDisplayer entityDisplayer, IReader reader, IFacade facade) {
 		try{
-			int courseId = reader.getCourseId();
-			int lecturerId = reader.getLecturerId();
-			if (facade.setLecturerToCourse(courseId, lecturerId)){
-				entityDisplayer.displayMessage("The lecturer has been apppointed.");
+			String fileName = reader.getExportFileName();
+			List<Object> ids = reader.getCourseIds();
+			if (facade.exportCourses(fileName,ids)){
+				entityDisplayer.displayMessage("Courses has been exported.");
 			} else {
-				entityDisplayer.displayMessage("The lecturer hasn't been apppointed.");
+				entityDisplayer.displayMessage("Courses hasn't been exported.");
 			}
 		}catch (Exception e){
 			LOGGER.error(e.getMessage());

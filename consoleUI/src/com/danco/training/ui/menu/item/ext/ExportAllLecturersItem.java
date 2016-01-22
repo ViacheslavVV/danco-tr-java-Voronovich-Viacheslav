@@ -9,23 +9,23 @@ import com.danco.training.ui.menu.item.MenuItem;
 import com.danco.training.ui.reader.api.IReader;
 import com.training.danco.facade.api.IFacade;
 
-public class SetLecturerToCourseItem extends MenuItem {
+public class ExportAllLecturersItem extends MenuItem{
 
-	private static final Logger LOGGER = LogManager.getLogger(SetLecturerToCourseItem.class);
+	private static final Logger LOGGER = LogManager.getLogger(ExportAllLecturersItem.class);
 
-	public SetLecturerToCourseItem(Menu menu) {
-		super("Set lecturer to course.", menu);
+	public ExportAllLecturersItem( Menu menu) {
+		super("Export all lecturers", menu);
 	}
 
 	@Override
 	public Menu doWork(IEntityDisplayer entityDisplayer, IReader reader, IFacade facade) {
 		try{
-			int courseId = reader.getCourseId();
-			int lecturerId = reader.getLecturerId();
-			if (facade.setLecturerToCourse(courseId, lecturerId)){
-				entityDisplayer.displayMessage("The lecturer has been apppointed.");
+			String fileName = reader.getExportFileName();
+			
+			if (facade.exportAllLecturers(fileName)){
+				entityDisplayer.displayMessage("Lecturers has been exported.");
 			} else {
-				entityDisplayer.displayMessage("The lecturer hasn't been apppointed.");
+				entityDisplayer.displayMessage("Lecturers hasn't been exported.");
 			}
 		}catch (Exception e){
 			LOGGER.error(e.getMessage());

@@ -37,6 +37,9 @@ public class MenuBuilder {
 		courseMenu.addMenuItem(new CourseItem(courseMenu));
 		courseMenu.addMenuItem(new DeleteCourseItem(courseMenu));
 		courseMenu.addMenuItem(new CourseCloneItem(courseMenu));
+		courseMenu.addMenuItem(new ImportCoursesItem(courseMenu));
+		courseMenu.addMenuItem(new ExportCoursesItem(courseMenu));
+		courseMenu.addMenuItem(new ExportAllCoursesItem(courseMenu));
 		courseMenu.addMenuItem(new SetLecturerToCourseItem(courseMenu));
 		courseMenu.addMenuItem(new AddLectionToCourseItem(courseMenu));
 		courseMenu.addMenuItem(new AddStudentToCourseItem(courseMenu));
@@ -71,6 +74,9 @@ public class MenuBuilder {
 		lecturerMenu.addMenuItem(new NewLecturerItem(lecturerMenu));
 		lecturerMenu.addMenuItem(new LecturerItem(lecturerMenu));
 		lecturerMenu.addMenuItem(new DeleteLecturerItem(lecturerMenu));
+		lecturerMenu.addMenuItem(new ImportLecturersItem(lecturerMenu));
+		lecturerMenu.addMenuItem(new ExportLecturersItem(lecturerMenu));
+		lecturerMenu.addMenuItem(new ExportAllLecturersItem(lecturerMenu));
 		lecturerMenu.addMenuItem(new NavigationItem(lecturersMenu));
 		lecturerMenu.addMenuItem(new NavigationItem(workWithDataMenu));
 		
@@ -85,6 +91,9 @@ public class MenuBuilder {
 		lectionMenu.addMenuItem(new NewLectionItem(lectionMenu));
 		lectionMenu.addMenuItem(new LectionItem(lectionMenu));
 		lectionMenu.addMenuItem(new DeleteLectionItem(lectionMenu));
+		lectionMenu.addMenuItem(new ImportLectionsItem(lectionMenu));
+		lectionMenu.addMenuItem(new ExportLectionsItem(lectionMenu));
+		lectionMenu.addMenuItem(new ExportAllLectionsItem(lectionMenu));
 		lectionMenu.addMenuItem(new NavigationItem(lectionsMenu));
 		lectionMenu.addMenuItem(new NavigationItem(workWithDataMenu));
 		
@@ -99,6 +108,9 @@ public class MenuBuilder {
 		studentMenu.addMenuItem(new NewStudentItem(studentMenu));
 		studentMenu.addMenuItem(new StudentItem(studentMenu));
 		studentMenu.addMenuItem(new DeleteStudentItem(studentMenu));
+		studentMenu.addMenuItem(new ImportStudentsItem(studentMenu));
+		studentMenu.addMenuItem(new ExportStudentsItem(studentMenu));
+		studentMenu.addMenuItem(new ExportAllStudentsItem(studentMenu));
 		studentMenu.addMenuItem(new NavigationItem(studentsMenu));
 		studentMenu.addMenuItem(new NavigationItem(workWithDataMenu));
 		
