@@ -116,4 +116,28 @@ public interface IFacade {
 	public boolean saveDataToFile();
 	
 	public boolean setFileName(String fileName);
+	
+	public boolean importCourses(String fileName);
+
+	public boolean importStudents(String fileName);
+	
+	public boolean importLections(String fileName);
+	
+	public boolean importLecturers(String fileName);
+	
+	public boolean exportAllCourses(String fileName);
+	
+	public boolean exportAllStudents(String fileName);
+	
+	public boolean exportAllLections(String fileName);
+	
+	public boolean exportAllLecturers(String fileName);
+	
+	public boolean exportCourses(String fileName, List<Object> courseIds);
+	
+	public boolean exportStudents(String fileName, List<Object> studentIds);
+	
+	public boolean exportLections(String fileName, List<Object> lectionIds);
+	
+	public boolean exportLecturers(String fileName, List<Object> lecturerIds);
 }

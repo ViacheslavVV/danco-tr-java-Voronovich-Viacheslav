@@ -2,19 +2,31 @@ package com.training.danco.facade.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.danco.training.configuration.manager.PropertyManager;
 import com.training.danco.controller.*;
-import com.training.danco.data.manager.DataDeserializer;
-import com.training.danco.data.manager.DataSerializer;
+import com.training.danco.data.manager.api.IDeserializer;
+import com.training.danco.data.manager.api.ISerializer;
+import com.training.danco.data.manager.impl.DataDeserializer;
+import com.training.danco.data.manager.impl.DataSerializer;
 import com.training.danco.facade.api.IFacade;
 import com.training.danco.model.*;
 import com.training.danco.text.converter.DataConverter;
+import com.training.danco.text.io.api.IExporter;
+import com.training.danco.text.io.api.IImporter;
+import com.training.danco.text.io.impl.CSVExporter;
+import com.training.danco.text.io.impl.CSVImporter;
 
 public class Facade implements IFacade{
 	
+	private static final Logger LOGGER = LogManager.getLogger(Facade.class);
+
 	private static Facade facade;
 	
 	public  static Facade getInstance()
@@ -30,9 +42,12 @@ public class Facade implements IFacade{
 	private LecturerController lecturerController;
 	private StudentController studentController;
 	
-	private DataDeserializer dataDeserializer;
-	private DataSerializer dataSerializer;
+	private IDeserializer dataDeserializer;
+	private ISerializer dataSerializer;
 	private DataConverter dataConverter;
+	
+	private IImporter importer;
+	private IExporter exporter;
 	
 	private String fileName;
 	
@@ -43,13 +58,12 @@ public class Facade implements IFacade{
 			
 			throw new RuntimeException("Can't create file with name '"+this.fileName+"' !");
 		}
+		this.exporter = new CSVExporter();
 		this.dataDeserializer = new DataDeserializer(this.fileName);
 		this.dataSerializer = new DataSerializer(this.fileName);
 		this.dataConverter = new DataConverter();
 		List<Object> data  = this.dataDeserializer.getDataObjects();
-		if (!this.dataConverter.convertObjectsToEntities(data)){
-			throw new RuntimeException("Data hasn't been read from file '"+this.fileName+"'!");
-		}
+		this.dataConverter.convertObjectsToEntities(data);
 		this.dataConverter.fillControllers();
 		this.fillControllersFromConvertor();
 	}
@@ -348,6 +362,7 @@ public class Facade implements IFacade{
 					return false;
 				}
 			} catch (IOException e) {
+				LOGGER.error(e.getMessage());
 				return false;
 			}
 		}
@@ -358,6 +373,179 @@ public class Facade implements IFacade{
 	@Override
 	public boolean cloneCourse(int courseId) {
 		return this.courseController.cloneCourse(courseId);
+	}
+
+	@Override
+	public boolean importCourses(String fileName) {
+		if (this.importer == null){
+			this.importer = new CSVImporter(Facade.getInstance());
+		}
+		boolean result = false;
+		List<Course> courses = this.importer.importCourses(fileName);
+		if (courses == null){
+			return result;
+		}
+		
+		for(Course course : courses){
+			if (this.updateCourse(course)){
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public boolean importStudents(String fileName) {
+		if (this.importer == null){
+			this.importer = new CSVImporter(Facade.getInstance());
+		}
+		boolean result = false;
+		List<Student> students = this.importer.importStudents(fileName);
+		if (students == null){
+			return result;
+		}
+		
+		for(Student student : students){
+			if (this.updateStudent(student)){
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public boolean importLections(String fileName) {
+		if (this.importer == null){
+			this.importer = new CSVImporter(Facade.getInstance());
+		}
+		boolean result = false;
+		List<Lection> lections = this.importer.importLections(fileName);
+		if (lections == null){
+			return result;
+		}
+		
+		for(Lection lection : lections){
+			if (this.updateLection(lection)){
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public boolean importLecturers(String fileName) {
+		if (this.importer == null){
+			this.importer = new CSVImporter(Facade.getInstance());
+		}
+		boolean result = false;
+		List<Lecturer> lecturers = this.importer.importLecturers(fileName);
+		if (lecturers == null){
+			return result;
+		}
+		
+		for(Lecturer lecturer : lecturers){
+			if (this.updateLecturer(lecturer)){
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public boolean exportAllCourses(String fileName) {
+		
+		return this.exporter.exportCourses(fileName, this.getAllCourses());
+	}
+
+	@Override
+	public boolean exportAllStudents(String fileName) {
+		
+		return this.exporter.exportStudents(fileName, this.getAllStudents());
+	}
+
+	@Override
+	public boolean exportAllLections(String fileName) {
+
+		return this.exporter.exportLections(fileName, this.getAllLections());
+	}
+
+	@Override
+	public boolean exportAllLecturers(String fileName) {
+
+		return this.exporter.exportLecturers(fileName, this.getAllLecturers());
+	}
+
+	@Override
+	public boolean exportCourses(String fileName, List<Object> courseIds) {
+		
+		List<Course> courses = new ArrayList<Course>();
+		try{
+			Course course;
+			for (Object courseId : courseIds){
+				course = this.getCourse((int)courseId);
+				if (course != null){
+					courses.add(course);
+				}
+			}
+			return this.exporter.exportCourses(fileName, courses);
+		}catch (Exception e){
+			LOGGER.error(e.getMessage());
+		}
+		return false;
+	}
+
+	@Override
+	public boolean exportStudents(String fileName, List<Object> studentIds) {
+		List<Student> students = new ArrayList<Student>();
+		try{
+			Student student;
+			for (Object studentId : studentIds){
+				student = this.getStudent((int)studentId);
+				if (student != null){
+					students.add(student);
+				}
+			}
+			return this.exporter.exportStudents(fileName, students);
+		}catch (Exception e){
+			LOGGER.error(e.getMessage());
+		}
+		return false;
+	}
+
+	@Override
+	public boolean exportLections(String fileName, List<Object> lectionIds) {
+		List<Lection> lections = new ArrayList<Lection>();
+		try{
+			Lection lection;
+			for (Object lectionId : lectionIds){
+				lection = this.getLection((int)lectionId);
+				if (lection != null){
+					lections.add(lection);
+				}
+			}
+			return this.exporter.exportLections(fileName, lections);
+		}catch (Exception e){
+			LOGGER.error(e.getMessage());
+		}
+		return false;
+	}
+
+	@Override
+	public boolean exportLecturers(String fileName, List<Object> lecturerIds) {
+		List<Lecturer> lecturers = new ArrayList<Lecturer>();
+		try{
+			Lecturer lecturer;
+			for (Object lecturerId : lecturerIds){
+				lecturer = this.getLecturer((int)lecturerId);
+				if (lecturer != null){
+					lecturers.add(lecturer);
+				}
+			}
+			return this.exporter.exportLecturers(fileName, lecturers);
+		}catch (Exception e){
+			LOGGER.error(e.getMessage());
+		}
+		return false;
 	}
 
 }
