@@ -2,8 +2,16 @@ package com.danco.training.ui.menu.builder;
 
 import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.ext.*;
+import com.training.danco.facade.api.IFacade;
 
 public class MenuBuilder {
+
+	private IFacade facade;
+	
+	public MenuBuilder(IFacade facade) {
+		this.facade = facade;
+	}
+
 
 	public Menu generateMenu(){
 		
@@ -20,10 +28,10 @@ public class MenuBuilder {
 		
 		//Main
 		mainMenu.addMenuItem(new NavigationItem(workWithDataMenu));
-		mainMenu.addMenuItem(new LoadDataItem(mainMenu));
-		mainMenu.addMenuItem(new SaveDataItem(mainMenu));
-		mainMenu.addMenuItem(new NewFileNameItem(mainMenu));
-		mainMenu.addMenuItem(new ExitMenuItem());
+		mainMenu.addMenuItem(new LoadDataItem(mainMenu,facade));
+		mainMenu.addMenuItem(new SaveDataItem(mainMenu,facade));
+		mainMenu.addMenuItem(new NewFileNameItem(mainMenu,facade));
+		mainMenu.addMenuItem(new NavigationItem("Exit",null));
 		
 		//Work with data menu
 		workWithDataMenu.addMenuItem(new NavigationItem(courseMenu));
@@ -33,90 +41,90 @@ public class MenuBuilder {
 		workWithDataMenu.addMenuItem(new NavigationItem(mainMenu));
 		
 		//Course menu
-		courseMenu.addMenuItem(new NewCourseItem(courseMenu));
-		courseMenu.addMenuItem(new CourseItem(courseMenu));
-		courseMenu.addMenuItem(new DeleteCourseItem(courseMenu));
-		courseMenu.addMenuItem(new CourseCloneItem(courseMenu));
-		courseMenu.addMenuItem(new ImportCoursesItem(courseMenu));
-		courseMenu.addMenuItem(new ExportCoursesItem(courseMenu));
-		courseMenu.addMenuItem(new ExportAllCoursesItem(courseMenu));
-		courseMenu.addMenuItem(new SetLecturerToCourseItem(courseMenu));
-		courseMenu.addMenuItem(new AddLectionToCourseItem(courseMenu));
-		courseMenu.addMenuItem(new AddStudentToCourseItem(courseMenu));
-		courseMenu.addMenuItem(new RemoveLectionFromCourseItem(courseMenu));
-		courseMenu.addMenuItem(new RemoveStudentFromCourseItem(courseMenu));
-		courseMenu.addMenuItem(new LectionsByCourseItem(courseMenu));
-		courseMenu.addMenuItem(new StudentsByCourseItem(courseMenu));
-		courseMenu.addMenuItem(new LecturerByCourseItem(courseMenu));
+		courseMenu.addMenuItem(new NewCourseItem(courseMenu, facade));
+		courseMenu.addMenuItem(new CourseItem(courseMenu, facade));
+		courseMenu.addMenuItem(new DeleteCourseItem(courseMenu, facade));
+		courseMenu.addMenuItem(new CourseCloneItem(courseMenu, facade));
+		courseMenu.addMenuItem(new ImportCoursesItem(courseMenu, facade));
+		courseMenu.addMenuItem(new ExportCoursesItem(courseMenu, facade));
+		courseMenu.addMenuItem(new ExportAllCoursesItem(courseMenu, facade));
+		courseMenu.addMenuItem(new SetLecturerToCourseItem(courseMenu, facade));
+		courseMenu.addMenuItem(new AddLectionToCourseItem(courseMenu, facade));
+		courseMenu.addMenuItem(new AddStudentToCourseItem(courseMenu, facade));
+		courseMenu.addMenuItem(new RemoveLectionFromCourseItem(courseMenu, facade));
+		courseMenu.addMenuItem(new RemoveStudentFromCourseItem(courseMenu, facade));
+		courseMenu.addMenuItem(new LectionsByCourseItem(courseMenu, facade));
+		courseMenu.addMenuItem(new StudentsByCourseItem(courseMenu, facade));
+		courseMenu.addMenuItem(new LecturerByCourseItem(courseMenu, facade));
 		courseMenu.addMenuItem(new NavigationItem(coursesMenu));
 		courseMenu.addMenuItem(new NavigationItem(workWithDataMenu));
 		
 		//Courses menu
-		coursesMenu.addMenuItem(new AllCoursesItem(coursesMenu));
-		coursesMenu.addMenuItem(new CoursesCountItem(coursesMenu));
-		coursesMenu.addMenuItem(new CoursesInIntervalItem(coursesMenu));
-		coursesMenu.addMenuItem(new CoursesCountItem(coursesMenu));
-		coursesMenu.addMenuItem(new CoursesSortedByLecturerItem(coursesMenu));
-		coursesMenu.addMenuItem(new CoursesSortedByNameItem(coursesMenu));
-		coursesMenu.addMenuItem(new CoursesSortedByStartDateItem(coursesMenu));
-		coursesMenu.addMenuItem(new CoursesSortedByStudentsCountItem(coursesMenu));
-		coursesMenu.addMenuItem(new CurrentCoursesSortedByLecturerItem(coursesMenu));
-		coursesMenu.addMenuItem(new CurrentCoursesSortedByNameItem(coursesMenu));
-		coursesMenu.addMenuItem(new CurrentCoursesSortedByStartDateItem(coursesMenu));
-		coursesMenu.addMenuItem(new CurrentCoursesSortedByStudentsCountItem(coursesMenu));
-		coursesMenu.addMenuItem(new CoursesAfterDateSortedByLecturerItem(coursesMenu));
-		coursesMenu.addMenuItem(new CoursesAfterDateSortedByNameItem(coursesMenu));
-		coursesMenu.addMenuItem(new CoursesAfterDateSortedByStartDateItem(coursesMenu));
-		coursesMenu.addMenuItem(new CoursesAfterDateSortedByStudentsCountItem(coursesMenu));
+		coursesMenu.addMenuItem(new AllCoursesItem(coursesMenu, facade));
+		coursesMenu.addMenuItem(new CoursesCountItem(coursesMenu, facade));
+		coursesMenu.addMenuItem(new CoursesInIntervalItem(coursesMenu, facade));
+		coursesMenu.addMenuItem(new CoursesCountItem(coursesMenu, facade));
+		coursesMenu.addMenuItem(new CoursesSortedByLecturerItem(coursesMenu, facade));
+		coursesMenu.addMenuItem(new CoursesSortedByNameItem(coursesMenu, facade));
+		coursesMenu.addMenuItem(new CoursesSortedByStartDateItem(coursesMenu, facade));
+		coursesMenu.addMenuItem(new CoursesSortedByStudentsCountItem(coursesMenu, facade));
+		coursesMenu.addMenuItem(new CurrentCoursesSortedByLecturerItem(coursesMenu, facade));
+		coursesMenu.addMenuItem(new CurrentCoursesSortedByNameItem(coursesMenu, facade));
+		coursesMenu.addMenuItem(new CurrentCoursesSortedByStartDateItem(coursesMenu, facade));
+		coursesMenu.addMenuItem(new CurrentCoursesSortedByStudentsCountItem(coursesMenu, facade));
+		coursesMenu.addMenuItem(new CoursesAfterDateSortedByLecturerItem(coursesMenu, facade));
+		coursesMenu.addMenuItem(new CoursesAfterDateSortedByNameItem(coursesMenu, facade));
+		coursesMenu.addMenuItem(new CoursesAfterDateSortedByStartDateItem(coursesMenu, facade));
+		coursesMenu.addMenuItem(new CoursesAfterDateSortedByStudentsCountItem(coursesMenu, facade));
 		coursesMenu.addMenuItem(new NavigationItem(courseMenu));
 		
 		//Lecturer menu
-		lecturerMenu.addMenuItem(new NewLecturerItem(lecturerMenu));
-		lecturerMenu.addMenuItem(new LecturerItem(lecturerMenu));
-		lecturerMenu.addMenuItem(new DeleteLecturerItem(lecturerMenu));
-		lecturerMenu.addMenuItem(new ImportLecturersItem(lecturerMenu));
-		lecturerMenu.addMenuItem(new ExportLecturersItem(lecturerMenu));
-		lecturerMenu.addMenuItem(new ExportAllLecturersItem(lecturerMenu));
+		lecturerMenu.addMenuItem(new NewLecturerItem(lecturerMenu, facade));
+		lecturerMenu.addMenuItem(new LecturerItem(lecturerMenu, facade));
+		lecturerMenu.addMenuItem(new DeleteLecturerItem(lecturerMenu, facade));
+		lecturerMenu.addMenuItem(new ImportLecturersItem(lecturerMenu, facade));
+		lecturerMenu.addMenuItem(new ExportLecturersItem(lecturerMenu, facade));
+		lecturerMenu.addMenuItem(new ExportAllLecturersItem(lecturerMenu, facade));
 		lecturerMenu.addMenuItem(new NavigationItem(lecturersMenu));
 		lecturerMenu.addMenuItem(new NavigationItem(workWithDataMenu));
 		
 		//Lecturers menu
-		lecturersMenu.addMenuItem(new AllLecturersItem(lecturersMenu));
-		lecturersMenu.addMenuItem(new LecturerCountItem(lecturersMenu));
-		lecturersMenu.addMenuItem(new LecturersSortedByCoursesCountItem(lecturersMenu));
-		lecturersMenu.addMenuItem(new LecturersSortedByNameItem(lecturersMenu));
+		lecturersMenu.addMenuItem(new AllLecturersItem(lecturersMenu, facade));
+		lecturersMenu.addMenuItem(new LecturerCountItem(lecturersMenu, facade));
+		lecturersMenu.addMenuItem(new LecturersSortedByCoursesCountItem(lecturersMenu, facade));
+		lecturersMenu.addMenuItem(new LecturersSortedByNameItem(lecturersMenu, facade));
 		lecturersMenu.addMenuItem(new NavigationItem(lecturerMenu));
 		
 		//Lection menu
-		lectionMenu.addMenuItem(new NewLectionItem(lectionMenu));
-		lectionMenu.addMenuItem(new LectionItem(lectionMenu));
-		lectionMenu.addMenuItem(new DeleteLectionItem(lectionMenu));
-		lectionMenu.addMenuItem(new ImportLectionsItem(lectionMenu));
-		lectionMenu.addMenuItem(new ExportLectionsItem(lectionMenu));
-		lectionMenu.addMenuItem(new ExportAllLectionsItem(lectionMenu));
+		lectionMenu.addMenuItem(new NewLectionItem(lectionMenu, facade));
+		lectionMenu.addMenuItem(new LectionItem(lectionMenu, facade));
+		lectionMenu.addMenuItem(new DeleteLectionItem(lectionMenu, facade));
+		lectionMenu.addMenuItem(new ImportLectionsItem(lectionMenu, facade));
+		lectionMenu.addMenuItem(new ExportLectionsItem(lectionMenu, facade));
+		lectionMenu.addMenuItem(new ExportAllLectionsItem(lectionMenu, facade));
 		lectionMenu.addMenuItem(new NavigationItem(lectionsMenu));
 		lectionMenu.addMenuItem(new NavigationItem(workWithDataMenu));
 		
 		//Lections menu
-		lectionsMenu.addMenuItem(new AllLectionsItem(lectionsMenu));
-		lectionsMenu.addMenuItem(new LectionCountItem(lectionsMenu));
-		lectionsMenu.addMenuItem(new LectionsSortedByNameItem(lectionsMenu));
-		lectionsMenu.addMenuItem(new LectionsSortedByDateItem(lectionsMenu));
+		lectionsMenu.addMenuItem(new AllLectionsItem(lectionsMenu, facade));
+		lectionsMenu.addMenuItem(new LectionCountItem(lectionsMenu, facade));
+		lectionsMenu.addMenuItem(new LectionsSortedByNameItem(lectionsMenu, facade));
+		lectionsMenu.addMenuItem(new LectionsSortedByDateItem(lectionsMenu, facade));
 		lectionsMenu.addMenuItem(new NavigationItem(lectionMenu));
 		
 		//Student menu
-		studentMenu.addMenuItem(new NewStudentItem(studentMenu));
-		studentMenu.addMenuItem(new StudentItem(studentMenu));
-		studentMenu.addMenuItem(new DeleteStudentItem(studentMenu));
-		studentMenu.addMenuItem(new ImportStudentsItem(studentMenu));
-		studentMenu.addMenuItem(new ExportStudentsItem(studentMenu));
-		studentMenu.addMenuItem(new ExportAllStudentsItem(studentMenu));
+		studentMenu.addMenuItem(new NewStudentItem(studentMenu, facade));
+		studentMenu.addMenuItem(new StudentItem(studentMenu, facade));
+		studentMenu.addMenuItem(new DeleteStudentItem(studentMenu, facade));
+		studentMenu.addMenuItem(new ImportStudentsItem(studentMenu, facade));
+		studentMenu.addMenuItem(new ExportStudentsItem(studentMenu, facade));
+		studentMenu.addMenuItem(new ExportAllStudentsItem(studentMenu, facade));
 		studentMenu.addMenuItem(new NavigationItem(studentsMenu));
 		studentMenu.addMenuItem(new NavigationItem(workWithDataMenu));
 		
 		//Students menu
-		studentsMenu.addMenuItem(new AllStudentsItem(studentsMenu));
-		studentsMenu.addMenuItem(new StudentsCountItem(studentsMenu));
+		studentsMenu.addMenuItem(new AllStudentsItem(studentsMenu, facade));
+		studentsMenu.addMenuItem(new StudentsCountItem(studentsMenu, facade));
 		studentsMenu.addMenuItem(new NavigationItem(studentMenu));
 		
 		return mainMenu;

@@ -3,33 +3,33 @@ package com.danco.training.ui.menu.item.ext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.danco.training.ui.display.api.IEntityDisplayer;
+import com.danco.training.ui.display.ConsoleEntityDisplayer;
 import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
-import com.danco.training.ui.reader.api.IReader;
+import com.danco.training.ui.reader.ConsoleReader;
 import com.training.danco.facade.api.IFacade;
 
 public class SetLecturerToCourseItem extends MenuItem {
 
 	private static final Logger LOGGER = LogManager.getLogger(SetLecturerToCourseItem.class);
 
-	public SetLecturerToCourseItem(Menu menu) {
-		super("Set lecturer to course.", menu);
+	public SetLecturerToCourseItem(Menu menu, IFacade facade) {
+		super("Set lecturer to course.", menu, facade);
 	}
 
 	@Override
-	public Menu doWork(IEntityDisplayer entityDisplayer, IReader reader, IFacade facade) {
+	public Menu doWork() {
 		try{
-			int courseId = reader.getCourseId();
-			int lecturerId = reader.getLecturerId();
+			int courseId = ConsoleReader.getCourseId();
+			int lecturerId = ConsoleReader.getLecturerId();
 			if (facade.setLecturerToCourse(courseId, lecturerId)){
-				entityDisplayer.displayMessage("The lecturer has been apppointed.");
+				ConsoleEntityDisplayer.displayMessage("The lecturer has been apppointed.");
 			} else {
-				entityDisplayer.displayMessage("The lecturer hasn't been apppointed.");
+				ConsoleEntityDisplayer.displayMessage("The lecturer hasn't been apppointed.");
 			}
 		}catch (Exception e){
 			LOGGER.error(e.getMessage());
-			entityDisplayer.displayMessage("Technical error.");
+			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
 		
 		return this.menu;

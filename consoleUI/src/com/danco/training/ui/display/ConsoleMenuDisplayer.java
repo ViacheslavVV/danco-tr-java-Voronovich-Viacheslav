@@ -1,15 +1,13 @@
-package com.danco.training.ui.display.impl;
+package com.danco.training.ui.display;
 
 import java.util.List;
 
-import com.danco.training.ui.display.api.IMenuDisplayer;
 import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
 
-public class ConsoleMenuDisplayer implements IMenuDisplayer {
+public class ConsoleMenuDisplayer {
 
-	@Override
-	public void displayMenu(Menu menu) {
+	public static void displayMenu(Menu menu) {
 
 		System.out.println(menu.getName());
 		

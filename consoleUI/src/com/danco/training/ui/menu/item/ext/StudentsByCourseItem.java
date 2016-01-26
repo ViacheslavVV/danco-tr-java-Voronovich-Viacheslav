@@ -5,10 +5,10 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.danco.training.ui.display.api.IEntityDisplayer;
+import com.danco.training.ui.display.ConsoleEntityDisplayer;
 import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
-import com.danco.training.ui.reader.api.IReader;
+import com.danco.training.ui.reader.ConsoleReader;
 import com.training.danco.facade.api.IFacade;
 import com.training.danco.model.Course;
 import com.training.danco.model.Student;
@@ -17,27 +17,27 @@ public class StudentsByCourseItem extends MenuItem {
 
 	private static final Logger LOGGER = LogManager.getLogger(StudentsByCourseItem.class);
 
-	public StudentsByCourseItem(Menu menu) {
-		super("Get students by course", menu);
+	public StudentsByCourseItem(Menu menu, IFacade facade) {
+		super("Get students by course", menu, facade);
 	}
 
 	@Override
-	public Menu doWork(IEntityDisplayer entityDisplayer, IReader reader, IFacade facade) {
+	public Menu doWork() {
 		try{
-			int courseId = reader.getCourseId();
+			int courseId = ConsoleReader.getCourseId();
 			Course course = facade.getCourse(courseId);
 			List<Student> students = facade.getStudentsByCourse(courseId);
 			if (students == null){
-				entityDisplayer.displayMessage("Students not found.");
+				ConsoleEntityDisplayer.displayMessage("Students not found.");
 			}else if (students.size()==0){
-				entityDisplayer.displayMessage("Students not found.");
+				ConsoleEntityDisplayer.displayMessage("Students not found.");
 			}
 			else{
-				entityDisplayer.displayStudents(students, "Students from course \""+course.getName()+"\"");
+				ConsoleEntityDisplayer.displayStudents(students, "Students from course \""+course.getName()+"\"");
 			}
 		}catch (Exception e){
 			LOGGER.error(e.getMessage());
-			entityDisplayer.displayMessage("Technical error.");
+			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
 		
 		return this.menu;

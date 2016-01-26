@@ -1,21 +1,19 @@
-package com.danco.training.ui.display.impl;
+package com.danco.training.ui.display;
 
 import java.util.List;
 
-import com.danco.training.ui.display.api.IEntityDisplayer;
 import com.training.danco.model.Course;
 import com.training.danco.model.Lection;
 import com.training.danco.model.Lecturer;
 import com.training.danco.model.Student;
 
-public class ConsoleEntityDisplayer implements IEntityDisplayer {
+public class ConsoleEntityDisplayer{
 
 	@SuppressWarnings("deprecation")
-	@Override
-	public void displayCourse(Course course, String header) {
+	public static void displayCourse(Course course, String header) {
 		if (header != null){
 			System.out.println(header);
-			System.out.printf("Id:    Name:       StartDate:    Final Date   MaxLections  MaxStudents\n");
+			System.out.printf("Id:    Name:       StartDate:       Final Date:   MaxLections  MaxStudents\n");
 		}
 		System.out.printf("%d     %s          %d-%d-%d %d:%d   %d-%d-%d %d:%d     %d            %d\n", course.getId(), course.getName(), 
 				course.getStartDate().getDay(),course.getStartDate().getMonth(),course.getStartDate().getYear(),course.getStartDate().getHours(),course.getStartDate().getMinutes(), 
@@ -23,8 +21,7 @@ public class ConsoleEntityDisplayer implements IEntityDisplayer {
 				course.getMaxLections(), course.getMaxStudents());
 	}
 
-	@Override
-	public void displayCourses(List<Course> courses, String header) {
+	public static void displayCourses(List<Course> courses, String header) {
 		System.out.println(header);
 		System.out.printf("Id:    Name:       StartDate:    Final Date   MaxLections  MaxStudents\n");
 		for (Course course : courses){
@@ -33,8 +30,8 @@ public class ConsoleEntityDisplayer implements IEntityDisplayer {
 
 	}
 
-	@Override
-	public void displayLecturer(Lecturer lecturer, String header) {
+
+	public static void displayLecturer(Lecturer lecturer, String header) {
 		if (header != null){
 			System.out.println(header);
 			System.out.printf("Id        Name:       Age:        \n");
@@ -42,8 +39,7 @@ public class ConsoleEntityDisplayer implements IEntityDisplayer {
 		System.out.printf("%d         %s       %d years      \n", lecturer.getId(), lecturer.getName(),lecturer.getAge());
 	}
 
-	@Override
-	public void displayLecturers(List<Lecturer> lecturers, String header) {
+	public static void displayLecturers(List<Lecturer> lecturers, String header) {
 		System.out.println(header);			
 		System.out.printf("Id        Name:       Age:        \n");
 		for (Lecturer lecturer : lecturers){
@@ -53,8 +49,7 @@ public class ConsoleEntityDisplayer implements IEntityDisplayer {
 	}
 
 	@SuppressWarnings("deprecation")
-	@Override
-	public void displayLection(Lection lection, String header) {
+	public static void displayLection(Lection lection, String header) {
 		if (header != null){
 			System.out.println(header);
 			System.out.printf("Id        Name:       Date:           \n");
@@ -63,8 +58,7 @@ public class ConsoleEntityDisplayer implements IEntityDisplayer {
 				lection.getDate().getDay(),lection.getDate().getMonth(),lection.getDate().getYear(),lection.getDate().getHours(),lection.getDate().getMinutes());
 	}
 
-	@Override
-	public void displayLections(List<Lection> lections, String header) {
+	public static void displayLections(List<Lection> lections, String header) {
 		System.out.println(header);
 		System.out.printf("Id        Name:       Date:           \n");
 		for (Lection lection : lections){
@@ -72,8 +66,7 @@ public class ConsoleEntityDisplayer implements IEntityDisplayer {
 		}
 	}
 
-	@Override
-	public void displayStudent(Student student, String header) {
+	public static void displayStudent(Student student, String header) {
 		if (header != null){
 			System.out.println(header);
 			System.out.printf("Id        Name:       Age:            \n");
@@ -81,8 +74,7 @@ public class ConsoleEntityDisplayer implements IEntityDisplayer {
 		System.out.printf("%d         %s       %d years          \n", student.getId(), student.getName(), student.getAge());
 	}
 
-	@Override
-	public void displayStudents(List<Student> students, String header) {
+	public static void displayStudents(List<Student> students, String header) {
 		System.out.println(header);			
 		System.out.printf("Id        Name:       Age:            \n");
 		for (Student student : students){
@@ -91,8 +83,7 @@ public class ConsoleEntityDisplayer implements IEntityDisplayer {
 
 	}
 
-	@Override
-	public void displayMessage(String message) {
+	public static void displayMessage(String message) {
 		System.out.println(message);
 		
 	}

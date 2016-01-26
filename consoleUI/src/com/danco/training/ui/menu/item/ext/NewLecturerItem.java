@@ -3,10 +3,10 @@ package com.danco.training.ui.menu.item.ext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.danco.training.ui.display.api.IEntityDisplayer;
+import com.danco.training.ui.display.ConsoleEntityDisplayer;
 import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
-import com.danco.training.ui.reader.api.IReader;
+import com.danco.training.ui.reader.ConsoleReader;
 import com.training.danco.facade.api.IFacade;
 import com.training.danco.model.Lecturer;
 
@@ -14,24 +14,24 @@ public class NewLecturerItem extends MenuItem {
 
 	private static final Logger LOGGER = LogManager.getLogger(NewLecturerItem.class);
 
-	public NewLecturerItem(Menu menu) {
-		super("Create lecturer.", menu);
+	public NewLecturerItem(Menu menu, IFacade facade) {
+		super("Create lecturer.", menu, facade);
 	}
 
 	@Override
-	public Menu doWork(IEntityDisplayer entityDisplayer, IReader reader, IFacade facade) {
+	public Menu doWork() {
 
 		try{
-			String name = reader.getLecturerName();
-			int age = reader.getLecturerAge();
+			String name = ConsoleReader.getLecturerName();
+			int age = ConsoleReader.getLecturerAge();
 			if (facade.setLecturer(new Lecturer(name, age))){
-				entityDisplayer.displayMessage("Lecturer has been created.");
+				ConsoleEntityDisplayer.displayMessage("Lecturer has been created.");
 			}else {
-				entityDisplayer.displayMessage("Lecturer hasn't been created.");
+				ConsoleEntityDisplayer.displayMessage("Lecturer hasn't been created.");
 			}
 		}catch (Exception e){
 			LOGGER.error(e.getMessage());
-			entityDisplayer.displayMessage("Technical error.");
+			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
 		return this.menu;
 	}

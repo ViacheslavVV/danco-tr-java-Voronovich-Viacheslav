@@ -3,33 +3,33 @@ package com.danco.training.ui.menu.item.ext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.danco.training.ui.display.api.IEntityDisplayer;
+import com.danco.training.ui.display.ConsoleEntityDisplayer;
 import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
-import com.danco.training.ui.reader.api.IReader;
+import com.danco.training.ui.reader.ConsoleReader;
 import com.training.danco.facade.api.IFacade;
 
 public class ExportAllCoursesItem extends MenuItem {
 
 	private static final Logger LOGGER = LogManager.getLogger(ExportAllCoursesItem.class);
 
-	public ExportAllCoursesItem(Menu menu) {
-		super("Export all courses", menu);
+	public ExportAllCoursesItem(Menu menu, IFacade facade) {
+		super("Export all courses", menu, facade);
 	}
 
 	@Override
-	public Menu doWork(IEntityDisplayer entityDisplayer, IReader reader, IFacade facade) {
+	public Menu doWork() {
 		try{
-			String fileName = reader.getExportFileName();
+			String fileName = ConsoleReader.getExportFileName();
 			
 			if (facade.exportAllCourses(fileName)){
-				entityDisplayer.displayMessage("Courses has been exported.");
+				ConsoleEntityDisplayer.displayMessage("Courses has been exported.");
 			} else {
-				entityDisplayer.displayMessage("Courses hasn't been exported.");
+				ConsoleEntityDisplayer.displayMessage("Courses hasn't been exported.");
 			}
 		}catch (Exception e){
 			LOGGER.error(e.getMessage());
-			entityDisplayer.displayMessage("Technical error.");
+			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
 		
 		return this.menu;

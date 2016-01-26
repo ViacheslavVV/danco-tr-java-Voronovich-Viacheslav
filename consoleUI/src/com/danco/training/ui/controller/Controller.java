@@ -1,37 +1,23 @@
 package com.danco.training.ui.controller;
 
-import com.danco.training.ui.display.api.IEntityDisplayer;
-import com.danco.training.ui.display.api.IMenuDisplayer;
+import com.danco.training.ui.display.ConsoleMenuDisplayer;
 import com.danco.training.ui.menu.Menu;
-import com.danco.training.ui.menu.builder.MenuBuilder;
 import com.danco.training.ui.menu.item.MenuItem;
-import com.danco.training.ui.reader.api.IReader;
-import com.training.danco.facade.api.IFacade;
+import com.danco.training.ui.reader.ConsoleReader;
 
 public class Controller {
 
 	private static final int NATURAL_NUMBER_INCREMENT = 1;
-	
-	private IMenuDisplayer menuDisplayer;
-	private IEntityDisplayer entityDisplayer;
-	private IFacade facade;
-	private IReader reader;
-	
-	public Controller(IMenuDisplayer menuDisplayer, IEntityDisplayer entityDisplayer, IFacade facade,
-			IReader reader) {
-		this.menuDisplayer = menuDisplayer;
-		this.entityDisplayer = entityDisplayer;
-		this.facade = facade;
-		this.reader = reader;
+
+	public Controller() {
+		
 	}
 
-	public void run(){
-		MenuBuilder menuBuilder = new MenuBuilder();
-		Menu currentMenu = menuBuilder.generateMenu();
+	public void run(Menu currentMenu){
 		MenuItem currentMenuItem = null;
 		int mode = 0;
 		while(currentMenu != null){
-			this.menuDisplayer.displayMenu(currentMenu);
+			ConsoleMenuDisplayer.displayMenu(currentMenu);
 			mode = getMode();	
 			
 			currentMenuItem = currentMenu.getMenuItem(mode-NATURAL_NUMBER_INCREMENT);
@@ -39,11 +25,11 @@ public class Controller {
 				continue;
 			}
 			
-			currentMenu = currentMenuItem.doWork(this.entityDisplayer, this.reader, this.facade);
+			currentMenu = currentMenuItem.doWork();
 		}
 	}
 	
 	public int getMode() {
-		return this.reader.getMenuMode();
+		return ConsoleReader.getMenuMode();
 	}
 }
