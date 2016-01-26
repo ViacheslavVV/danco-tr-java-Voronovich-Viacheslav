@@ -51,26 +51,21 @@ public class CourseService implements ICourseService {
 
 	@Override
 	public boolean update(Course course) {
-		
-		Course resultCourse = null;
+		boolean result = false;
 		try {
-			
-			resultCourse = this.get(course.getId());
-			
-			if (resultCourse == null){
-				if (this.set(course))
-				{
-					resultCourse = course;
-				}
+			Course resultCourse = this.get(course.getId());
+
+			if (resultCourse == null) {
+
+				result = this.set(course);
+			} else {
+				result = this.courseRepository.update(course);
 			}
-			
-			this.courseRepository.update(resultCourse);
-		
+
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
-			resultCourse = null;
 		}
-		return resultCourse != null;
+		return result;
 	}
 
 	@Override

@@ -14,10 +14,10 @@ import com.training.danco.services.api.ILecturerService;
 public class LecturerService implements ILecturerService {
 
 	private static final Logger LOGGER = LogManager.getLogger(LecturerService.class);
-	
+
 	private ILecturerRepository lecturerRepository;
 	private ICourseRepository courseRepository;
-	
+
 	public LecturerService(ILecturerRepository lecturerRepository, ICourseRepository courseRepository) {
 		this.lecturerRepository = lecturerRepository;
 		this.courseRepository = courseRepository;
@@ -38,45 +38,39 @@ public class LecturerService implements ILecturerService {
 
 	@Override
 	public Lecturer get(int id) {
-		
+
 		Lecturer resultLecturer = null;
 		try {
 			resultLecturer = this.lecturerRepository.get(id);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
-		
+
 		return resultLecturer;
 	}
 
 	@Override
 	public boolean update(Lecturer lecturer) {
-		
-		Lecturer resultLecturer = null;
+		boolean result = false;
 		try {
-			
-			resultLecturer = this.get(lecturer.getId());
-			
-			if (resultLecturer == null){
-				
-				if (this.set(lecturer))
-				{
-					resultLecturer = lecturer;
-				}
+			Lecturer resultLecturer = this.get(lecturer.getId());
+
+			if (resultLecturer == null) {
+
+				result = this.set(lecturer);
+			} else {
+				result = this.lecturerRepository.update(lecturer);
 			}
-			
-			this.lecturerRepository.update(resultLecturer);
-		
+
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
-			resultLecturer = null;
 		}
-		return resultLecturer != null;
+		return result;
 	}
 
 	@Override
 	public boolean delete(Lecturer lecturer) {
-		
+
 		boolean result = true;
 		try {
 			result = this.lecturerRepository.delete(lecturer, this.courseRepository);
@@ -102,7 +96,7 @@ public class LecturerService implements ILecturerService {
 
 	@Override
 	public List<Lecturer> getSortedByName() {
-		
+
 		List<Lecturer> tempLecturers = null;
 		try {
 			tempLecturers = this.lecturerRepository.getSortedByName();
@@ -115,7 +109,7 @@ public class LecturerService implements ILecturerService {
 
 	@Override
 	public List<Lecturer> getSortedByCoursesCount() {
-		
+
 		List<Lecturer> tempLecturers = null;
 		try {
 			tempLecturers = this.lecturerRepository.getSortedByCoursesCount(courseRepository);

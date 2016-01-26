@@ -53,25 +53,21 @@ public class LectionService implements ILectionService {
 	@Override
 	public boolean update(Lection lection) {
 		
-		Lection resultLection = null;
+		boolean result = false;
 		try {
-			
-			resultLection = this.get(lection.getId());
-			
-			if (resultLection == null){
-				if (this.set(lection))
-				{
-					resultLection = lection;
-				}
+			Lection resultLection = this.get(lection.getId());
+
+			if (resultLection == null) {
+
+				result = this.set(lection);
+			} else {
+				result = this.lectionRepository.update(lection);
 			}
-			
-			this.lectionRepository.update(resultLection);
-		
+
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
-			resultLection = null;
 		}
-		return resultLection != null;
+		return result;
 	}
 
 	@Override

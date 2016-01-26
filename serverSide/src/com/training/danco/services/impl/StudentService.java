@@ -51,25 +51,21 @@ public class StudentService implements IStudentService {
 	@Override
 	public boolean update(Student student) {
 		
-		Student resultStudent = null;
+		boolean result = false;
 		try {
-			
-			resultStudent = this.get(student.getId());
-			
-			if (resultStudent == null){
-				if (this.set(student))
-				{
-					resultStudent = student;
-				}
+			Student studentCourse = this.get(student.getId());
+
+			if (studentCourse == null) {
+
+				result = this.set(student);
+			} else {
+				result = this.studentRepository.update(student);
 			}
-			
-			this.studentRepository.update(resultStudent);
-		
+
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
-			resultStudent = null;
 		}
-		return resultStudent != null;
+		return result;
 	}
 
 	@Override
