@@ -13,7 +13,7 @@ public class PropertyManager {
 
 	private static final Logger LOGGER = LogManager.getLogger(PropertyManager.class);
 	
-	private static PropertyManager propertyManger;
+	private static PropertyManager propertyManager;
 	private Properties properties;
 	private FileInputStream fileInputStream;
 	
@@ -47,10 +47,10 @@ public class PropertyManager {
 	}
 	
 	public static PropertyManager getInstance  (){
-		if (propertyManger == null) {
-			propertyManger = new PropertyManager();
+		if (propertyManager == null) {
+			propertyManager = new PropertyManager();
 		}
-		return propertyManger;	
+		return propertyManager;	
 	}
 	
 	

@@ -5,5 +5,7 @@
 	<classpathentry kind="lib" path="jars/log4j-api-2.5.jar"/>
 	<classpathentry kind="lib" path="jars/log4j-core-2.5.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/serverSide"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/API"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Model"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
