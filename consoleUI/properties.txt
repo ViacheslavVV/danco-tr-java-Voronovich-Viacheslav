@@ -1,0 +1,2 @@
+dataFileName=newFile.txt
+maxStudentsAtDay=700

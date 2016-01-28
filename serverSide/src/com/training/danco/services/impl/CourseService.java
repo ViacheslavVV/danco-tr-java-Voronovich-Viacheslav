@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.danco.training.configuration.manager.PropertyManager;
 import com.training.danco.dao.api.ICourseRepository;
 import com.training.danco.model.Course;
 import com.training.danco.model.Lection;
@@ -122,6 +123,15 @@ public class CourseService implements ICourseService {
 	public boolean addLection(Course course, Lection lection) {
 		boolean result = true;
 		try {
+			int studentCount = 0;
+			for(Course tempCourse : this.courseRepository.getAll()){
+				studentCount += tempCourse.getLectionByDate(lection.getDate()).size() * tempCourse.getStudents().size();
+			}
+			studentCount += course.getLectionByDate(lection.getDate()).size()*course.getStudents().size();
+			if (studentCount > PropertyManager.getInstance().getMaxStudentsCount()){
+				return false;
+			}
+			
 			result = course.setLection(lection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());

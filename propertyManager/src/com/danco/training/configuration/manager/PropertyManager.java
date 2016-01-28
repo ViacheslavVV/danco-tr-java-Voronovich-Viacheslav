@@ -59,4 +59,15 @@ public class PropertyManager {
 		return fileName == null ? "file.txt" : fileName;
 		
 	}
+	
+	public int getMaxStudentsCount(){
+		String number = properties.getProperty("maxStudentsAtDay");
+		int value = 0;
+		try{
+			value = Integer.parseInt(number);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return value;
+	}
 }
