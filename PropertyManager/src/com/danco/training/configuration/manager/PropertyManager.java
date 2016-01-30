@@ -62,4 +62,15 @@ public class PropertyManager {
 		String fileName = properties.getProperty("DIMConfigFileName");
 		return fileName == null ? "DIMconfig.txt" : fileName;
 	}
+	
+	public int getMaxStudentsCount(){
+		String number = properties.getProperty("maxStudentsAtDay");
+		int value = 0;
+		try{
+			value = Integer.parseInt(number);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return value;
+	}
 }

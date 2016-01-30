@@ -19,6 +19,8 @@ import com.training.danco.text.io.validator.impl.CSVValidator;
 
 public class CSVImporter implements IImporter{
 
+	private static final String DELIMITER = "[;]";
+	private static final String SPACE = " ";
 	private static final Logger LOGGER = LogManager.getLogger(CSVImporter.class);
 
 	@Override
@@ -68,7 +70,7 @@ public class CSVImporter implements IImporter{
 	@SuppressWarnings("deprecation")
 	private Course convertStringToCourse(String string, IFacade facade)
 	{
-		String[] params = string.split("[;]");
+		String[] params = string.split(DELIMITER);
 		
 		Course newCourse = new Course(params[0], 
 				new Date(Integer.parseInt(params[1]),Integer.parseInt(params[2]),Integer.parseInt(params[3]),
@@ -82,11 +84,11 @@ public class CSVImporter implements IImporter{
 			newCourse.setLecturer(facade.getLecturer(lecturerId));
 		}
 		
-		String[] studentsIds = params[15].split(" ");
+		String[] studentsIds = params[15].split(SPACE);
 		List<Student> students = getStudentsByIds(studentsIds, Integer.parseInt(params[11]), facade);
 		newCourse.setStudents(students);
 		
-		String[] lectionsIds = params[16].split(" ");
+		String[] lectionsIds = params[16].split(SPACE);
 		List<Lection> lections = getLectionsByIds(lectionsIds, Integer.parseInt(params[12]), facade);
 		newCourse.setLections(lections);
 		return newCourse;
@@ -137,7 +139,7 @@ public class CSVImporter implements IImporter{
 	@SuppressWarnings("deprecation")
 	private Lection convertStringToLection(String string)
 	{
-		String[] params = string.split("[;]");
+		String[] params = string.split(DELIMITER);
 		Lection newLection = new Lection(params[0], 
 				new Date(Integer.parseInt(params[1]),Integer.parseInt(params[2]),Integer.parseInt(params[3]),
 						Integer.parseInt(params[4]),Integer.parseInt(params[5])));
@@ -148,7 +150,7 @@ public class CSVImporter implements IImporter{
 	private Lecturer convertStringToLecturer(String string)
 	{
 		
-		String[] params = string.split("[;]");
+		String[] params = string.split(DELIMITER);
 		Lecturer newLecturer = new Lecturer(params[0], Integer.parseInt(params[1]));
 		newLecturer.setId(Integer.parseInt(params[2]));
 		return newLecturer;
@@ -157,7 +159,7 @@ public class CSVImporter implements IImporter{
 	private Student convertStringToStudent(String string)
 	{
 		
-		String[] params = string.split("[;]");
+		String[] params = string.split(DELIMITER);
 		Student newStudent = new Student(params[0], Integer.parseInt(params[1]));
 		newStudent.setId(Integer.parseInt(params[2]));
 		return newStudent;

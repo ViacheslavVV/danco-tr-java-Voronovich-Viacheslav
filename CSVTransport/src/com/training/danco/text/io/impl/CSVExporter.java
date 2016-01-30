@@ -16,6 +16,8 @@ import com.training.danco.text.io.api.IExporter;
 
 public class CSVExporter implements IExporter{
 
+	private static final String DELIMITER = ";";
+	private static final String SPACE = " ";
 	private static final Logger LOGGER = LogManager.getLogger(CSVExporter.class);
 
 	@Override
@@ -63,22 +65,22 @@ public class CSVExporter implements IExporter{
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append(course.getName());
-		sb.append(';');
-		appendDateAsString(sb, course.getStartDate(), ";");
-		sb.append(';');
-		appendDateAsString(sb, course.getFinalDate(), ";");
-		sb.append(';');
+		sb.append(DELIMITER);
+		appendDateAsString(sb, course.getStartDate(), DELIMITER);
+		sb.append(DELIMITER);
+		appendDateAsString(sb, course.getFinalDate(), DELIMITER);
+		sb.append(DELIMITER);
 		sb.append(course.getMaxStudents());
-		sb.append(';');
+		sb.append(DELIMITER);
 		sb.append(course.getMaxLections());
-		sb.append(';');
+		sb.append(DELIMITER);
 		sb.append(course.getId());
-		sb.append(';');
-		sb.append((course.getLecturer() == null) ? (" ") : course.getLecturer().getId());
-		sb.append(';');
-		appendListAsString(sb, course.getStudents(), " ");
-		sb.append(';');
-		appendListAsString(sb, course.getLections(), " ");
+		sb.append(DELIMITER);
+		sb.append((course.getLecturer() == null) ? (SPACE) : course.getLecturer().getId());
+		sb.append(DELIMITER);
+		appendListAsString(sb, course.getStudents(), SPACE);
+		sb.append(DELIMITER);
+		appendListAsString(sb, course.getLections(), SPACE);
 		return sb.toString();
 	}
 
@@ -117,16 +119,16 @@ public class CSVExporter implements IExporter{
 	private String convertLecturerToString(Lecturer lecturer)
 	{
 		
-		return lecturer.getName()+';'+lecturer.getAge()+';'+lecturer.getId();
+		return lecturer.getName()+DELIMITER+lecturer.getAge()+DELIMITER+lecturer.getId();
 	}
 
 	private String convertLectionToString(Lection lection)
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append(lection.getName());
-		sb.append(';');
-		appendDateAsString(sb, lection.getDate(), ";");
-		sb.append(';');
+		sb.append(DELIMITER);
+		appendDateAsString(sb, lection.getDate(), DELIMITER);
+		sb.append(DELIMITER);
 		sb.append(lection.getId());
 		return sb.toString();
 	}
@@ -134,7 +136,7 @@ public class CSVExporter implements IExporter{
 	private String convertStudentToString(Student student)
 	{
 		
-		return student.getName()+';'+student.getAge()+';'+student.getId();
+		return student.getName()+DELIMITER+student.getAge()+DELIMITER+student.getId();
 	}
 	
 	private boolean writeStringsToFile(List<String> lines, String fileName){

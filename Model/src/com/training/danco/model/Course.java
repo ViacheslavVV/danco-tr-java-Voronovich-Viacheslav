@@ -116,6 +116,19 @@ public class Course extends BaseModel implements Cloneable{
 		return false;
 	}
 	
+	@SuppressWarnings("deprecation")
+	public List<Lection> getLectionByDate(Date date){
+		List<Lection> result = new ArrayList<Lection>();
+		Date lectionDate;
+		for (Lection lection : this.lections){
+			lectionDate = lection.getDate();
+			if (lectionDate.getDay() == date.getDay() && lectionDate.getMonth() == date.getMonth() && lectionDate.getYear() == date.getYear()){
+				result.add(lection);
+			}
+		}
+		return result;
+	}
+	
 	public List<Lection> getLections() {
 		return this.lections;
 	}
