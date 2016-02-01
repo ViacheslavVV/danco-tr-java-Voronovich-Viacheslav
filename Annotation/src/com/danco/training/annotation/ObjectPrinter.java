@@ -68,7 +68,7 @@ public class ObjectPrinter {
 							fieldName = field.getName();
 						}
 
-						System.out.print(fieldName+" : "+getValueAsString(field, field.getType(), object));
+						System.out.print(fieldName+" : "+getValueAsString(field,  object));
 						
 						if (!annotation.isDetailedOnly()) {
 							System.out.println(", Type : "+field.getType().getSimpleName());
@@ -98,7 +98,7 @@ public class ObjectPrinter {
 		}
 	}
 	
-	public static String getValueAsString(Field field, Type type, Object source){
+	public static String getValueAsString(Field field,  Object source){
 		
 		String result = "Null";
 		
