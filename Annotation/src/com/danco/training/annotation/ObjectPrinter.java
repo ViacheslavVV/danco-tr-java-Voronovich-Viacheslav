@@ -1,22 +1,14 @@
 package com.danco.training.annotation;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.danco.training.constant.Types;
 
 public class ObjectPrinter {
 
@@ -112,35 +104,8 @@ public class ObjectPrinter {
 		
 		try {
 			Object value = field.get(source);
-			switch (type.getTypeName()) {
-			case (Types.TYPE_BOOLEAN) :  case (Types.TYPE_BOOLEAN_WRAP) :
-				result = Boolean.toString((boolean)value);
-				break;
-			case (Types.TYPE_BYTE) : case(Types.TYPE_BYTE_WRAP) :
-				result = Byte.toString((byte)value);
-				break;
-			case (Types.TYPE_SHORT) : case(Types.TYPE_SHORT_WRAP) :
-				result = Short.toString((short)value);
-				break;
-			case (Types.TYPE_CHAR) : case(Types.TYPE_CHAR_WRAP) :
-				result = Character.toString((char)value);
-				break;
-			case (Types.TYPE_INTEGER) : case(Types.TYPE_INTEGER_WRAP) :
-				result = Integer.toString((int)value);
-				break;
-			case (Types.TYPE_DOUBLE) : case(Types.TYPE_DOUBLE_WRAP) :
-				result = Double.toString((double)value);
-				break;
-			case (Types.TYPE_FLOAT) : case(Types.TYPE_FLOAT_WRAP) :
-				result = Float.toString((float)value);
-				break;
-			case (Types.TYPE_LONG) : case(Types.TYPE_LONG_WRAP) :
-				result = Long.toString((long)value);
-				break;
-			default : 
-				break;
-			}
-		} catch (Exception e) {
+			result = value.toString();
+ 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} 
 		return result;

@@ -7,6 +7,12 @@ public class TestClass {
 	@Printable(order = 2, isDetailedOnly = false, name = "")
 	private int Number = 5;
 	
+	@Printable(order = 2, isDetailedOnly = false, name = "")
+	private Boolean Bool = true;
+	
+	@Printable(order = 2, isDetailedOnly = false, name = "")
+	private String Str = "ggg";
+	
 	@PrintableRef(order = 1, isDetailedView = false, isRecursive = false)
 	private Object object;
 }
