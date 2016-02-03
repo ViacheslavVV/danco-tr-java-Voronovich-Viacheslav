@@ -2,6 +2,10 @@ package com.training.danco.model;
 
 import java.util.Date;
 
+import com.danco.training.annotation.Printable;
+import com.danco.training.annotation.PrintableObject;
+
+@PrintableObject(name = "Lecture")
 public class Lection extends BaseModel{
 
 	/**
@@ -12,8 +16,10 @@ public class Lection extends BaseModel{
 	static public void setLectionId(int id)	{
 		lectionId = id;
 	}
-	
+
+	@Printable(order=2)
 	private String name;
+	@Printable(order=3, isDetailedOnly = true)
 	private Date date;
 		
 	public Lection(String name, Date date) {

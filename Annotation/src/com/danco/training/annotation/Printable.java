@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 public @interface Printable {
 
 	String name() default "";
-	boolean isDetailedOnly();
+	boolean isDetailedOnly() default false;
 	int order();
 }

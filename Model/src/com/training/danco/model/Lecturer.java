@@ -1,5 +1,8 @@
 package com.training.danco.model;
 
+import com.danco.training.annotation.PrintableObject;
+
+@PrintableObject
 public class Lecturer extends Man {
 
 	/**

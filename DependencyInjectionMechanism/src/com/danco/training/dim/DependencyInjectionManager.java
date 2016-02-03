@@ -23,20 +23,12 @@ public class DependencyInjectionManager {
 			try {
 				Class<?> implClass = Class.forName(implClassName);
 				obj = implClass.newInstance();
-				addObjectToMap(implClassName, obj);
+				objects.put(implClassName, obj);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
 			}
 		}
 		return obj;
-	}
-	
-	private static void addObjectToMap(String implClassName, Object obj){
-		try{
-			objects.put(implClassName, obj);
-		} catch (Exception e){
-			LOGGER.error(e.getMessage());
-		}
 	}
 	
 }

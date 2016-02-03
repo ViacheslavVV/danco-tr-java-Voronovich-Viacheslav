@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.danco.training.annotation.Printable;
+import com.danco.training.annotation.PrintableObject;
+import com.danco.training.annotation.PrintableRef;
+
+@PrintableObject
 public class Course extends BaseModel implements Cloneable{
 
 	/**
@@ -16,13 +21,21 @@ public class Course extends BaseModel implements Cloneable{
 		courseId = id;
 	}
 	
+	@Printable(order=2)
 	private String name;
+	@Printable(order=3, isDetailedOnly = true)
 	private Date startDate;
+	@Printable(order=4, isDetailedOnly = true)
 	private Date finalDate;
-	private Lecturer lecturer;  // navigation fields
-	private List<Student> students; //
-	private List<Lection> lections; //
+	@PrintableRef(name = "Lecturer", order = 5)
+	private Lecturer lecturer;  
+	@PrintableRef(name = "Students", order = 9)
+	private List<Student> students; 
+	@PrintableRef(name = "Lections", order = 7)
+	private List<Lection> lections; 
+	@Printable(order=8, isDetailedOnly = true)
 	private int maxStudents;
+	@Printable(order=6, isDetailedOnly = true)
 	private int maxLections;
 
 	public Course(String name, Date startDate, Date finalDate, int maxStudents, int maxLections) {

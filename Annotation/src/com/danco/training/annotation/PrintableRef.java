@@ -11,6 +11,5 @@ public @interface PrintableRef {
 
 	String name() default "";
 	int order();
-	boolean isDetailedView();
-	boolean isRecursive();
+	boolean isDetailedView() default false;
 }

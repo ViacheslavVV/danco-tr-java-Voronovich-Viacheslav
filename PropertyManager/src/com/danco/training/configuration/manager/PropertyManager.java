@@ -15,7 +15,6 @@ public class PropertyManager {
 	
 	private static PropertyManager propertyManager;
 	private Properties properties;
-	private FileInputStream fileInputStream;
 	
 	private PropertyManager() {
 		properties = new Properties();
@@ -27,7 +26,8 @@ public class PropertyManager {
 				LOGGER.error(e.getMessage());
 			}
 		}
-		
+
+		FileInputStream fileInputStream = null;
 		try {
 			fileInputStream = new FileInputStream(file);
 			properties.load(fileInputStream);
@@ -36,12 +36,13 @@ public class PropertyManager {
 			LOGGER.error(e.getMessage());
 		} finally{
 			if (fileInputStream != null) {
+				try {
+					fileInputStream.close();
+				} catch (IOException e) {
+					LOGGER.error(e.getMessage());
+				}
 			}
-			try {
-				fileInputStream.close();
-			} catch (IOException e) {
-				LOGGER.error(e.getMessage());
-			}
+			
 		}
 
 	}
