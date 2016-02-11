@@ -20,19 +20,19 @@ public class LectionItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			int lectionId = ConsoleReader.getLectionId();
 			Lection lection = facade.getLection(lectionId);
-			if (lection == null){
+			if (lection == null) {
 				ConsoleEntityDisplayer.displayMessage("Lection wasn't created.");
-			}else {
+			} else {
 				ConsoleEntityDisplayer.displayLection(lection, "Lection");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

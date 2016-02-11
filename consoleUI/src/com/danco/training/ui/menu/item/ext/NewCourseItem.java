@@ -1,5 +1,7 @@
 package com.danco.training.ui.menu.item.ext;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +12,6 @@ import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
 import com.danco.training.ui.reader.ConsoleReader;
 import com.training.danco.facade.api.IFacade;
-import com.training.danco.model.Course;
 
 public class NewCourseItem extends MenuItem {
 
@@ -23,18 +24,20 @@ public class NewCourseItem extends MenuItem {
 	@Override
 	public Menu doWork() {
 
-		try{
+		try {
 			String name = ConsoleReader.getCourseName();
 			Date startDate = ConsoleReader.getCourseStartDate();
 			Date finalDate = ConsoleReader.getCourseFinalDate();
 			int maxStudents = ConsoleReader.getMaxStudentsNumber();
 			int maxLections = ConsoleReader.getMaxLectionsNumber();
-			if (facade.setCourse(new Course(name, startDate, finalDate, maxStudents, maxLections))){
+
+			if (facade.setCourse(
+					new ArrayList<Object>(Arrays.asList(name, startDate, finalDate, maxStudents, maxLections)))) {
 				ConsoleEntityDisplayer.displayMessage("Course has been created.");
-			}else {
+			} else {
 				ConsoleEntityDisplayer.displayMessage("Course hasn't been created.");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}

@@ -15,25 +15,24 @@ public class AllLectionsItem extends MenuItem {
 
 	private static final Logger LOGGER = LogManager.getLogger(AllLectionsItem.class);
 
-	public AllLectionsItem( Menu menu, IFacade facade) {
+	public AllLectionsItem(Menu menu, IFacade facade) {
 		super("Get all lections.", menu, facade);
 	}
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			List<Lection> lections = facade.getAllLections();
-			if (lections == null || lections.size()==0){
+			if (lections == null || lections.size() == 0) {
 				ConsoleEntityDisplayer.displayMessage("Lections not found.");
-			}
-			else{
+			} else {
 				ConsoleEntityDisplayer.displayLections(lections, "All lections");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

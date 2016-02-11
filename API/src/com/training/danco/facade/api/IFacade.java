@@ -1,6 +1,5 @@
 package com.training.danco.facade.api;
 
-import java.util.Date;
 import java.util.List;
 
 import com.training.danco.model.Course;
@@ -9,37 +8,37 @@ import com.training.danco.model.Lecturer;
 import com.training.danco.model.Student;
 
 public interface IFacade {
-	public boolean setCourse(Course course);
+	public boolean setCourse(Object course);
 	
-	public Course getCourse(int courseId);
+	public Course getCourse(Object courseId);
 	
-	public boolean updateCourse(Course course);
+	public boolean updateCourse(Object course);
 	
-	public boolean deleteCourse(int courseId);
+	public boolean deleteCourse(Object courseId);
 	
-	public Lecturer getLecturerByCourse(int courseId);
+	public Lecturer getLecturerByCourse(Object courseId);
 	
-	public boolean cloneCourse(int courseId);
+	public boolean cloneCourse(Object courseId);
 	
 	public List<Course> getAllCourses();
 	
-	public boolean setLecturerToCourse(int courseId, int lecturerId);
+	public boolean setLecturerToCourse(Object courseAndLecturerId);
 	
-	public boolean addLectionToCourse(int courseId, int lectionId);
+	public boolean addLectionToCourse(Object courseAndLectionId);
 	
-	public boolean addStudentToCourse(int courseId, int studentId);
+	public boolean addStudentToCourse(Object courseAndStudentId);
 	
-	public boolean removeLectionFromCourse(int courseId, int lectionId);
+	public boolean removeLectionFromCourse(Object courseAndLectionId);
 	
-	public boolean removeStudentFromCourse(int courseId, int studentId);
+	public boolean removeStudentFromCourse(Object courseAndStudentId);
 	
 	public int getCoursesCount();
 	
-	public List<Lection> getLectionsByCourse(int courseId);
+	public List<Lection> getLectionsByCourse(Object courseId);
 	
-	public List<Student> getStudentsByCourse(int courseId);
+	public List<Student> getStudentsByCourse(Object courseId);
 	
-	public List<Course> getCoursesInInterval(Date dateFrom, Date dateTo);
+	public List<Course> getCoursesInInterval(Object dateFromAndTo);
 	
 	public List<Course> getCoursesSortedByStartDate();
 	
@@ -57,21 +56,21 @@ public interface IFacade {
 	
 	public List<Course> getCurrentCoursesSortedByName();
 	
-	public List<Course> getCoursesAfterDateSortedByStartDate(Date date);
+	public List<Course> getCoursesAfterDateSortedByStartDate(Object date);
 	
-	public List<Course> getCoursesAfterDateSortedByStudentsCount(Date date);
+	public List<Course> getCoursesAfterDateSortedByStudentsCount(Object date);
 	
-	public List<Course> getCoursesAfterDateSortedByLecturer(Date date);
+	public List<Course> getCoursesAfterDateSortedByLecturer(Object date);
 	
-	public List<Course> getCoursesAfterDateSortedByName(Date date);
+	public List<Course> getCoursesAfterDateSortedByName(Object date);
 		
-	public boolean setLection(Lection lection);
+	public boolean setLection(Object lection);
 	
-	public Lection getLection(int lectionId);
+	public Lection getLection(Object lectionId);
 	
-	public boolean updateLection(Lection lection);
+	public boolean updateLection(Object lection);
 	
-	public boolean deleteLection(int lectionId);
+	public boolean deleteLection(Object lectionId);
 	
 	public List<Lection> getAllLections();
 
@@ -79,17 +78,17 @@ public interface IFacade {
 	
 	public List<Lection> getLectionsSortedByName();
 	
-	public List<Lection> getLectionsByDate(Date date);
+	public List<Lection> getLectionsByDate(Object date);
 	
 	public int getLectionsCount();
 	
-	public boolean setLecturer(Lecturer lecturer);
+	public boolean setLecturer(Object lecturer);
 	
-	public Lecturer getLecturer(int lecturerId);
+	public Lecturer getLecturer(Object lecturerId);
 	
-	public boolean updateLecturer(Lecturer lecturer);
+	public boolean updateLecturer(Object lecturer);
 	
-	public boolean deleteLecturer(int lecturerId);
+	public boolean deleteLecturer(Object lecturerId);
 	
 	public List<Lecturer> getAllLecturers();
 
@@ -99,13 +98,13 @@ public interface IFacade {
 	
 	public int getLecturersCount();
 	
-	public boolean setStudent(Student student);
+	public boolean setStudent(Object student);
 	
-	public Student getStudent(int studentId);
+	public Student getStudent(Object studentId);
 	
-	public boolean updateStudent(Student student);
+	public boolean updateStudent(Object student);
 	
-	public boolean deleteStudent(int studentId);
+	public boolean deleteStudent(Object studentId);
 	
 	public List<Student> getAllStudents();
 	
@@ -115,27 +114,27 @@ public interface IFacade {
 
 	public boolean saveDataToFile();
 	
-	public boolean importCourses(String fileName);
+	public boolean importCourses(Object fileName);
 
-	public boolean importStudents(String fileName);
+	public boolean importStudents(Object fileName);
 	
-	public boolean importLections(String fileName);
+	public boolean importLections(Object fileName);
 	
-	public boolean importLecturers(String fileName);
+	public boolean importLecturers(Object fileName);
 	
-	public boolean exportAllCourses(String fileName);
+	public boolean exportAllCourses(Object fileName);
 	
-	public boolean exportAllStudents(String fileName);
+	public boolean exportAllStudents(Object fileName);
 	
-	public boolean exportAllLections(String fileName);
+	public boolean exportAllLections(Object fileName);
 	
-	public boolean exportAllLecturers(String fileName);
+	public boolean exportAllLecturers(Object fileName);
 	
-	public boolean exportCourses(String fileName, List<Object> courseIds);
+	public boolean exportCourses(Object fileNameAndCourseIds);
 	
-	public boolean exportStudents(String fileName, List<Object> studentIds);
+	public boolean exportStudents(Object fileNameAndStudentIds);
 	
-	public boolean exportLections(String fileName, List<Object> lectionIds);
+	public boolean exportLections(Object fileNameAndLectionIds);
 	
-	public boolean exportLecturers(String fileName, List<Object> lecturerIds);
+	public boolean exportLecturers(Object fileNameAndLecturerIds);
 }

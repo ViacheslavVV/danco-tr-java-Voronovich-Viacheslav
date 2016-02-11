@@ -1,5 +1,8 @@
 package com.danco.training.ui.menu.item.ext;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +24,7 @@ public class RemoveStudentFromCourseItem extends MenuItem {
 		try{
 			int courseId = ConsoleReader.getCourseId();
 			int studentId = ConsoleReader.getStudentId();
-			if (facade.removeStudentFromCourse(courseId, studentId)){
+			if (facade.removeStudentFromCourse(new ArrayList<Object>(Arrays.asList(courseId, studentId)))){
 				ConsoleEntityDisplayer.displayMessage("The student has been deleted.");
 			} else {
 				ConsoleEntityDisplayer.displayMessage("The student hasn't been deleted.");

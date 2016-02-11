@@ -29,8 +29,7 @@ public class PrintableObjectHandler {
 
 			PrintableObject ann = object.getClass().getAnnotation(PrintableObject.class);
 			String objectName = ann.name();
-			sb.append(CLASS_DECLARATION + objectName);
-			sb.append(NEW_LINE);
+			sb.append(CLASS_DECLARATION).append(objectName).append(NEW_LINE);
 
 			Field[] fields = classObject.getDeclaredFields();
 

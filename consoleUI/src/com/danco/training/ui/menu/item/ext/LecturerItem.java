@@ -15,24 +15,24 @@ public class LecturerItem extends MenuItem {
 	private static final Logger LOGGER = LogManager.getLogger(LecturerItem.class);
 
 	public LecturerItem(Menu menu, IFacade facade) {
-		super("Get lecturer.",menu, facade);
+		super("Get lecturer.", menu, facade);
 	}
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			int lecturerId = ConsoleReader.getLecturerId();
 			Lecturer lecturer = facade.getLecturer(lecturerId);
-			if (lecturer == null){
+			if (lecturer == null) {
 				ConsoleEntityDisplayer.displayMessage("Lecturer wasn't created.");
-			}else {
+			} else {
 				ConsoleEntityDisplayer.displayLecturer(lecturer, "Lecturer");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

@@ -21,22 +21,19 @@ public class LectionsSortedByDateItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			List<Lection> lections = facade.getLectionsSortedByDate();
-			if (lections == null || lections.size()==0){
+			if (lections == null || lections.size() == 0) {
 				ConsoleEntityDisplayer.displayMessage("Lections not found.");
-			}
-			else{
+			} else {
 				ConsoleEntityDisplayer.displayLections(lections, "Lections sorted by date");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
-
-	
 
 }

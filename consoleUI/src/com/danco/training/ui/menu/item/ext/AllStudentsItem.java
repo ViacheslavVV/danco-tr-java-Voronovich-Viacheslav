@@ -15,25 +15,24 @@ public class AllStudentsItem extends MenuItem {
 
 	private static final Logger LOGGER = LogManager.getLogger(AllStudentsItem.class);
 
-	public AllStudentsItem( Menu menu, IFacade facade) {
+	public AllStudentsItem(Menu menu, IFacade facade) {
 		super("Get all students.", menu, facade);
 	}
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			List<Student> students = facade.getAllStudents();
-			if (students == null || students.size()==0){
+			if (students == null || students.size() == 0) {
 				ConsoleEntityDisplayer.displayMessage("Students not found.");
-			}
-			else{
+			} else {
 				ConsoleEntityDisplayer.displayStudents(students, "All students");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

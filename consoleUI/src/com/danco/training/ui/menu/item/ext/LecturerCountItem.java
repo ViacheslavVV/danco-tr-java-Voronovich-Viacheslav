@@ -18,14 +18,14 @@ public class LecturerCountItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			int count = facade.getLecturersCount();
-			ConsoleEntityDisplayer.displayMessage("Number of lecturers : "+count);
-		}catch (Exception e){
+			ConsoleEntityDisplayer.displayMessage("Number of lecturers : " + count);
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

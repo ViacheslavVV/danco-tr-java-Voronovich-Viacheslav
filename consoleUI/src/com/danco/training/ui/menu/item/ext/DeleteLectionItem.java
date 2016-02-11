@@ -19,19 +19,19 @@ public class DeleteLectionItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			int lectionId = ConsoleReader.getLectionId();
-			
-			if (facade.deleteLection(lectionId)){
+
+			if (facade.deleteLection(lectionId)) {
 				ConsoleEntityDisplayer.displayMessage("Lection has been deleted.");
-			}else {
+			} else {
 				ConsoleEntityDisplayer.displayMessage("Lection hasn't been deleted.");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

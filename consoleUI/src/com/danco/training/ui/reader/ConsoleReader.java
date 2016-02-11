@@ -3,6 +3,7 @@ package com.danco.training.ui.reader;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -11,6 +12,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ConsoleReader {
+
+	private static final int MONTH_SHIFT = 1;
+	private static final String INPUT_STUDENT_ID = "Input student id";
+	private static final String INPUT_LECTURER_ID = "Input lecturer id";
+	private static final String INPUT_LECTION_ID = "Input lection id";
+	private static final String INPUT_COURSE_ID = "Input course id";
 
 	private static final Logger LOGGER = LogManager.getLogger(ConsoleReader.class);
 
@@ -32,7 +39,6 @@ public class ConsoleReader {
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
-			throw new RuntimeException("Something wrong!");
 		}
 		return num;
 	}
@@ -53,12 +59,10 @@ public class ConsoleReader {
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
-			throw new RuntimeException("Something wrong!");
 		}
 		return resultStr;
 	}
 
-	@SuppressWarnings("deprecation")
 	public static Date getDate(String message) throws RuntimeException {
 		Date resultDate = null;
 		String tempStr = null;
@@ -69,9 +73,9 @@ public class ConsoleReader {
 					System.out.print(message + " (dd-mm-yyyy-hour-min): ");
 					tempStr = scanner.next("\\d{1,2}-\\d{1,2}-\\d{4}-\\d{1,2}-\\d{1,2}");
 					String[] dateParts = tempStr.split("-");
-					resultDate = new Date(Integer.parseInt(dateParts[2]), Integer.parseInt(dateParts[1]),
+					resultDate = new GregorianCalendar(Integer.parseInt(dateParts[2]), Integer.parseInt(dateParts[1])-MONTH_SHIFT,
 							Integer.parseInt(dateParts[0]), Integer.parseInt(dateParts[3]),
-							Integer.parseInt(dateParts[4]));
+							Integer.parseInt(dateParts[4])).getTime();
 					validData = true;
 				} catch (InputMismatchException e) {
 					System.out.println("Incorrect input, try again.");
@@ -80,7 +84,6 @@ public class ConsoleReader {
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
-			throw new RuntimeException("Something wrong!");
 		}
 		return resultDate;
 	}
@@ -133,22 +136,6 @@ public class ConsoleReader {
 		return getInt("Input section number");
 	}
 
-	public static int getCourseId() throws RuntimeException {
-		return getInt("Input course id");
-	}
-
-	public static int getLecturerId() throws RuntimeException {
-		return getInt("Input lecturer id");
-	}
-
-	public static int getLectionId() throws RuntimeException {
-		return getInt("Input lection id");
-	}
-
-	public static int getStudentId() throws RuntimeException {
-		return getInt("Input student id");
-	}
-
 	public static int getMaxStudentsNumber() {
 		return getInt("Input max number of students");
 	}
@@ -178,60 +165,38 @@ public class ConsoleReader {
 	}
 
 	public static List<Object> getCourseIds() {
-		List<String> stringValues = new ArrayList<String>();
-		List<Object> result = new ArrayList<Object>();
-		String tempStr;
-		System.out.println("Input '-1' to exit");
-		int courseId;
-		do {
-			courseId = getCourseId();
-			if (courseId != -1) {
-				tempStr = Integer.toString(courseId);
-				if (!stringValues.contains(tempStr)) {
-					stringValues.add(tempStr);
-					result.add(courseId);
-				}
-			} else {
-				break;
-			}
-		} while (true);
-		return result;
+
+		return getIds(INPUT_COURSE_ID);
 	}
 
 	public static List<Object> getLectionIds() {
-		List<String> stringValues = new ArrayList<String>();
-		List<Object> result = new ArrayList<Object>();
-		String tempStr;
-		System.out.println("Input '-1' to exit");
-		int courseId;
-		do {
-			courseId = getLectionId();
-			if (courseId != -1) {
-				tempStr = Integer.toString(courseId);
-				if (!stringValues.contains(tempStr)) {
-					stringValues.add(tempStr);
-					result.add(courseId);
-				}
-			} else {
-				break;
-			}
-		} while (true);
-		return result;
+
+		return getIds(INPUT_LECTION_ID);
 	}
 
 	public static List<Object> getLecturerIds() {
+
+		return getIds(INPUT_LECTURER_ID);
+	}
+
+	public static List<Object> getStudentIds() {
+
+		return getIds(INPUT_STUDENT_ID);
+	}
+
+	private static List<Object> getIds(String message) {
 		List<String> stringValues = new ArrayList<String>();
 		List<Object> result = new ArrayList<Object>();
 		String tempStr;
 		System.out.println("Input '-1' to exit");
-		int courseId;
+		int entityId;
 		do {
-			courseId = getLecturerId();
-			if (courseId != -1) {
-				tempStr = Integer.toString(courseId);
+			entityId = getInt(message);
+			if (entityId != -1) {
+				tempStr = Integer.toString(entityId);
 				if (!stringValues.contains(tempStr)) {
 					stringValues.add(tempStr);
-					result.add(courseId);
+					result.add(entityId);
 				}
 			} else {
 				break;
@@ -240,24 +205,19 @@ public class ConsoleReader {
 		return result;
 	}
 
-	public static List<Object> getStudentIds() {
-		List<String> stringValues = new ArrayList<String>();
-		List<Object> result = new ArrayList<Object>();
-		String tempStr;
-		System.out.println("Input '-1' to exit");
-		int courseId;
-		do {
-			courseId = getStudentId();
-			if (courseId != -1) {
-				tempStr = Integer.toString(courseId);
-				if (!stringValues.contains(tempStr)) {
-					stringValues.add(tempStr);
-					result.add(courseId);
-				}
-			} else {
-				break;
-			}
-		} while (true);
-		return result;
+	public static int getCourseId() {
+		return getInt(INPUT_COURSE_ID);
+	}
+
+	public static int getLectionId() {
+		return getInt(INPUT_LECTION_ID);
+	}
+
+	public static int getLecturerId() {
+		return getInt(INPUT_LECTURER_ID);
+	}
+
+	public static int getStudentId() {
+		return getInt(INPUT_STUDENT_ID);
 	}
 }

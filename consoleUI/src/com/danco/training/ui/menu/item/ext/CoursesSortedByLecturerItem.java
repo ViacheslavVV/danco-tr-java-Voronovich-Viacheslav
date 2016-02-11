@@ -11,7 +11,7 @@ import com.danco.training.ui.menu.item.MenuItem;
 import com.training.danco.facade.api.IFacade;
 import com.training.danco.model.Course;
 
-public class CoursesSortedByLecturerItem  extends MenuItem{
+public class CoursesSortedByLecturerItem extends MenuItem {
 
 	private static final Logger LOGGER = LogManager.getLogger(CoursesSortedByLecturerItem.class);
 
@@ -21,19 +21,18 @@ public class CoursesSortedByLecturerItem  extends MenuItem{
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			List<Course> courses = facade.getCoursesSortedByLecturer();
-			if (courses == null || courses.size()==0){
+			if (courses == null || courses.size() == 0) {
 				ConsoleEntityDisplayer.displayMessage("Courses not found.");
-			}
-			else{
+			} else {
 				ConsoleEntityDisplayer.displayCourses(courses, "Courses sorted by lecturer");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

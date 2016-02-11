@@ -1,5 +1,8 @@
 package com.danco.training.ui.menu.item.ext;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,19 +22,19 @@ public class AddLectionToCourseItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			int courseId = ConsoleReader.getCourseId();
 			int lectionId = ConsoleReader.getLectionId();
-			if (facade.addLectionToCourse(courseId, lectionId)){
+			if (facade.addLectionToCourse(new ArrayList<Object>(Arrays.asList(courseId, lectionId)))) {
 				ConsoleEntityDisplayer.displayMessage("The lection has been added.");
 			} else {
 				ConsoleEntityDisplayer.displayMessage("The lection hasn't been added.");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

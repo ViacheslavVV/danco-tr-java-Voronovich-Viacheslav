@@ -19,20 +19,20 @@ public class DeleteCourseItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			int courseId = ConsoleReader.getCourseId();
-			
-			if (facade.deleteCourse(courseId)){
+
+			if (facade.deleteCourse(courseId)) {
 				ConsoleEntityDisplayer.displayMessage("Course has been deleted.");
-			}else {
+			} else {
 				ConsoleEntityDisplayer.displayMessage("Course hasn't been deleted.");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
-	
+
 }

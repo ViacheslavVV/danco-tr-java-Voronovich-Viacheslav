@@ -19,21 +19,21 @@ public class ImportLecturersItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			String fileName = ConsoleReader.getImportFileName();
-			if (fileName == null){
+			if (fileName == null) {
 				return this.menu;
 			}
-			if (facade.importLecturers(fileName)){
+			if (facade.importLecturers(fileName)) {
 				ConsoleEntityDisplayer.displayMessage("Lecturers has been imported.");
 			} else {
 				ConsoleEntityDisplayer.displayMessage("Lecturers hasn't been imported.");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

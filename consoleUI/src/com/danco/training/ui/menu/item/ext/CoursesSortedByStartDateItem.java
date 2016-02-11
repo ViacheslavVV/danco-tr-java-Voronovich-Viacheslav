@@ -21,19 +21,18 @@ public class CoursesSortedByStartDateItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			List<Course> courses = facade.getCoursesSortedByStartDate();
-			if (courses == null || courses.size()==0){
+			if (courses == null || courses.size() == 0) {
 				ConsoleEntityDisplayer.displayMessage("Courses not found.");
-			}
-			else{
+			} else {
 				ConsoleEntityDisplayer.displayCourses(courses, "Courses sorted by start date");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

@@ -27,9 +27,7 @@ public class StudentsByCourseItem extends MenuItem {
 			int courseId = ConsoleReader.getCourseId();
 			Course course = facade.getCourse(courseId);
 			List<Student> students = facade.getStudentsByCourse(courseId);
-			if (students == null){
-				ConsoleEntityDisplayer.displayMessage("Students not found.");
-			}else if (students.size()==0){
+			if (students == null || students.size()==0){
 				ConsoleEntityDisplayer.displayMessage("Students not found.");
 			}
 			else{

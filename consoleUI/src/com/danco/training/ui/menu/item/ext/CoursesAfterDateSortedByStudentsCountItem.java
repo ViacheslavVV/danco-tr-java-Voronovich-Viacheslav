@@ -24,20 +24,20 @@ public class CoursesAfterDateSortedByStudentsCountItem extends MenuItem {
 	@SuppressWarnings("deprecation")
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			Date date = ConsoleReader.getDate("Input date");
 			List<Course> courses = facade.getCoursesAfterDateSortedByStudentsCount(date);
-			if (courses == null || courses.size() == 0){
+			if (courses == null || courses.size() == 0) {
 				ConsoleEntityDisplayer.displayMessage("Courses not found.");
+			} else {
+				ConsoleEntityDisplayer.displayCourses(courses, "Courses after date " + date.getDay() + "-"
+						+ date.getMonth() + "-" + date.getYear() + " sorted by number of students");
 			}
-			else{
-				ConsoleEntityDisplayer.displayCourses(courses, "Courses after date "+date.getDay()+"-"+date.getMonth()+"-"+date.getYear()+" sorted by number of students");
-			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

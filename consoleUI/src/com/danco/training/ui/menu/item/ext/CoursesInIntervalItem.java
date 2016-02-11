@@ -1,5 +1,7 @@
 package com.danco.training.ui.menu.item.ext;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -24,25 +26,25 @@ public class CoursesInIntervalItem extends MenuItem {
 	@SuppressWarnings("deprecation")
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			ConsoleEntityDisplayer.displayMessage("Enter date interval");
 			Date startDate = ConsoleReader.getDate("Input date from");
 			Date finalDate = ConsoleReader.getDate("Input date to");
-			List<Course> courses = facade.getCoursesInInterval(startDate, finalDate);
-			if (courses == null){
+			List<Course> courses = facade
+					.getCoursesInInterval(new ArrayList<Object>(Arrays.asList(startDate, finalDate)));
+			if (courses == null || courses.size() == 0) {
 				ConsoleEntityDisplayer.displayMessage("Courses not found.");
-			}else if (courses.size()==0){
-				ConsoleEntityDisplayer.displayMessage("Courses not found.");
+			} else {
+				ConsoleEntityDisplayer.displayCourses(courses,
+						"Courses in interval from " + startDate.getDay() + "-" + startDate.getMonth() + "-"
+								+ startDate.getYear() + " to " + finalDate.getDay() + "-" + finalDate.getMonth() + "-"
+								+ finalDate.getYear());
 			}
-			else{
-				ConsoleEntityDisplayer.displayCourses(courses, "Courses in interval from "+startDate.getDay()+"-"+startDate.getMonth()+"-"+startDate.getYear()
-				+" to "+finalDate.getDay()+"-"+finalDate.getMonth()+"-"+finalDate.getYear());
-			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

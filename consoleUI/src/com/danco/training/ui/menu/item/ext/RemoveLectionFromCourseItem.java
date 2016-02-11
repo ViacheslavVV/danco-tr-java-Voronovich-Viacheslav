@@ -1,5 +1,8 @@
 package com.danco.training.ui.menu.item.ext;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,7 +25,7 @@ public class RemoveLectionFromCourseItem extends MenuItem {
 		try{
 			int courseId = ConsoleReader.getCourseId();
 			int lectionId = ConsoleReader.getLectionId();
-			if (facade.removeLectionFromCourse(courseId, lectionId)){
+			if (facade.removeLectionFromCourse(new ArrayList<Object>(Arrays.asList(courseId, lectionId)))){
 				ConsoleEntityDisplayer.displayMessage("The lection has been deleted.");
 			} else {
 				ConsoleEntityDisplayer.displayMessage("The lection hasn't been deleted.");

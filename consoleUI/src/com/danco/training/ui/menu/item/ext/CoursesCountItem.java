@@ -11,21 +11,21 @@ import com.training.danco.facade.api.IFacade;
 public class CoursesCountItem extends MenuItem {
 
 	private static final Logger LOGGER = LogManager.getLogger(CoursesCountItem.class);
-	
+
 	public CoursesCountItem(Menu menu, IFacade facade) {
 		super("Get number of courses.", menu, facade);
 	}
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			int count = facade.getCoursesCount();
-			ConsoleEntityDisplayer.displayMessage("Number of courses : "+count);
-		}catch (Exception e){
+			ConsoleEntityDisplayer.displayMessage("Number of courses : " + count);
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

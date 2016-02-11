@@ -9,7 +9,7 @@ import com.danco.training.ui.menu.item.MenuItem;
 import com.danco.training.ui.reader.ConsoleReader;
 import com.training.danco.facade.api.IFacade;
 
-public class ExportAllStudentsItem extends MenuItem{
+public class ExportAllStudentsItem extends MenuItem {
 
 	private static final Logger LOGGER = LogManager.getLogger(ExportAllStudentsItem.class);
 
@@ -19,19 +19,19 @@ public class ExportAllStudentsItem extends MenuItem{
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			String fileName = ConsoleReader.getExportFileName();
-			
-			if (facade.exportAllStudents(fileName)){
+
+			if (facade.exportAllStudents(fileName)) {
 				ConsoleEntityDisplayer.displayMessage("Students has been exported.");
 			} else {
 				ConsoleEntityDisplayer.displayMessage("Students hasn't been exported.");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

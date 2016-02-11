@@ -12,21 +12,20 @@ public class LectionCountItem extends MenuItem {
 
 	private static final Logger LOGGER = LogManager.getLogger(LectionCountItem.class);
 
-	
 	public LectionCountItem(Menu menu, IFacade facade) {
 		super("Get number of lections.", menu, facade);
 	}
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			int count = facade.getLectionsCount();
-			ConsoleEntityDisplayer.displayMessage("Number of lections : "+count);
-		}catch (Exception e){
+			ConsoleEntityDisplayer.displayMessage("Number of lections : " + count);
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

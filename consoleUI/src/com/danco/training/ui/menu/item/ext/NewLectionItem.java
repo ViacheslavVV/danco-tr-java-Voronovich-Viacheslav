@@ -1,5 +1,7 @@
 package com.danco.training.ui.menu.item.ext;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +12,6 @@ import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
 import com.danco.training.ui.reader.ConsoleReader;
 import com.training.danco.facade.api.IFacade;
-import com.training.danco.model.Lection;
 
 public class NewLectionItem extends MenuItem {
 
@@ -23,21 +24,19 @@ public class NewLectionItem extends MenuItem {
 	@Override
 	public Menu doWork() {
 
-		try{
+		try {
 			String name = ConsoleReader.getLectionName();
 			Date date = ConsoleReader.getLectionDate();
-			if (facade.setLection(new Lection(name, date))){
+			if (facade.setLection(new ArrayList<Object>(Arrays.asList(name, date)))) {
 				ConsoleEntityDisplayer.displayMessage("Lection has been created.");
-			}else {
+			} else {
 				ConsoleEntityDisplayer.displayMessage("Lection hasn't been created.");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
 		return this.menu;
 	}
-
-	
 
 }

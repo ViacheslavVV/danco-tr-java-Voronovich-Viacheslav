@@ -19,18 +19,18 @@ public class CourseCloneItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			int courseId = ConsoleReader.getCourseId();
-			if (facade.cloneCourse(courseId)){
+			if (facade.cloneCourse(courseId)) {
 				ConsoleEntityDisplayer.displayMessage("Course has been cloned.");
-			}else {
+			} else {
 				ConsoleEntityDisplayer.displayMessage("Course hasn't been cloned.");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

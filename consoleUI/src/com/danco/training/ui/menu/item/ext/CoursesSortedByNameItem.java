@@ -21,19 +21,18 @@ public class CoursesSortedByNameItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			List<Course> courses = facade.getCoursesSortedByName();
-			if (courses == null || courses.size()==0){
+			if (courses == null || courses.size() == 0) {
 				ConsoleEntityDisplayer.displayMessage("Courses not found.");
-			}
-			else{
+			} else {
 				ConsoleEntityDisplayer.displayCourses(courses, "Courses sorted by name");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

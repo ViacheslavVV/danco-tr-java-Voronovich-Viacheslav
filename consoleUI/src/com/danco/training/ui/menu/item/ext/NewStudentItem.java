@@ -1,5 +1,8 @@
 package com.danco.training.ui.menu.item.ext;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,7 +11,6 @@ import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
 import com.danco.training.ui.reader.ConsoleReader;
 import com.training.danco.facade.api.IFacade;
-import com.training.danco.model.Student;
 
 public class NewStudentItem extends MenuItem {
 
@@ -24,7 +26,7 @@ public class NewStudentItem extends MenuItem {
 		try{
 			String name = ConsoleReader.getStudentName();
 			int age = ConsoleReader.getStudentAge();
-			if (facade.setStudent(new Student(name, age))){
+			if (facade.setStudent(new ArrayList<Object>(Arrays.asList(name, age)))){
 				ConsoleEntityDisplayer.displayMessage("Student has been created.");
 			}else {
 				ConsoleEntityDisplayer.displayMessage("Student hasn't been created.");

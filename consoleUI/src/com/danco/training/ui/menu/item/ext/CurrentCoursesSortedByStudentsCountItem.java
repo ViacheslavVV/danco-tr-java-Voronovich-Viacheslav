@@ -21,19 +21,18 @@ public class CurrentCoursesSortedByStudentsCountItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			List<Course> courses = facade.getCurrentCoursesSortedByStudentsCount();
-			if (courses == null || courses.size()==0){
+			if (courses == null || courses.size() == 0) {
 				ConsoleEntityDisplayer.displayMessage("Courses not found.");
-			}
-			else{
+			} else {
 				ConsoleEntityDisplayer.displayCourses(courses, "Current Courses sorted by number of students");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

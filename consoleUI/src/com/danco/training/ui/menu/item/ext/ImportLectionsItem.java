@@ -19,21 +19,21 @@ public class ImportLectionsItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			String fileName = ConsoleReader.getImportFileName();
-			if (fileName == null){
+			if (fileName == null) {
 				return this.menu;
 			}
-			if (facade.importLections(fileName)){
+			if (facade.importLections(fileName)) {
 				ConsoleEntityDisplayer.displayMessage("Lections has been imported.");
 			} else {
 				ConsoleEntityDisplayer.displayMessage("Lections hasn't been imported.");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

@@ -19,21 +19,21 @@ public class ImportCoursesItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			String fileName = ConsoleReader.getImportFileName();
-			if (fileName == null){
+			if (fileName == null) {
 				return this.menu;
 			}
-			if (facade.importCourses(fileName)){
+			if (facade.importCourses(fileName)) {
 				ConsoleEntityDisplayer.displayMessage("Courses has been imported.");
 			} else {
 				ConsoleEntityDisplayer.displayMessage("Courses hasn't been imported.");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

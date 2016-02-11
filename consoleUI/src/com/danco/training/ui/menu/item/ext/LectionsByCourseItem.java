@@ -16,30 +16,27 @@ import com.training.danco.model.Lection;
 public class LectionsByCourseItem extends MenuItem {
 
 	private static final Logger LOGGER = LogManager.getLogger(LectionsByCourseItem.class);
-	
+
 	public LectionsByCourseItem(Menu menu, IFacade facade) {
 		super("Get lections by course", menu, facade);
 	}
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			int courseId = ConsoleReader.getCourseId();
 			Course course = facade.getCourse(courseId);
 			List<Lection> lections = facade.getLectionsByCourse(courseId);
-			if (lections == null){
+			if (lections == null || lections.size() == 0) {
 				ConsoleEntityDisplayer.displayMessage("Lections not found.");
-			}else if (lections.size()==0){
-				ConsoleEntityDisplayer.displayMessage("Lections not found.");
+			} else {
+				ConsoleEntityDisplayer.displayLections(lections, "Lections from course \"" + course.getName() + "\"");
 			}
-			else{
-				ConsoleEntityDisplayer.displayLections(lections, "Lections from course \""+course.getName()+"\"");
-			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

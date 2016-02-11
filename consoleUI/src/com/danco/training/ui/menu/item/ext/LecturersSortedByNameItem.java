@@ -21,19 +21,18 @@ public class LecturersSortedByNameItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			List<Lecturer> lecturers = facade.getLecturersSortedByName();
-			if (lecturers == null || lecturers.size()==0){
+			if (lecturers == null || lecturers.size() == 0) {
 				ConsoleEntityDisplayer.displayMessage("Lecturers not found.");
-			}
-			else{
+			} else {
 				ConsoleEntityDisplayer.displayLecturers(lecturers, "Lecturers sorted by name");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

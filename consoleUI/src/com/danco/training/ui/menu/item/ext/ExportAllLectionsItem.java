@@ -19,19 +19,19 @@ public class ExportAllLectionsItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			String fileName = ConsoleReader.getExportFileName();
-			
-			if (facade.exportAllLections(fileName)){
+
+			if (facade.exportAllLections(fileName)) {
 				ConsoleEntityDisplayer.displayMessage("Lections has been exported.");
 			} else {
 				ConsoleEntityDisplayer.displayMessage("Lections hasn't been exported.");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

@@ -13,27 +13,27 @@ public class ImportStudentsItem extends MenuItem {
 
 	private static final Logger LOGGER = LogManager.getLogger(ImportStudentsItem.class);
 
-	public ImportStudentsItem( Menu menu, IFacade facade) {
+	public ImportStudentsItem(Menu menu, IFacade facade) {
 		super("Import students", menu, facade);
 	}
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			String fileName = ConsoleReader.getImportFileName();
-			if (fileName == null){
+			if (fileName == null) {
 				return this.menu;
 			}
-			if (facade.importStudents(fileName)){
+			if (facade.importStudents(fileName)) {
 				ConsoleEntityDisplayer.displayMessage("Students has been imported.");
 			} else {
 				ConsoleEntityDisplayer.displayMessage("Students hasn't been imported.");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

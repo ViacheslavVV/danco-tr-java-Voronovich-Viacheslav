@@ -17,27 +17,27 @@ public class LectionsByDateItem extends MenuItem {
 
 	private static final Logger LOGGER = LogManager.getLogger(LectionsByDateItem.class);
 
-	public LectionsByDateItem(Menu menu, IFacade facade) { 
+	public LectionsByDateItem(Menu menu, IFacade facade) {
 		super("Get lections by date.", menu, facade);
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			Date date = ConsoleReader.getLectionDate();
 			List<Lection> lections = facade.getLectionsByDate(date);
-			if (lections == null || lections.size() == 0){
+			if (lections == null || lections.size() == 0) {
 				ConsoleEntityDisplayer.displayMessage("Lections not found.");
+			} else {
+				ConsoleEntityDisplayer.displayLections(lections,
+						"Lections by date " + date.getDay() + "-" + date.getMonth() + "-" + date.getYear());
 			}
-			else{
-				ConsoleEntityDisplayer.displayLections(lections, "Lections by date "+date.getDay()+"-"+date.getMonth()+"-"+date.getYear());
-			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

@@ -1,5 +1,8 @@
 package com.danco.training.ui.menu.item.ext;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,7 +11,6 @@ import com.danco.training.ui.menu.Menu;
 import com.danco.training.ui.menu.item.MenuItem;
 import com.danco.training.ui.reader.ConsoleReader;
 import com.training.danco.facade.api.IFacade;
-import com.training.danco.model.Lecturer;
 
 public class NewLecturerItem extends MenuItem {
 
@@ -24,7 +26,7 @@ public class NewLecturerItem extends MenuItem {
 		try{
 			String name = ConsoleReader.getLecturerName();
 			int age = ConsoleReader.getLecturerAge();
-			if (facade.setLecturer(new Lecturer(name, age))){
+			if (facade.setLecturer(new ArrayList<Object>(Arrays.asList(name, age)))){
 				ConsoleEntityDisplayer.displayMessage("Lecturer has been created.");
 			}else {
 				ConsoleEntityDisplayer.displayMessage("Lecturer hasn't been created.");

@@ -21,21 +21,20 @@ public class LecturerByCourseItem extends MenuItem {
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			int courseId = ConsoleReader.getCourseId();
 			Course course = facade.getCourse(courseId);
 			Lecturer lecturer = facade.getLecturerByCourse(courseId);
-			if (lecturer == null){
+			if (lecturer == null) {
 				ConsoleEntityDisplayer.displayMessage("Lecturer not found.");
+			} else {
+				ConsoleEntityDisplayer.displayLecturer(lecturer, "Lecturer of course \"" + course.getName() + "\"");
 			}
-			else{
-				ConsoleEntityDisplayer.displayLecturer(lecturer, "Lecturer of course \""+course.getName()+"\"");
-			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 

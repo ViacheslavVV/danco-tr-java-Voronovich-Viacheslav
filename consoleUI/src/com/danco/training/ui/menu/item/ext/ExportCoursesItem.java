@@ -1,5 +1,7 @@
 package com.danco.training.ui.menu.item.ext;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,25 +17,25 @@ public class ExportCoursesItem extends MenuItem {
 
 	private static final Logger LOGGER = LogManager.getLogger(ExportCoursesItem.class);
 
-	public ExportCoursesItem( Menu menu, IFacade facade) {
+	public ExportCoursesItem(Menu menu, IFacade facade) {
 		super("Export courses", menu, facade);
 	}
 
 	@Override
 	public Menu doWork() {
-		try{
+		try {
 			String fileName = ConsoleReader.getExportFileName();
 			List<Object> ids = ConsoleReader.getCourseIds();
-			if (facade.exportCourses(fileName,ids)){
+			if (facade.exportCourses(new ArrayList<Object>(Arrays.asList(fileName, ids)))) {
 				ConsoleEntityDisplayer.displayMessage("Courses has been exported.");
 			} else {
 				ConsoleEntityDisplayer.displayMessage("Courses hasn't been exported.");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			ConsoleEntityDisplayer.displayMessage("Technical error.");
 		}
-		
+
 		return this.menu;
 	}
 
