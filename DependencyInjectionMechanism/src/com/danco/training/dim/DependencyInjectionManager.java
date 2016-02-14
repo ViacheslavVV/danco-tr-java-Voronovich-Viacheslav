@@ -23,7 +23,7 @@ public class DependencyInjectionManager {
 			try {
 				Class<?> implClass = Class.forName(implClassName);
 				obj = implClass.newInstance();
-				objects.put(implClassName, obj);
+				objects.put(cls.getName(), obj);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
 			}
