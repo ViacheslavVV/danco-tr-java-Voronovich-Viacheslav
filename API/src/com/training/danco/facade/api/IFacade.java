@@ -110,7 +110,7 @@ public interface IFacade {
 	
 	public int getStudentsCount();
 	
-	public boolean loadDataFromFIle();
+	public boolean loadDataFromFile();
 
 	public boolean saveDataToFile();
 	

@@ -519,7 +519,7 @@ public class Facade implements IFacade {
 		return studentController.getCount();
 	}
 
-	public synchronized boolean loadDataFromFIle() {
+	public synchronized boolean loadDataFromFile() {
 		List<Object> data = this.dataDeserializer.getDataObjects();
 		if (this.dataConverter.convertObjectsToEntities(data)) {
 			this.dataConverter.fillControllers();

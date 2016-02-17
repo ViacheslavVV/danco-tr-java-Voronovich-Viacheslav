@@ -1,7 +1,13 @@
 package com.training.danco.message;
 
-public class Message {
+import java.io.Serializable;
 
+public class Message implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1936322812909335808L;
 	private String text;
 	private Object data;
 	

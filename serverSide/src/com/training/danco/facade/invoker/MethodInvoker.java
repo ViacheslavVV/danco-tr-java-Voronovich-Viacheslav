@@ -16,7 +16,7 @@ public class MethodInvoker {
 		Object result = null;
 		try {
 			if (params == null) {
-				result = facade.getClass().getMethod(methodName, (Class<?>) null).invoke(facade, (Class<?>) null);
+				result = facade.getClass().getMethod(methodName, new Class[] {}).invoke(facade, new Object[] {});
 			} else {
 				result = facade.getClass().getMethod(methodName, Object.class).invoke(facade, params);
 			}

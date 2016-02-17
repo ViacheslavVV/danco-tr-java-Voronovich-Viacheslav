@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 
 public class ConsoleReader {
 
-	private static final String INPUT_USER_NAME = "Input user name";
 	private static final int MONTH_SHIFT = 1;
 	private static final String INPUT_STUDENT_ID = "Input student id";
 	private static final String INPUT_LECTURER_ID = "Input lecturer id";
@@ -206,10 +205,6 @@ public class ConsoleReader {
 		return result;
 	}
 
-	public static String getUserName(){
-		return getString(INPUT_USER_NAME);
-	}
-	
 	public static int getCourseId() {
 		return getInt(INPUT_COURSE_ID);
 	}
@@ -225,4 +220,5 @@ public class ConsoleReader {
 	public static int getStudentId() {
 		return getInt(INPUT_STUDENT_ID);
 	}
+	
 }
