@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="MyApp" packages="">
+
+  <Properties>
+    <Property name="filename">logs/SerializationLog.log</Property>
+    <Property name="defaultFilename">logs/default.log</Property>
+  </Properties>
+  <Appenders>
+ 	<File name="defaultAppender" fileName="${defaultFilename}">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+      </PatternLayout>
+    </File>
+    <File name="mainAppender" fileName="${filename}">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+      </PatternLayout>
+    </File>
+  </Appenders>
+  <Loggers>
+  	<Logger name="com.training.danco.data.manager.DataSerializer" level="error" additivity="false">
+      <AppenderRef ref="mainAppender"/>
+    </Logger>
+    <Logger name="com.training.danco.data.manager.DataDeserializer" level="error" additivity="false">
+      <AppenderRef ref="mainAppender"/>
+    </Logger>
+    <Root level="all">
+    	<AppenderRef ref="defaultAppender"/> 
+    </Root>
+  </Loggers>
+</Configuration>
