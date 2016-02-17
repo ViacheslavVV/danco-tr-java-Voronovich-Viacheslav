@@ -11,21 +11,33 @@ import com.training.danco.model.*;
 public class StudentRepository implements IStudentRepository {
 
 	private List<Student> students;
-	
+	private static int studentId = 1;
+	static private final int MIN_CORRECT_ID = 1;
+
+	public static void setStudentId(int id) {
+		studentId = id;
+	}
+
 	public StudentRepository(List<Student> students) {
 		this.students = students;
 	}
 
 	@Override
 	public boolean set(Student student) {
+		int id = student.getId();
+		if (id < MIN_CORRECT_ID) {
+			student.setId(studentId++);
+		} else if (id >= studentId) {
+			studentId = ++id;
+		}
+
 		return this.students.add(student);
 	}
 
 	@Override
 	public Student get(int id) {
 		int index = getStudentIndexById(id);
-		if (index != -1)
-		{
+		if (index != -1) {
 			return this.students.get(index);
 		}
 		return null;
@@ -34,8 +46,7 @@ public class StudentRepository implements IStudentRepository {
 	@Override
 	public boolean update(Student student) {
 		int index = getStudentIndexById(student.getId());
-		if (index != -1)
-		{
+		if (index != -1) {
 			this.students.set(index, student);
 			return true;
 		}
@@ -45,8 +56,7 @@ public class StudentRepository implements IStudentRepository {
 	@Override
 	public boolean delete(Student student, ICourseRepository courseRepository) {
 		int index = getStudentIndexById(student.getId());
-		if (index != -1)
-		{
+		if (index != -1) {
 			return this.students.remove(index) != null;
 		}
 		return false;
@@ -54,17 +64,14 @@ public class StudentRepository implements IStudentRepository {
 
 	@Override
 	public List<Student> getAll() {
-		
-		Collections.sort(this.students,Comparator.STUDENT_ID_COMPARATOR);
+
+		Collections.sort(this.students, Comparator.STUDENT_ID_COMPARATOR);
 		return this.students;
 	}
-	
-	private int getStudentIndexById(int id)
-	{
-		for (int i=0; i<this.students.size(); i++)
-		{			
-			if (this.students.get(i).getId() == id)
-			{
+
+	private int getStudentIndexById(int id) {
+		for (int i = 0; i < this.students.size(); i++) {
+			if (this.students.get(i).getId() == id) {
 				return i;
 			}
 		}
@@ -73,8 +80,8 @@ public class StudentRepository implements IStudentRepository {
 
 	@Override
 	public int getCount() {
-		
+
 		return this.students.size();
 	}
-	
+
 }

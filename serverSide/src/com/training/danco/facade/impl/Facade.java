@@ -56,16 +56,20 @@ public class Facade implements IFacade {
 
 	public boolean setCourse(Object course) {
 		Course tempCourse = null;
-		try {
-			@SuppressWarnings("unchecked")
-			List<Object> courseData = (List<Object>) course;
+		boolean result = false;
+		synchronized (this.courseController) {
+			try {
+				@SuppressWarnings("unchecked")
+				List<Object> courseData = (List<Object>) course;
 
-			tempCourse = new Course((String) courseData.get(0), (Date) courseData.get(1), (Date) courseData.get(2),
-					(int) courseData.get(3), (int) courseData.get(4));
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+				tempCourse = new Course((String) courseData.get(0), (Date) courseData.get(1), (Date) courseData.get(2),
+						(int) courseData.get(3), (int) courseData.get(4));
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
+			result = tempCourse == null ? false : courseController.setCourse(tempCourse);
 		}
-		return tempCourse == null ? false : courseController.setCourse(tempCourse);
+		return result;
 	}
 
 	public Course getCourse(Object courseId) {
@@ -80,20 +84,24 @@ public class Facade implements IFacade {
 
 	public boolean updateCourse(Object course) {
 		boolean result = false;
-		try {
-			result = courseController.updateCourse((Course) course);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.courseController) {
+			try {
+				result = courseController.updateCourse((Course) course);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
 
 	public boolean deleteCourse(Object courseId) {
 		boolean result = false;
-		try {
-			result = courseController.deleteCourse((int) courseId);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.courseController) {
+			try {
+				result = courseController.deleteCourse((int) courseId);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
@@ -114,14 +122,16 @@ public class Facade implements IFacade {
 
 	public boolean setLecturerToCourse(Object courseAndLecturerId) {
 		boolean result = false;
-		try {
-			@SuppressWarnings("unchecked")
-			List<Object> data = (List<Object>) courseAndLecturerId;
-			int courseId = (int) data.get(0);
-			int lecturerId = (int) data.get(1);
-			result = courseController.setLecturer(courseId, lecturerId);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.courseController) {
+			try {
+				@SuppressWarnings("unchecked")
+				List<Object> data = (List<Object>) courseAndLecturerId;
+				int courseId = (int) data.get(0);
+				int lecturerId = (int) data.get(1);
+				result = courseController.setLecturer(courseId, lecturerId);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
@@ -142,42 +152,48 @@ public class Facade implements IFacade {
 
 	public boolean addStudentToCourse(Object courseAndStudentId) {
 		boolean result = false;
-		try {
-			@SuppressWarnings("unchecked")
-			List<Object> data = (List<Object>) courseAndStudentId;
-			int courseId = (int) data.get(0);
-			int studentId = (int) data.get(1);
-			result = courseController.addStudent(courseId, studentId);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.courseController) {
+			try {
+				@SuppressWarnings("unchecked")
+				List<Object> data = (List<Object>) courseAndStudentId;
+				int courseId = (int) data.get(0);
+				int studentId = (int) data.get(1);
+				result = courseController.addStudent(courseId, studentId);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
 
 	public boolean removeLectionFromCourse(Object courseAndLectionId) {
 		boolean result = false;
-		try {
-			@SuppressWarnings("unchecked")
-			List<Object> data = (List<Object>) courseAndLectionId;
-			int courseId = (int) data.get(0);
-			int lectionId = (int) data.get(1);
-			result = courseController.removeLection(courseId, lectionId);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.courseController) {
+			try {
+				@SuppressWarnings("unchecked")
+				List<Object> data = (List<Object>) courseAndLectionId;
+				int courseId = (int) data.get(0);
+				int lectionId = (int) data.get(1);
+				result = courseController.removeLection(courseId, lectionId);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
 
 	public boolean removeStudentFromCourse(Object courseAndStudentId) {
 		boolean result = false;
-		try {
-			@SuppressWarnings("unchecked")
-			List<Object> data = (List<Object>) courseAndStudentId;
-			int courseId = (int) data.get(0);
-			int studentId = (int) data.get(1);
-			result = courseController.removeStudent(courseId, studentId);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.courseController) {
+			try {
+				@SuppressWarnings("unchecked")
+				List<Object> data = (List<Object>) courseAndStudentId;
+				int courseId = (int) data.get(0);
+				int studentId = (int) data.get(1);
+				result = courseController.removeStudent(courseId, studentId);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
@@ -216,7 +232,7 @@ public class Facade implements IFacade {
 			Date dateTo = (Date) data.get(1);
 			courses = courseController.getCoursesInInterval(dateFrom, dateTo);
 		} catch (Exception e) {
-
+			LOGGER.error(e.getMessage());
 		}
 		return courses;
 	}
@@ -297,15 +313,19 @@ public class Facade implements IFacade {
 
 	public boolean setLection(Object lection) {
 		Lection tempLection = null;
-		try {
-			@SuppressWarnings("unchecked")
-			List<Object> lectionData = (List<Object>) lection;
+		boolean result = false;
+		synchronized (this.lectionController) {
+			try {
+				@SuppressWarnings("unchecked")
+				List<Object> lectionData = (List<Object>) lection;
 
-			tempLection = new Lection((String) lectionData.get(0), (Date) lectionData.get(1));
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+				tempLection = new Lection((String) lectionData.get(0), (Date) lectionData.get(1));
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
+			result = tempLection == null ? false : lectionController.setLection(tempLection);
 		}
-		return tempLection == null ? false : lectionController.setLection(tempLection);
+		return result;
 	}
 
 	public Lection getLection(Object lectionId) {
@@ -320,20 +340,24 @@ public class Facade implements IFacade {
 
 	public boolean updateLection(Object lection) {
 		boolean result = false;
-		try {
-			result = lectionController.updateLection((Lection) lection);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.lectionController) {
+			try {
+				result = lectionController.updateLection((Lection) lection);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
 
 	public boolean deleteLection(Object lectionId) {
 		boolean result = false;
-		try {
-			result = lectionController.deleteLection((int) lectionId);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.lectionController) {
+			try {
+				result = lectionController.deleteLection((int) lectionId);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
@@ -368,15 +392,18 @@ public class Facade implements IFacade {
 
 	public boolean setLecturer(Object lecturer) {
 		Lecturer tempLecturer = null;
-		try {
-			@SuppressWarnings("unchecked")
-			List<Object> lecturerData = (List<Object>) lecturer;
-
-			tempLecturer = new Lecturer((String) lecturerData.get(0), (int) lecturerData.get(1));
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		boolean result = false;
+		synchronized (this.lecturerController) {
+			try {
+				@SuppressWarnings("unchecked")
+				List<Object> lecturerData = (List<Object>) lecturer;
+				tempLecturer = new Lecturer((String) lecturerData.get(0), (int) lecturerData.get(1));
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
+			result = tempLecturer == null ? false : lecturerController.setLecturer(tempLecturer);
 		}
-		return tempLecturer == null ? false : lecturerController.setLecturer(tempLecturer);
+		return result;
 	}
 
 	public Lecturer getLecturer(Object lecturerId) {
@@ -391,20 +418,24 @@ public class Facade implements IFacade {
 
 	public boolean updateLecturer(Object lecturer) {
 		boolean result = false;
-		try {
-			result = lecturerController.updateLecturer((Lecturer) lecturer);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.lecturerController) {
+			try {
+				result = lecturerController.updateLecturer((Lecturer) lecturer);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
 
 	public boolean deleteLecturer(Object lecturerId) {
 		boolean result = false;
-		try {
-			result = lecturerController.deleteLecturer((int) lecturerId);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.lecturerController) {
+			try {
+				result = lecturerController.deleteLecturer((int) lecturerId);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
@@ -429,43 +460,53 @@ public class Facade implements IFacade {
 
 	public boolean setStudent(Object student) {
 		Student tempStudent = null;
-		try {
-			@SuppressWarnings("unchecked")
-			List<Object> studentData = (List<Object>) student;
+		boolean result = false;
+		synchronized (this.studentController) {
+			try {
+				@SuppressWarnings("unchecked")
+				List<Object> studentData = (List<Object>) student;
 
-			tempStudent = new Student((String) studentData.get(0), (int) studentData.get(1));
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+				tempStudent = new Student((String) studentData.get(0), (int) studentData.get(1));
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
+			result = tempStudent == null ? false : studentController.setStudent(tempStudent);
 		}
-		return tempStudent == null ? false : studentController.setStudent(tempStudent);
+		return result;
 	}
 
 	public Student getStudent(Object studentId) {
 		Student student = null;
-		try {
-			student = studentController.getStudent((int) studentId);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.studentController) {
+			try {
+				student = studentController.getStudent((int) studentId);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return student;
 	}
 
 	public boolean updateStudent(Object student) {
 		boolean result = false;
-		try {
-			result = studentController.updateStudent((Student) student);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.studentController) {
+			try {
+				result = studentController.updateStudent((Student) student);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
 
 	public boolean deleteStudent(Object studentId) {
 		boolean result = false;
-		try {
-			result = studentController.deleteStudent((int) studentId);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.studentController) {
+			try {
+				result = studentController.deleteStudent((int) studentId);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
@@ -478,7 +519,7 @@ public class Facade implements IFacade {
 		return studentController.getCount();
 	}
 
-	public boolean loadDataFromFIle() {
+	public synchronized boolean loadDataFromFIle() {
 		List<Object> data = this.dataDeserializer.getDataObjects();
 		if (this.dataConverter.convertObjectsToEntities(data)) {
 			this.dataConverter.fillControllers();
@@ -488,7 +529,7 @@ public class Facade implements IFacade {
 		return false;
 	}
 
-	public boolean saveDataToFile() {
+	public synchronized boolean saveDataToFile() {
 		Object data = this.dataConverter.convertDataToObject(this.getAllStudents(), this.getAllLections(),
 				this.getAllLecturers(), this.getAllCourses());
 		return this.dataSerializer.saveData(data);
@@ -508,19 +549,21 @@ public class Facade implements IFacade {
 	@Override
 	public boolean importCourses(Object fileName) {
 		boolean result = false;
-		try {
-			List<Course> courses = this.importer.importCourses((String) fileName, this);
-			if (courses == null) {
-				return result;
-			}
-
-			for (Course course : courses) {
-				if (this.updateCourse(course)) {
-					result = true;
+		synchronized (this.courseController) {
+			try {
+				List<Course> courses = this.importer.importCourses((String) fileName, this);
+				if (courses == null) {
+					return result;
 				}
+
+				for (Course course : courses) {
+					if (this.updateCourse(course)) {
+						result = true;
+					}
+				}
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
 			}
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
 		}
 		return result;
 	}
@@ -528,19 +571,21 @@ public class Facade implements IFacade {
 	@Override
 	public boolean importStudents(Object fileName) {
 		boolean result = false;
-		try {
-			List<Student> students = this.importer.importStudents((String) fileName);
-			if (students == null) {
-				return result;
-			}
-
-			for (Student student : students) {
-				if (this.updateStudent(student)) {
-					result = true;
+		synchronized (this.studentController) {
+			try {
+				List<Student> students = this.importer.importStudents((String) fileName);
+				if (students == null) {
+					return result;
 				}
+
+				for (Student student : students) {
+					if (this.updateStudent(student)) {
+						result = true;
+					}
+				}
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
 			}
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
 		}
 		return result;
 	}
@@ -548,19 +593,21 @@ public class Facade implements IFacade {
 	@Override
 	public boolean importLections(Object fileName) {
 		boolean result = false;
-		try {
-			List<Lection> lections = this.importer.importLections((String) fileName);
-			if (lections == null) {
-				return result;
-			}
-
-			for (Lection lection : lections) {
-				if (this.updateLection(lection)) {
-					result = true;
+		synchronized (this.lectionController) {
+			try {
+				List<Lection> lections = this.importer.importLections((String) fileName);
+				if (lections == null) {
+					return result;
 				}
+
+				for (Lection lection : lections) {
+					if (this.updateLection(lection)) {
+						result = true;
+					}
+				}
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
 			}
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
 		}
 		return result;
 	}
@@ -568,19 +615,21 @@ public class Facade implements IFacade {
 	@Override
 	public boolean importLecturers(Object fileName) {
 		boolean result = false;
-		try {
-			List<Lecturer> lecturers = this.importer.importLecturers((String) fileName);
-			if (lecturers == null) {
-				return result;
-			}
-
-			for (Lecturer lecturer : lecturers) {
-				if (this.updateLecturer(lecturer)) {
-					result = true;
+		synchronized (this.lecturerController) {
+			try {
+				List<Lecturer> lecturers = this.importer.importLecturers((String) fileName);
+				if (lecturers == null) {
+					return result;
 				}
+
+				for (Lecturer lecturer : lecturers) {
+					if (this.updateLecturer(lecturer)) {
+						result = true;
+					}
+				}
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
 			}
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
 		}
 		return result;
 	}
@@ -589,10 +638,12 @@ public class Facade implements IFacade {
 	public boolean exportAllCourses(Object fileName) {
 
 		boolean result = false;
-		try {
-			result = this.exporter.exportCourses((String) fileName, this.getAllCourses());
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.exporter) {
+			try {
+				result = this.exporter.exportCourses((String) fileName, this.getAllCourses());
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
@@ -601,10 +652,12 @@ public class Facade implements IFacade {
 	public boolean exportAllStudents(Object fileName) {
 
 		boolean result = false;
-		try {
-			result = this.exporter.exportStudents((String) fileName, this.getAllStudents());
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.exporter) {
+			try {
+				result = this.exporter.exportStudents((String) fileName, this.getAllStudents());
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
@@ -613,10 +666,12 @@ public class Facade implements IFacade {
 	public boolean exportAllLections(Object fileName) {
 
 		boolean result = false;
-		try {
-			result = this.exporter.exportLections((String) fileName, this.getAllLections());
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.exporter) {
+			try {
+				result = this.exporter.exportLections((String) fileName, this.getAllLections());
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
@@ -624,10 +679,12 @@ public class Facade implements IFacade {
 	@Override
 	public boolean exportAllLecturers(Object fileName) {
 		boolean result = false;
-		try {
-			result = this.exporter.exportLecturers((String) fileName, this.getAllLecturers());
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		synchronized (this.exporter) {
+			try {
+				result = this.exporter.exportLecturers((String) fileName, this.getAllLecturers());
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return result;
 	}
@@ -635,93 +692,105 @@ public class Facade implements IFacade {
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean exportCourses(Object fileNameAndCourseIds) {
-		List<Object> data = null;
-		List<Integer> lectionIds = null;
-		List<Course> courses = new ArrayList<Course>();
-		try {
-			Course course;
-			data = (List<Object>) fileNameAndCourseIds;
-			lectionIds = (List<Integer>) data.get(1);
-			for (Object courseId : lectionIds) {
-				course = this.getCourse(courseId);
-				if (course != null) {
-					courses.add(course);
+		boolean result = false;
+		synchronized (this.exporter) {
+			List<Object> data = null;
+			List<Integer> lectionIds = null;
+			List<Course> courses = new ArrayList<Course>();
+			try {
+				Course course;
+				data = (List<Object>) fileNameAndCourseIds;
+				lectionIds = (List<Integer>) data.get(1);
+				for (Object courseId : lectionIds) {
+					course = this.getCourse(courseId);
+					if (course != null) {
+						courses.add(course);
+					}
 				}
+				result = this.exporter.exportCourses((String) data.get(0), courses);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
 			}
-			return this.exporter.exportCourses((String) data.get(0), courses);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
 		}
-		return false;
+		return result;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean exportStudents(Object fileNameAndStudentIds) {
-		List<Object> data = null;
-		List<Student> students = new ArrayList<Student>();
-		List<Integer> studentIds = null;
-		try {
-			Student student;
-			data = (List<Object>) fileNameAndStudentIds;
-			studentIds = (List<Integer>) data.get(1);
-			for (Object studentId : studentIds) {
-				student = this.getStudent(studentId);
-				if (student != null) {
-					students.add(student);
+		boolean result = false;
+		synchronized (this.exporter) {
+			List<Object> data = null;
+			List<Student> students = new ArrayList<Student>();
+			List<Integer> studentIds = null;
+			try {
+				Student student;
+				data = (List<Object>) fileNameAndStudentIds;
+				studentIds = (List<Integer>) data.get(1);
+				for (Object studentId : studentIds) {
+					student = this.getStudent(studentId);
+					if (student != null) {
+						students.add(student);
+					}
 				}
+				result = this.exporter.exportStudents((String) data.get(0), students);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
 			}
-			return this.exporter.exportStudents((String) data.get(0), students);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
 		}
-		return false;
+		return result;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean exportLections(Object fileNameAndLectionIds) {
-		List<Object> data = null;
-		List<Integer> lectionIds = null;
-		List<Lection> lections = new ArrayList<Lection>();
-		try {
-			Lection lection;
-			data = (List<Object>) fileNameAndLectionIds;
-			lectionIds = (List<Integer>) data.get(1);
-			for (Integer lectionId : lectionIds) {
-				lection = this.getLection(lectionId);
-				if (lection != null) {
-					lections.add(lection);
+		boolean result = false;
+		synchronized (this.exporter) {
+			List<Object> data = null;
+			List<Integer> lectionIds = null;
+			List<Lection> lections = new ArrayList<Lection>();
+			try {
+				Lection lection;
+				data = (List<Object>) fileNameAndLectionIds;
+				lectionIds = (List<Integer>) data.get(1);
+				for (Integer lectionId : lectionIds) {
+					lection = this.getLection(lectionId);
+					if (lection != null) {
+						lections.add(lection);
+					}
 				}
+				result = this.exporter.exportLections((String) data.get(0), lections);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
 			}
-			return this.exporter.exportLections((String) data.get(0), lections);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
 		}
-		return false;
+		return result;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean exportLecturers(Object fileNameAndLecturerIds) {
-		List<Object> data = null;
-		List<Integer> lecturerIds = null;
-		List<Lecturer> lecturers = new ArrayList<Lecturer>();
-		try {
-			Lecturer lecturer;
-			data = (List<Object>) fileNameAndLecturerIds;
-			lecturerIds = (List<Integer>) data.get(1);
-			for (Object lecturerId : lecturerIds) {
-				lecturer = this.getLecturer(lecturerId);
-				if (lecturer != null) {
-					lecturers.add(lecturer);
+		boolean result = false;
+		synchronized (this.exporter) {
+			List<Object> data = null;
+			List<Integer> lecturerIds = null;
+			List<Lecturer> lecturers = new ArrayList<Lecturer>();
+			try {
+				Lecturer lecturer;
+				data = (List<Object>) fileNameAndLecturerIds;
+				lecturerIds = (List<Integer>) data.get(1);
+				for (Object lecturerId : lecturerIds) {
+					lecturer = this.getLecturer(lecturerId);
+					if (lecturer != null) {
+						lecturers.add(lecturer);
+					}
 				}
+				result = this.exporter.exportLecturers((String) data.get(0), lecturers);
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
 			}
-			return this.exporter.exportLecturers((String) data.get(0), lecturers);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
 		}
-		return false;
+		return result;
 	}
 
 }

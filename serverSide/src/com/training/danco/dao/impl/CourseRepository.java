@@ -13,6 +13,12 @@ public class CourseRepository implements ICourseRepository {
 
 	
 	private List<Course> courses; 
+	static private int courseId = 1;
+	static private final int MIN_CORRECT_ID = 1;
+	static public void setCourseId(int id)
+	{
+		courseId = id;
+	}
 	
 	public CourseRepository(List<Course> courses) {
 		this.courses = courses;
@@ -20,7 +26,12 @@ public class CourseRepository implements ICourseRepository {
 
 	@Override
 	public boolean set(Course course) {
-		
+		int id = course.getId();
+		if (id < MIN_CORRECT_ID){
+			course.setId(courseId++);
+		} else if (id >= courseId){
+			courseId = ++id;
+		}
 		return this.courses.add(course);
 	}
 

@@ -15,11 +15,6 @@ public class Course extends BaseModel implements Cloneable{
 	 * 
 	 */
 	private static final long serialVersionUID = -4287990527523836622L;
-	static private int courseId = 1;
-	static public void setCourseId(int id)
-	{
-		courseId = id;
-	}
 	
 	@Printable(order=2)
 	private String name;
@@ -42,7 +37,6 @@ public class Course extends BaseModel implements Cloneable{
 		this.name = name;
 		this.startDate = startDate;
 		this.finalDate = finalDate;
-		this.id = courseId++;
 		this.students = new ArrayList<Student>();
 		this.lections = new ArrayList<Lection>();
 		this.maxStudents = maxStudents;

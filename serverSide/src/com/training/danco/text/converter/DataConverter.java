@@ -68,10 +68,10 @@ public class DataConverter {
 	}
 	
 	public void fillControllers(){
-		Course.setCourseId(getMaxId(this.courses)+SHIFT_ID);
-		Lection.setLectionId(getMaxId(this.lections)+SHIFT_ID);
-		Lecturer.setLecturerId(getMaxId(this.lecturers)+SHIFT_ID);
-		Student.setStudentId(getMaxId(this.students)+SHIFT_ID);
+		CourseRepository.setCourseId(getMaxId(this.courses)+SHIFT_ID);
+		LectionRepository.setLectionId(getMaxId(this.lections)+SHIFT_ID);
+		LecturerRepository.setLecturerId(getMaxId(this.lecturers)+SHIFT_ID);
+		StudentRepository.setStudentId(getMaxId(this.students)+SHIFT_ID);
 		ICourseRepository courseRepository = new CourseRepository(this.courses);
 		ICourseService courseService = new CourseService(courseRepository);
 		ILectionService lectionService = new LectionService(new LectionRepository(this.lections), courseRepository);
