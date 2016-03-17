@@ -1,0 +1,2 @@
+SELECT avg(Speed)
+FROM PC
