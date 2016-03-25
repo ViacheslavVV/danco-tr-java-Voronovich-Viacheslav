@@ -1,87 +1,98 @@
 package com.training.danco.dao.impl;
 
-import java.util.Collections;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
-import com.training.danco.comparator.Comparator;
-import com.training.danco.dao.api.ICourseRepository;
 import com.training.danco.dao.api.IStudentRepository;
 import com.training.danco.model.*;
 
 public class StudentRepository implements IStudentRepository {
 
-	private List<Student> students;
-	private static int studentId = 1;
-	static private final int MIN_CORRECT_ID = 1;
 
-	public static void setStudentId(int id) {
-		studentId = id;
-	}
-
-	public StudentRepository(List<Student> students) {
-		this.students = students;
+	private static final int FIRST_POSITION = 0;
+	public StudentRepository() {
 	}
 
 	@Override
-	public boolean set(Student student) {
-		int id = student.getId();
-		if (id < MIN_CORRECT_ID) {
-			student.setId(studentId++);
-		} else if (id >= studentId) {
-			studentId = ++id;
+	public boolean set(Connection connection, Student student) throws SQLException {
+		Statement statement = connection.createStatement();
+		Course course = student.getCourse();
+		return statement.executeUpdate("INSERT INTO `mydb`.`student` " + "(`id`, `name`, `age`, `courseId`) " + "VALUES (NULL, "
+				+ student.getName() + ", " + student.getAge()+ course == null ? "NULL"
+						: (course.getId() == 0) ? "NULL" : course.getId() + ");") == 1;
+	}
+
+	@Override
+	public Student get(Connection connection, int id) throws SQLException {
+		Statement statement = connection.createStatement();
+		ResultSet result = statement.executeQuery("SELECT * FROM Student WHERE id=" + id + ";");
+		Student student = null;
+		try {
+			student = parseResultSet(connection, result).get(FIRST_POSITION);
+		} catch (NullPointerException | IndexOutOfBoundsException e) {
 		}
-
-		return this.students.add(student);
+		return student;
 	}
 
 	@Override
-	public Student get(int id) {
-		int index = getStudentIndexById(id);
-		if (index != -1) {
-			return this.students.get(index);
+	public boolean update(Connection connection, Student student) throws SQLException {
+		Statement statement = connection.createStatement();
+		Course course = student.getCourse();
+		return statement.executeUpdate("UPDATE  Student SET name = " + student.getName() + ", age = "
+				+ student.getAge()+" , courseId=" + course == null ? "NULL"
+						: (course.getId() == 0) ? "NULL" : course.getId() + " WHERE id=" + student.getId() + ";") == 1;
+	}
+
+	@Override
+	public boolean delete(Connection connection, Student student) throws SQLException {
+		Statement statement = connection.createStatement();
+
+		return statement.executeUpdate("DELETE FROM Student WHERE id = " + student.getId() + ";") == 1;
+	}
+
+	@Override
+	public List<Student> getAll(Connection connection) throws SQLException {
+
+		Statement statement = connection.createStatement();
+		ResultSet result = statement.executeQuery("SELECT * FROM Student;");
+		return parseResultSet(connection, result);
+	}
+
+	@Override
+	public int getCount(Connection connection) throws SQLException {
+		Statement statement = connection.createStatement();
+		ResultSet result = statement.executeQuery("SELECT count(id) as count FROM student;");
+		result.next();
+		return result.getInt("count");
+	}
+
+	@Override
+	public List<Student> parseResultSet(Connection connection, ResultSet resultSet) throws SQLException {
+		List<Student> students = new ArrayList<Student>();
+
+		while (resultSet.next()) {
+			int id = resultSet.getInt("id");
+			String name = resultSet.getString("name");
+			int age = resultSet.getInt("age");
+
+			Student student = new Student(name, age);
+			student.setId(id);
+			students.add(student);
 		}
-		return null;
+		return students;
 	}
 
 	@Override
-	public boolean update(Student student) {
-		int index = getStudentIndexById(student.getId());
-		if (index != -1) {
-			this.students.set(index, student);
-			return true;
-		}
-		return false;
+	public List<Student> getStudentsByCourse(Connection connection, Course course) throws SQLException {
+		Statement statement = connection.createStatement();
+		ResultSet result = statement.executeQuery("SELECT * FROM Student WHERE courseId="+course.getId()+";");
+		return parseResultSet(connection, result);
 	}
-
-	@Override
-	public boolean delete(Student student, ICourseRepository courseRepository) {
-		int index = getStudentIndexById(student.getId());
-		if (index != -1) {
-			return this.students.remove(index) != null;
-		}
-		return false;
-	}
-
-	@Override
-	public List<Student> getAll() {
-
-		Collections.sort(this.students, Comparator.STUDENT_ID_COMPARATOR);
-		return this.students;
-	}
-
-	private int getStudentIndexById(int id) {
-		for (int i = 0; i < this.students.size(); i++) {
-			if (this.students.get(i).getId() == id) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	@Override
-	public int getCount() {
-
-		return this.students.size();
-	}
+	
+	
 
 }

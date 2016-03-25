@@ -1,15 +1,13 @@
 package com.training.danco.dao.api;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
+import com.training.danco.model.Course;
 import com.training.danco.model.Student;
 
-public interface IStudentRepository {
-
-	public boolean set(Student student);
-	public Student get(int id);
-	public boolean update(Student student);
-	public boolean delete(Student student,ICourseRepository courseRepository);
-	public List<Student> getAll();
-	public int getCount();
+public interface IStudentRepository extends IBaseRepository<Student> {
+	
+	public List<Student> getStudentsByCourse(Connection connectio, Course course) throws SQLException;
 }

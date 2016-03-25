@@ -1,108 +1,99 @@
 package com.training.danco.dao.impl;
 
-import java.util.Collections;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
-import com.training.danco.comparator.Comparator;
-import com.training.danco.comparator.LecturerCoursesCountComparator;
-import com.training.danco.dao.api.ICourseRepository;
 import com.training.danco.dao.api.ILecturerRepository;
-import com.training.danco.model.Course;
 import com.training.danco.model.Lecturer;
 
 public class LecturerRepository implements ILecturerRepository {
 
-	private List<Lecturer> lecturers;
-	private static int lecturerId = 1;
-	static private final int MIN_CORRECT_ID = 1;
+	private static final int FIRST_POSITION = 0;
 
-	public static void setLecturerId(int id) {
-		lecturerId = id;
-	}
-
-	public LecturerRepository(List<Lecturer> lecturers) {
-		this.lecturers = lecturers;
+	public LecturerRepository() {
 	}
 
 	@Override
-	public boolean set(Lecturer lecturer) {
-		int id = lecturer.getId();
-		if (id < MIN_CORRECT_ID) {
-			lecturer.setId(lecturerId++);
-		}  else if (id >= lecturerId){
-			lecturerId = ++id;
+	public boolean set(Connection connection, Lecturer lecturer) throws SQLException {
+		Statement statement = connection.createStatement();
+		return statement.executeUpdate("INSERT INTO `mydb`.`lecturer` " + "(`id`, `name`, `age`) " + "VALUES (NULL, "
+				+ lecturer.getName() + ", " + lecturer.getAge() + ");") == 1;
+	}
+
+	@Override
+	public Lecturer get(Connection connection, int id) throws SQLException {
+		Statement statement = connection.createStatement();
+		ResultSet result = statement.executeQuery("SELECT * FROM Lecturer WHERE id=" + id + ";");
+		Lecturer lecturer = null;
+		try {
+			lecturer = parseResultSet(connection, result).get(FIRST_POSITION);
+		} catch (NullPointerException | IndexOutOfBoundsException e) {
 		}
-		return this.lecturers.add(lecturer);
+		return lecturer;
 	}
 
 	@Override
-	public Lecturer get(int id) {
-		int index = getLecturerIndexById(id);
-		if (index != -1) {
-			return this.lecturers.get(index);
+	public boolean update(Connection connection, Lecturer lecturer) throws SQLException {
+		Statement statement = connection.createStatement();
+		return statement.executeUpdate("UPDATE  Lection SET name = " + lecturer.getName() + ", age = "
+				+ lecturer.getAge() + " WHERE id=" + lecturer.getId() + ";") == 1;
+	}
+
+	@Override
+	public boolean delete(Connection connection, Lecturer lecturer) throws SQLException {
+		Statement statement = connection.createStatement();
+
+		return statement.executeUpdate("DELETE FROM Lecturer WHERE id = " + lecturer.getId() + ";") == 1;
+	}
+
+	@Override
+	public List<Lecturer> getAll(Connection connection) throws SQLException {
+		Statement statement = connection.createStatement();
+		ResultSet result = statement.executeQuery("SELECT * FROM Lecturer;");
+		return parseResultSet(connection, result);
+	}
+
+	@Override
+	public List<Lecturer> getSortedByName(Connection connection) throws SQLException {
+		Statement statement = connection.createStatement();
+		ResultSet result = statement.executeQuery("SELECT * FROM Lecturer ORDER BY name;");
+		return parseResultSet(connection, result);
+	}
+
+	@Override
+	public List<Lecturer> getSortedByCoursesCount(Connection connection) throws SQLException {
+		Statement statement = connection.createStatement();
+		ResultSet result = statement.executeQuery(
+				"SELECT  id,name,age FROM lecturer AS C JOIN (SELECT lecturerId,count(id) as count FROM course GROUP BY lecturerId) as B ON B.lecturerId=C.id ORDER BY count;");
+		return parseResultSet(connection, result);
+	}
+
+	@Override
+	public int getCount(Connection connection) throws SQLException {
+		Statement statement = connection.createStatement();
+		ResultSet result = statement.executeQuery("SELECT count(id) as count FROM lecturer;");
+		result.next();
+		return result.getInt("count");
+	}
+
+	@Override
+	public List<Lecturer> parseResultSet(Connection connection, ResultSet resultSet) throws SQLException {
+		List<Lecturer> lecturers = new ArrayList<Lecturer>();
+
+		while (resultSet.next()) {
+			int id = resultSet.getInt("id");
+			String name = resultSet.getString("name");
+			int age = resultSet.getInt("age");
+
+			Lecturer lecturer = new Lecturer(name, age);
+			lecturer.setId(id);
+			lecturers.add(lecturer);
 		}
-		return null;
-	}
-
-	@Override
-	public boolean update(Lecturer lecturer) {
-		int index = getLecturerIndexById(lecturer.getId());
-		if (index != -1) {
-			this.lecturers.set(index, lecturer);
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean delete(Lecturer lecturer, ICourseRepository courseRepository) {
-		int index = getLecturerIndexById(lecturer.getId());
-		if (index != -1) {
-			if (this.lecturers.remove(index) != null) {
-				for (Course course : courseRepository.getAll()) {
-					if (course.getLecturer() == null) {
-						continue;
-					}
-					if (course.getLecturer().getId() == lecturer.getId())
-						course.setLecturer(null);
-				}
-				return true;
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public List<Lecturer> getAll() {
-
-		Collections.sort(this.lecturers, Comparator.LECTURER_ID_COMPARATOR);
-		return this.lecturers;
-	}
-
-	private int getLecturerIndexById(int id) {
-		for (int i = 0; i < this.lecturers.size(); i++) {
-			if (this.lecturers.get(i).getId() == id) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	@Override
-	public List<Lecturer> getSortedByName() {
-		Collections.sort(this.lecturers, Comparator.LECTURER_NAME_COMPARATOR);
-		return this.lecturers;
-	}
-
-	@Override
-	public List<Lecturer> getSortedByCoursesCount(ICourseRepository courseRepository) {
-		Collections.sort(this.lecturers, new LecturerCoursesCountComparator(courseRepository));
-		return this.lecturers;
-	}
-
-	@Override
-	public int getCount() {
-		return this.lecturers.size();
+		return lecturers;
 	}
 
 }

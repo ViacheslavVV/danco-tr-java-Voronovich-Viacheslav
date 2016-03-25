@@ -1,17 +1,14 @@
 package com.training.danco.dao.api;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.training.danco.model.Lecturer;
 
-public interface ILecturerRepository {
+public interface ILecturerRepository extends IBaseRepository<Lecturer> {
 
-	public boolean set(Lecturer lecturer);
-	public Lecturer get(int id);
-	public boolean update(Lecturer lecturer);
-	public boolean delete(Lecturer lecturer,ICourseRepository courseRepository);
-	public List<Lecturer> getAll();
-	public List<Lecturer> getSortedByName();
-	public List<Lecturer> getSortedByCoursesCount(ICourseRepository courseRepository);
-	public int getCount();
+	public List<Lecturer> getSortedByName(Connection connectio) throws SQLException;
+
+	public List<Lecturer> getSortedByCoursesCount(Connection connection) throws SQLException;
 }

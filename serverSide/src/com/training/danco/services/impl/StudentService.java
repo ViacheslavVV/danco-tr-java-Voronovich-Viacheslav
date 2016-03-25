@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.training.danco.dao.api.ICourseRepository;
 import com.training.danco.dao.api.IStudentRepository;
 import com.training.danco.model.Student;
 import com.training.danco.services.api.IStudentService;
@@ -16,11 +15,9 @@ public class StudentService implements IStudentService {
 	private static final Logger LOGGER = LogManager.getLogger(StudentService.class);
 	
 	private IStudentRepository studentRepository;
-	private ICourseRepository courseRepository;
 	
-	public StudentService(IStudentRepository studentRepository, ICourseRepository courseRepository) {
+	public StudentService(IStudentRepository studentRepository) {
 		this.studentRepository = studentRepository;
-		this.courseRepository = courseRepository;
 	}
 
 	@Override
@@ -72,7 +69,7 @@ public class StudentService implements IStudentService {
 	public boolean delete(Student student) {
 		boolean result = true;
 		try {
-			result = this.studentRepository.delete(student, this.courseRepository);
+			result = this.studentRepository.delete(student);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;

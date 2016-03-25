@@ -1,34 +1,30 @@
 package com.training.danco.dao.api;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 import com.training.danco.model.Course;
 
-public interface ICourseRepository {
+public interface ICourseRepository extends IBaseRepository<Course>{
 
-	public boolean set(Course course);
-	public Course get(int id);
-	public boolean update(Course course);
-	public boolean delete(Course course);
-	public List<Course> getAll();
-	public Course cloneCourse(Course course);
-	public int getCount();
+	public Course cloneCourse(Connection connection, Course course) throws SQLException;
 	
-	public List<Course> getCoursesInInterval(Date dateFrom, Date dateTo);
+	public List<Course> getCoursesInInterval(Connection connection, Date dateFrom, Date dateTo) throws SQLException;
 
-	public List<Course> getSortedByStartDate();
-	public List<Course> getSortedByStudentsCount();
-	public List<Course> getSortedByLecturer();
-	public List<Course> getSortedByName();
+	public List<Course> getSortedByStartDate(Connection connection) throws SQLException;
+	public List<Course> getSortedByStudentsCount(Connection connection) throws SQLException;
+	public List<Course> getSortedByLecturer(Connection connection) throws SQLException;
+	public List<Course> getSortedByName(Connection connection) throws SQLException;
 	
-	public List<Course> getCurrentCoursesSortedByStartDate();
-	public List<Course> getCurrentCoursesSortedByStudentsCount();
-	public List<Course> getCurrentCoursesSortedByLecturer();
-	public List<Course> getCurrentCoursesSortedByName();
+	public List<Course> getCurrentCoursesSortedByStartDate(Connection connection) throws SQLException;
+	public List<Course> getCurrentCoursesSortedByStudentsCount(Connection connection) throws SQLException;
+	public List<Course> getCurrentCoursesSortedByLecturer(Connection connection) throws SQLException;
+	public List<Course> getCurrentCoursesSortedByName(Connection connection) throws SQLException;
 
-	public List<Course> getCoursesAfterDateSortedByStartDate(Date date);
-	public List<Course> getCoursesAfterDateSortedByStudentsCount(Date date);
-	public List<Course> getCoursesAfterDateSortedByLecturer(Date date);
-	public List<Course> getCoursesAfterDateSortedByName(Date date);
+	public List<Course> getCoursesAfterDateSortedByStartDate(Connection connection, Date date) throws SQLException;
+	public List<Course> getCoursesAfterDateSortedByStudentsCount(Connection connection, Date date) throws SQLException;
+	public List<Course> getCoursesAfterDateSortedByLecturer(Connection connection, Date date) throws SQLException;
+	public List<Course> getCoursesAfterDateSortedByName(Connection connection, Date date) throws SQLException;
 }

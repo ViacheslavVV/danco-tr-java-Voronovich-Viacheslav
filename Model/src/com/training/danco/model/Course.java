@@ -87,6 +87,7 @@ public class Course extends BaseModel implements Cloneable{
 	{
 		if (this.maxStudents > this.students.size()){
 			this.students.add(student);
+			student.setCourse(this);
 			return true;
 		}
 		return false;
@@ -96,6 +97,7 @@ public class Course extends BaseModel implements Cloneable{
 	{
 		if (this.maxLections > this.lections.size()){
 			this.lections.add(lection);
+			lection.setCourse(this);
 			return true;
 		}
 		return false;
@@ -106,6 +108,7 @@ public class Course extends BaseModel implements Cloneable{
 		for (int i=0; i < this.students.size(); i++){
 			if (this.students.get(i).getId() == student.getId()){
 				this.students.remove(i);
+				student.setCourse(null);
 				return true;
 			}
 		}
@@ -117,6 +120,7 @@ public class Course extends BaseModel implements Cloneable{
 		for (int i=0; i < this.lections.size(); i++){
 			if (this.lections.get(i).getId() == lection.getId()){
 				this.lections.remove(i);
+				lection.setCourse(null);
 				return true;
 			}
 		}

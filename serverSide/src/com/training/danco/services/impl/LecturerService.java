@@ -73,7 +73,7 @@ public class LecturerService implements ILecturerService {
 
 		boolean result = true;
 		try {
-			result = this.lecturerRepository.delete(lecturer, this.courseRepository);
+			result = this.lecturerRepository.delete(lecturer);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;

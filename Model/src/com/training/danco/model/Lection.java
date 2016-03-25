@@ -17,6 +17,7 @@ public class Lection extends BaseModel{
 	private String name;
 	@Printable(order=3, isDetailedOnly = true)
 	private Date date;
+	private Course course;
 		
 	public Lection(String name, Date date) {
 		this.name = name;
@@ -36,6 +37,14 @@ public class Lection extends BaseModel{
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 	
 }

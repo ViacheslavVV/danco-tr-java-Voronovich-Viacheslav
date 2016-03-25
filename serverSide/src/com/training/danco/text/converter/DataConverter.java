@@ -74,9 +74,9 @@ public class DataConverter {
 		StudentRepository.setStudentId(getMaxId(this.students)+SHIFT_ID);
 		ICourseRepository courseRepository = new CourseRepository(this.courses);
 		ICourseService courseService = new CourseService(courseRepository);
-		ILectionService lectionService = new LectionService(new LectionRepository(this.lections), courseRepository);
+		ILectionService lectionService = new LectionService(new LectionRepository(this.lections));
 		ILecturerService lecturerService = new LecturerService(new LecturerRepository(this.lecturers), courseRepository);
-		IStudentService studentService = new StudentService( new StudentRepository(this.students), courseRepository);
+		IStudentService studentService = new StudentService( new StudentRepository(this.students));
 		courseController = new CourseController(courseService, lecturerService, lectionService, studentService);
 		lectionController = new LectionController(lectionService);
 		lecturerController = new LecturerController(lecturerService);
