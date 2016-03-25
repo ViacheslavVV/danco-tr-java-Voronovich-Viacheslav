@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`course` (
   `finalDate` DATE NOT NULL,
   `maxStudents` INT NOT NULL,
   `maxLections` INT NOT NULL,
-  `lecturerId` INT NOT NULL,
+  `lecturerId` INT NULL,
   
   INDEX `CourseLecturer_idx` (`lecturerId` ASC),
   CONSTRAINT `CourseLecturer`
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`lection` (
   PRIMARY KEY (`id`),
   `name` VARCHAR(60) NOT NULL,
   `date` DATE NOT NULL,
-  `courseId` INT NOT NULL,
+  `courseId` INT NULL,
   INDEX `CourseLections_idx` (`courseId` ASC),
   CONSTRAINT `CourseLections`
     FOREIGN KEY (`courseId`)
@@ -73,8 +73,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`student` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `age` INT NOT NULL,
-  `courseId` INT NOT NULL,
-  PRIMARY KEY (`id`),student
+  `courseId` INT NULL,
+  PRIMARY KEY (`id`),
   CONSTRAINT `CourseStudents`
     FOREIGN KEY (`courseId`)
     REFERENCES `mydb`.`course` (`id`)
