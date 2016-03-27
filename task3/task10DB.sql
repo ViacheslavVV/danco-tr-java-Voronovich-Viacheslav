@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`lection` (
   CONSTRAINT `CourseLections`
     FOREIGN KEY (`courseId`)
     REFERENCES `mydb`.`course` (`id`)
-    ON DELETE NO CASCADE
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -121,7 +121,7 @@ COMMIT;
 START TRANSACTION;
 USE `mydb`;
 INSERT INTO `mydb`.`student` (`id`, `name`, `age`, `courseId`) VALUES (1, 'Nikolay Romanov', 19, 1);
-INSERT INTO `mydb`.`student` (`id`, `name`, `age`, `courseId`) VALUES (2, 'Cheslav Rovba', 19, 1);
+INSERT INTO `mydb`.`student` (`id`, `name`, `age`, `courseId`) VALUES (2, 'Cheslav Rovba', 19, NULL);
 
 COMMIT;
 
