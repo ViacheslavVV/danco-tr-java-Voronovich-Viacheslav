@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`lection` (
   CONSTRAINT `CourseLections`
     FOREIGN KEY (`courseId`)
     REFERENCES `mydb`.`course` (`id`)
-    ON DELETE CASCADE
+    ON DELETE NO CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
