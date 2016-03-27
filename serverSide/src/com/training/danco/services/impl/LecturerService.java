@@ -16,11 +16,9 @@ public class LecturerService implements ILecturerService {
 	private static final Logger LOGGER = LogManager.getLogger(LecturerService.class);
 
 	private ILecturerRepository lecturerRepository;
-	private ICourseRepository courseRepository;
 
-	public LecturerService(ILecturerRepository lecturerRepository, ICourseRepository courseRepository) {
+	public LecturerService(ILecturerRepository lecturerRepository) {
 		this.lecturerRepository = lecturerRepository;
-		this.courseRepository = courseRepository;
 	}
 
 	@Override

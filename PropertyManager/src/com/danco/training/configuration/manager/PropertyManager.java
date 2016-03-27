@@ -74,4 +74,20 @@ public class PropertyManager {
 		}
 		return value;
 	}
+	
+	public String getDriverName() {
+		return properties.getProperty("driver");
+	}
+	
+	public String getURL() {
+		return properties.getProperty("url");
+	}
+	
+	public String getUserName() {
+		return properties.getProperty("userName");
+	}
+	
+	public String getUserPassword() {
+		return properties.getProperty("userPassword");
+	}
 }

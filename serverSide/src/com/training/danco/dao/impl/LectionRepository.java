@@ -14,6 +14,9 @@ import com.training.danco.model.Lection;
 
 public class LectionRepository implements ILectionRepository {
 
+	private static final int NULL_EQUIVALENT = 0;
+	private static final int COURSE_ID_COLUMN_INDEX = 5;
+	private static final int LECTION_ID_COLUMN_INDEX = 1;
 	private static final int FIRST_POSITION = 0;
 
 	public LectionRepository() {
@@ -34,7 +37,7 @@ public class LectionRepository implements ILectionRepository {
 		ResultSet result = statement.executeQuery("SELECT * FROM Lection WHERE id=" + id + ";");
 		Lection lection = null;
 		try {
-			lection = parseResultSet(connection, result).get(FIRST_POSITION);
+			lection = parseResultSet(result).get(FIRST_POSITION);
 		} catch (NullPointerException | IndexOutOfBoundsException e) {
 		}
 		return lection;
@@ -61,7 +64,7 @@ public class LectionRepository implements ILectionRepository {
 
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT * FROM Lection;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -69,21 +72,21 @@ public class LectionRepository implements ILectionRepository {
 
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT * FROM Lection ORDER BY date;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
 	public List<Lection> getSortedByName(Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT * FROM Lection ORDER BY name;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
 	public List<Lection> getLectionsByDate(Connection connection, Date date) throws SQLException {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT * FROM Lection WHERE date=" + date + ";");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -94,27 +97,35 @@ public class LectionRepository implements ILectionRepository {
 		return result.getInt("count");
 	}
 
-	@Override
-	public List<Lection> parseResultSet(Connection connection, ResultSet resultSet) throws SQLException {
+	private List<Lection> parseResultSet(ResultSet resultSet) throws SQLException {
 		List<Lection> lections = new ArrayList<Lection>();
 
+		int lectionId, courseId, maxStudents, maxLections;
+		String name;
+		Date startDate, finalDate;
+		Lection lection;
+		Course course;
 		while (resultSet.next()) {
-			int id = resultSet.getInt("id");
-			String name = resultSet.getString("name");
-			Date date = resultSet.getDate("date");
+			lectionId = resultSet.getInt(LECTION_ID_COLUMN_INDEX);
+			name = resultSet.getString(2);
+			startDate = resultSet.getDate(3);
+			lection = new Lection(name, startDate);
+			lection.setId(lectionId);
 
-			Lection lection = new Lection(name, date);
-			lection.setId(id);
+			courseId = resultSet.getInt(COURSE_ID_COLUMN_INDEX);
+			if (courseId != NULL_EQUIVALENT) {
+				name = resultSet.getString(6);
+				startDate = resultSet.getDate(7);
+				finalDate = resultSet.getDate(8);
+				maxStudents = resultSet.getInt(9);
+				maxLections = resultSet.getInt(10);
+				course = new Course(name, startDate, finalDate, maxStudents, maxLections);
+				course.setId(courseId);
+				lection.setCourse(course);
+			}
+
 			lections.add(lection);
 		}
 		return lections;
 	}
-
-	@Override
-	public List<Lection> getLectionsByCourse(Connection connection, Course course) throws SQLException {
-		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM Lection WHERE courseId=" + course.getId() + ";");
-		return parseResultSet(connection, result);
-	}
-
 }

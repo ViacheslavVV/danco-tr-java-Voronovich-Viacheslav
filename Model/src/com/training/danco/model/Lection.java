@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.danco.training.annotation.Printable;
 import com.danco.training.annotation.PrintableObject;
+import com.danco.training.annotation.PrintableRef;
 
 @PrintableObject(name = "Lecture")
 public class Lection extends BaseModel{
@@ -17,6 +18,7 @@ public class Lection extends BaseModel{
 	private String name;
 	@Printable(order=3, isDetailedOnly = true)
 	private Date date;
+	@PrintableRef(name = "Course", order = 4)
 	private Course course;
 		
 	public Lection(String name, Date date) {

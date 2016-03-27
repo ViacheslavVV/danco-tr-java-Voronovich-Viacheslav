@@ -5,13 +5,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import com.training.danco.dao.api.ILecturerRepository;
+import com.training.danco.model.Course;
 import com.training.danco.model.Lecturer;
 
 public class LecturerRepository implements ILecturerRepository {
 
+	private static final int COURSE_ID_COLUMN_INDEX = 4;
+	private static final int NULL_EQUIVALENT = 0;
+	private static final int LECTURER_ID_COLUMN_INDEX = 1;
 	private static final int FIRST_POSITION = 0;
 
 	public LecturerRepository() {
@@ -30,7 +36,7 @@ public class LecturerRepository implements ILecturerRepository {
 		ResultSet result = statement.executeQuery("SELECT * FROM Lecturer WHERE id=" + id + ";");
 		Lecturer lecturer = null;
 		try {
-			lecturer = parseResultSet(connection, result).get(FIRST_POSITION);
+			lecturer = parseResultSet(result).get(FIRST_POSITION);
 		} catch (NullPointerException | IndexOutOfBoundsException e) {
 		}
 		return lecturer;
@@ -54,14 +60,14 @@ public class LecturerRepository implements ILecturerRepository {
 	public List<Lecturer> getAll(Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT * FROM Lecturer;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
 	public List<Lecturer> getSortedByName(Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT * FROM Lecturer ORDER BY name;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -69,7 +75,7 @@ public class LecturerRepository implements ILecturerRepository {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery(
 				"SELECT  id,name,age FROM lecturer AS C JOIN (SELECT lecturerId,count(id) as count FROM course GROUP BY lecturerId) as B ON B.lecturerId=C.id ORDER BY count;");
-		return parseResultSet(connection, result);
+		return parseResultSet( result);
 	}
 
 	@Override
@@ -80,18 +86,44 @@ public class LecturerRepository implements ILecturerRepository {
 		return result.getInt("count");
 	}
 
-	@Override
-	public List<Lecturer> parseResultSet(Connection connection, ResultSet resultSet) throws SQLException {
-		List<Lecturer> lecturers = new ArrayList<Lecturer>();
-
+	private List<Lecturer> parseResultSet(ResultSet resultSet) throws SQLException {
+		HashMap<Integer, Lecturer> lecturersMap = new HashMap<>();
+		HashMap<Integer, List<Course>> lecturerCourses = new HashMap<>();
+		int lecturerId, courseId, age, maxStudents, maxLections;
+		String name;
+		Lecturer lecturer;
+		Course course;
+		Date startDate, finalDate;
 		while (resultSet.next()) {
-			int id = resultSet.getInt("id");
-			String name = resultSet.getString("name");
-			int age = resultSet.getInt("age");
+			lecturerId = resultSet.getInt(LECTURER_ID_COLUMN_INDEX);
+			if (!lecturersMap.containsKey(lecturerId)) {
+				name = resultSet.getString(2);
+				age = resultSet.getInt(3);
+				lecturer = new Lecturer(name, age);
+				lecturer.setId(lecturerId);
 
-			Lecturer lecturer = new Lecturer(name, age);
-			lecturer.setId(id);
-			lecturers.add(lecturer);
+				lecturersMap.put(lecturerId, lecturer);
+				lecturerCourses.put(lecturerId, new ArrayList<>());
+			}
+			courseId = resultSet.getInt(COURSE_ID_COLUMN_INDEX);
+			if (courseId != NULL_EQUIVALENT) {
+				name = resultSet.getString(5);
+				startDate = resultSet.getDate(6);
+				finalDate = resultSet.getDate(7);
+				maxStudents = resultSet.getInt(8);
+				maxLections = resultSet.getInt(9);
+				course = new Course(name, startDate, finalDate, maxStudents, maxLections);
+				course.setId(courseId);
+				lecturerCourses.get(lecturerId).add(course);
+			}
+		}
+
+		List<Lecturer> lecturers = new ArrayList<>();
+		List<Course> courses;
+		for (Lecturer lect : lecturersMap.values()) {
+			courses = lecturerCourses.get(lect.getId()) == null ? new ArrayList<>() : lecturerCourses.get(lect.getId());
+			lect.setCourses(courses);
+			lecturers.add(lect);
 		}
 		return lecturers;
 	}

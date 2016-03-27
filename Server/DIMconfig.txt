@@ -3,3 +3,7 @@ com.training.danco.data.manager.api.IDeserializer=com.training.danco.data.manage
 com.training.danco.data.manager.api.ISerializer=com.training.danco.data.manager.impl.DataSerializer
 com.training.danco.text.io.api.IExporter=com.training.danco.text.io.impl.CSVExporter
 com.training.danco.text.io.api.IImporter=com.training.danco.text.io.impl.CSVImporter
+com.training.danco.dao.api.ICourseRepository=com.training.danco.dao.impl.CourseRepository
+com.training.danco.dao.api.ILectionRepository=com.training.danco.dao.impl.LectionRepository
+com.training.danco.dao.api.ILecturerRepository=com.training.danco.dao.impl.LecturerRepository
+com.training.danco.dao.api.IStudentRepository=com.training.danco.dao.impl.StudentRepository

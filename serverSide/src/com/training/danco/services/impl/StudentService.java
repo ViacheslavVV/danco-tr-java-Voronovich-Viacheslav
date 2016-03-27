@@ -2,10 +2,12 @@ package com.training.danco.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.CRC32;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.training.danco.dao.api.ICourseRepository;
 import com.training.danco.dao.api.IStudentRepository;
 import com.training.danco.model.Student;
 import com.training.danco.services.api.IStudentService;
@@ -15,9 +17,11 @@ public class StudentService implements IStudentService {
 	private static final Logger LOGGER = LogManager.getLogger(StudentService.class);
 	
 	private IStudentRepository studentRepository;
+	private ICourseRepository courseRepository;
 	
-	public StudentService(IStudentRepository studentRepository) {
+	public StudentService(IStudentRepository studentRepository, ICourseRepository courseRepository) {
 		this.studentRepository = studentRepository;
+		this.courseRepository = courseRepository;
 	}
 
 	@Override

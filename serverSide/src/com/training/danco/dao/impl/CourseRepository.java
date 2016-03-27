@@ -2,6 +2,7 @@ package com.training.danco.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,6 +14,11 @@ import com.training.danco.model.*;
 
 public class CourseRepository implements ICourseRepository {
 
+	private static final int STUDENT_ID_COLUMN_INDEX = 11;
+	private static final int LECTION_ID_COLUMN_INDEX = 15;
+	private static final int NULL_EQUIVALENT = 0;
+	private static final int LECTURER_ID_COLUMN_INDEX = 8;
+	private static final int COURSE_ID_COLUMN_INDEX = 1;
 	private static final int FIRST_POSITION = 0;
 
 	public CourseRepository() {
@@ -38,7 +44,7 @@ public class CourseRepository implements ICourseRepository {
 		ResultSet result = statement.executeQuery("SELECT * FROM Course WHERE id =" + id + ";");
 		Course course = null;
 		try {
-			course = parseResultSet(connection, result).get(FIRST_POSITION);
+			course = parseResultSet(result).get(FIRST_POSITION);
 		} catch (NullPointerException | IndexOutOfBoundsException e) {
 		}
 		return course;
@@ -69,7 +75,7 @@ public class CourseRepository implements ICourseRepository {
 
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT * FROM Course;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -77,7 +83,7 @@ public class CourseRepository implements ICourseRepository {
 
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT * FROM Course ORDER BY startDate;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -85,7 +91,7 @@ public class CourseRepository implements ICourseRepository {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery(
 				"SELECT id,name,startDate,finalDate,maxStudents,maxLections,lecturerId FROM course AS C JOIN (SELECT courseId,count(courseId) as count FROM student GROUP BY courseId) as B ON B.courseId=C.id ORDER BY count;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -93,14 +99,14 @@ public class CourseRepository implements ICourseRepository {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery(
 				"SELECT C.id,C.name,startDate,finalDate,maxStudents,maxLections,lecturerId FROM course AS C JOIN lecturer as B ON B.id=C.lecturerId ORDER BY B.name;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
 	public List<Course> getSortedByName(Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT * FROM course ORDER BY name;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -117,7 +123,7 @@ public class CourseRepository implements ICourseRepository {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement
 				.executeQuery("SELECT * FROM course WHERE startDate>=" + dateFrom + " AND finalDate<=" + dateTo + ";");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -127,7 +133,7 @@ public class CourseRepository implements ICourseRepository {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT * FROM course WHERE startDate<=" + curDate
 				+ " AND finalDate>=" + curDate + " ORDER BY startDate;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -137,7 +143,7 @@ public class CourseRepository implements ICourseRepository {
 		ResultSet result = statement.executeQuery(
 				"SELECT id,name,startDate,finalDate,maxStudents,maxLections,lecturerId FROM course AS C JOIN (SELECT courseId,count(courseId) as count FROM student GROUP BY courseId) as B ON B.courseId=C.id WHERE startDate<="
 						+ curDate + " AND finalDate>=" + curDate + " ORDER BY count;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -147,7 +153,7 @@ public class CourseRepository implements ICourseRepository {
 		ResultSet result = statement.executeQuery(
 				"SELECT C.id,C.name,startDate,finalDate,maxStudents,maxLections,lecturerId FROM course AS C JOIN lecturer as B ON B.id=C.lecturerId WHERE startDate<="
 						+ curDate + " AND finalDate>=" + curDate + " ORDER BY B.name;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -156,7 +162,7 @@ public class CourseRepository implements ICourseRepository {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery(
 				"SELECT * FROM course WHERE startDate<=" + curDate + " AND finalDate>=" + curDate + " ORDER BY name;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -164,7 +170,7 @@ public class CourseRepository implements ICourseRepository {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement
 				.executeQuery("SELECT * FROM course WHERE startDate>" + date + " ORDER BY startDate;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -173,7 +179,7 @@ public class CourseRepository implements ICourseRepository {
 		ResultSet result = statement.executeQuery(
 				"SELECT id,name,startDate,finalDate,maxStudents,maxLections,lecturerId FROM course AS C JOIN (SELECT courseId,count(courseId) as count FROM student GROUP BY courseId) as B ON B.courseId=C.id WHERE startDate>"
 						+ date + " ORDER BY count;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -182,7 +188,7 @@ public class CourseRepository implements ICourseRepository {
 		ResultSet result = statement.executeQuery(
 				"SELECT C.id,C.name,startDate,finalDate,maxStudents,maxLections,lecturerId FROM course AS C JOIN lecturer as B ON B.id=C.lecturerId WHERE startDate>"
 						+ date + " ORDER BY B.name;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -190,7 +196,7 @@ public class CourseRepository implements ICourseRepository {
 
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT * FROM course WHERE startDate>=" + date + " ORDER BY name;");
-		return parseResultSet(connection, result);
+		return parseResultSet(result);
 	}
 
 	@Override
@@ -202,30 +208,127 @@ public class CourseRepository implements ICourseRepository {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT * FROM course WHERE id=last_insert_id();");
 		try {
-			clone = parseResultSet(connection, result).get(FIRST_POSITION);
+			clone = parseResultSet(result).get(FIRST_POSITION);
 		} catch (NullPointerException | IndexOutOfBoundsException e) {
 		}
 		return clone;
 	}
 
-	@Override
-	public List<Course> parseResultSet(Connection connection, ResultSet resultSet) throws SQLException {
+	private List<Course> parseResultSet(ResultSet resultSet) throws SQLException {
 		List<Course> courses = new ArrayList<Course>();
-		
-		while (resultSet.next()){
-			int id = resultSet.getInt("id");
-			String name = resultSet.getString("name");
-			Date startDate = resultSet.getDate("startDate");
-			Date finalDate = resultSet.getDate("finalDate");
-			int maxStudents = resultSet.getInt("maxStudents");
-			int maxLections = resultSet.getInt("maxLections");
-			
-			Course course = new Course(name, startDate, finalDate, maxStudents, maxLections);
-			course.setId(id);
+
+		HashMap<Integer, Course> courseMap = new HashMap<>();
+		HashMap<Integer, Lection> lectionMap = new HashMap<>();
+		lectionMap.put(NULL_EQUIVALENT, null);
+		HashMap<Integer, Lecturer> lecturerMap = new HashMap<>();
+		lecturerMap.put(NULL_EQUIVALENT, null);
+		HashMap<Integer, Student> studentMap = new HashMap<>();
+		studentMap.put(NULL_EQUIVALENT, null);
+
+		HashMap<Integer, List<Integer>> courseLections = new HashMap<>();
+		HashMap<Integer, List<Integer>> courseStudents = new HashMap<>();
+		HashMap<Integer, Integer> courseLecturer = new HashMap<>();
+
+		this.fillByEntities(courseMap, lectionMap, lecturerMap, studentMap, courseLections, courseStudents,
+				courseLecturer, resultSet);
+
+		int courseId;
+		List<Student> students;
+		List<Lection> lections;
+		for (Course course : courseMap.values()) {
+
+			courseId = course.getId();
+			lections = new ArrayList<>();
+			students = new ArrayList<>();
+
+			for (Integer lectionId : courseLections.get(courseId)) {
+				lections.add(lectionMap.get(lectionId));
+			}
+			course.setStudents(students);
+
+			for (Integer studentId : courseStudents.get(courseId)) {
+				students.add(studentMap.get(studentId));
+			}
+			course.setLections(lections);
+
+			course.setLecturer(lecturerMap.get(courseId));
 			
 			courses.add(course);
-			}
+		}
+		
 		return courses;
+	}
+
+	private void fillByEntities(HashMap<Integer, Course> courses, HashMap<Integer, Lection> lections,
+			HashMap<Integer, Lecturer> lecturers, HashMap<Integer, Student> students,
+			HashMap<Integer, List<Integer>> courseLections, HashMap<Integer, List<Integer>> courseStudents,
+			HashMap<Integer, Integer> courseLecturer, ResultSet resultSet) throws SQLException {
+
+		String name;
+		Date startDate, finalDate;
+		int maxStudents, maxLections, age, courseId, lecturerId, studentId, lectionId;
+		Course tempCourse;
+		Lecturer lecturer;
+		Lection lection;
+		Student student;
+		while (resultSet.next()) {
+			courseId = resultSet.getInt(COURSE_ID_COLUMN_INDEX);
+
+			if (!courses.containsKey(courseId)) {
+				name = resultSet.getString(2);
+				startDate = resultSet.getDate(3);
+				finalDate = resultSet.getDate(4);
+				maxStudents = resultSet.getInt(5);
+				maxLections = resultSet.getInt(6);
+				tempCourse = new Course(name, startDate, finalDate, maxStudents, maxLections);
+				tempCourse.setId(courseId);
+
+				courses.put(courseId, tempCourse);
+				courseLections.put(courseId, new ArrayList<>());
+				courseLecturer.put(courseId, null);
+			}
+
+			lecturerId = resultSet.getInt(LECTURER_ID_COLUMN_INDEX);
+			if (!lecturers.containsKey(lecturerId)) {
+				name = resultSet.getString(9);
+				age = resultSet.getInt(10);
+				lecturer = new Lecturer(name, age);
+				lecturer.setId(lecturerId);
+
+				lecturers.put(lecturerId, lecturer);
+			}
+			if (lecturerId != NULL_EQUIVALENT && courseLecturer.get(courseId) == null) {
+				courseLecturer.put(courseId, lecturerId);
+			}
+
+			studentId = resultSet.getInt(STUDENT_ID_COLUMN_INDEX);
+			if (!students.containsKey(studentId)) {
+				name = resultSet.getString(12);
+				age = resultSet.getInt(13);
+				student = new Student(name, age);
+				student.setId(studentId);
+
+				students.put(studentId, student);
+				if (!courseStudents.get(courseId).contains(studentId)) {
+					courseStudents.get(courseId).add(studentId);
+				}
+			}
+
+			lectionId = resultSet.getInt(LECTION_ID_COLUMN_INDEX);
+			if (!lections.containsKey(lectionId)) {
+				name = resultSet.getString(16);
+				startDate = resultSet.getDate(17);
+				lection = new Lection(name, startDate);
+				lection.setId(lectionId);
+
+				lections.put(lectionId, lection);
+				if (!courseLections.get(courseId).contains(lectionId)) {
+					courseLections.get(courseId).add(lectionId);
+				}
+			}
+
+		}
+		resultSet.beforeFirst();
 	}
 
 }

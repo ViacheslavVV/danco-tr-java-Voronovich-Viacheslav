@@ -2,7 +2,6 @@ package com.training.danco.dao.api;
 
 import java.util.List;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.training.danco.model.BaseModel;
@@ -15,5 +14,4 @@ public interface IBaseRepository<TEntity extends BaseModel>  {
 	public boolean delete(Connection connection, TEntity entity) throws SQLException;
 	public List<TEntity> getAll(Connection connection) throws SQLException;
 	public int getCount(Connection connection) throws SQLException;
-	public List<TEntity> parseResultSet(Connection connection, ResultSet resultSet) throws SQLException;
 }
