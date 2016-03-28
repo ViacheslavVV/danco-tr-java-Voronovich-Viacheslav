@@ -33,7 +33,13 @@ public class LecturerRepository implements ILecturerRepository {
 	@Override
 	public Lecturer get(Connection connection, int id) throws SQLException {
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM Lecturer WHERE id=" + id + ";");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM Lecturer AS L ")
+		.append("LEFT JOIN Course as C on L.id=C.lecturerId ")
+		.append("WHERE id=").append(id)
+		.append(" ORDER BY L.id;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		Lecturer lecturer = null;
 		try {
 			lecturer = parseResultSet(result).get(FIRST_POSITION);
@@ -59,22 +65,41 @@ public class LecturerRepository implements ILecturerRepository {
 	@Override
 	public List<Lecturer> getAll(Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM Lecturer;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM Lecturer AS L ")
+		.append("LEFT JOIN Course as C on L.id=C.lecturerId ")
+		.append(" ORDER BY L.id;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
 	@Override
 	public List<Lecturer> getSortedByName(Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM Lecturer ORDER BY name;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM Lecturer AS L ")
+		.append("LEFT JOIN Course as C on L.id=C.lecturerId ")
+		.append(" ORDER BY L.name;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
 	@Override
 	public List<Lecturer> getSortedByCoursesCount(Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery(
-				"SELECT  id,name,age FROM lecturer AS C JOIN (SELECT lecturerId,count(id) as count FROM course GROUP BY lecturerId) as B ON B.lecturerId=C.id ORDER BY count;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM Lecturer AS L ")
+		.append("LEFT JOIN Course as C on L.id=C.lecturerId ")
+		.append("LEFT JOIN ")
+		.append("SELECT lecturerId,count(id) as count ")
+		.append("FROM course ")
+		.append("GROUP BY lecturerId) as B ")
+		.append("ON B.lecturerId=L.id ")
+		.append("ORDER BY B.count;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet( result);
 	}
 

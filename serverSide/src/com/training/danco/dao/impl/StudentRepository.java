@@ -33,7 +33,13 @@ public class StudentRepository implements IStudentRepository {
 	@Override
 	public Student get(Connection connection, int id) throws SQLException {
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM Student WHERE id=" + id + ";");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM Student as S ")
+		.append("LEFT JOIN Course as C on S.courseId=C.id;")
+		.append("WHERE id=").append(id)
+		.append(" ORDER BY S.id;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		Student student = null;
 		try {
 			student = parseResultSet(result).get(FIRST_POSITION);
@@ -62,7 +68,12 @@ public class StudentRepository implements IStudentRepository {
 	public List<Student> getAll(Connection connection) throws SQLException {
 
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM Student;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM Student as S ")
+		.append("LEFT JOIN Course as C on S.courseId=C.id;")
+		.append(" ORDER BY S.id;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 

@@ -41,7 +41,17 @@ public class CourseRepository implements ICourseRepository {
 	public Course get(Connection connection, int id) throws SQLException {
 
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM Course WHERE id =" + id + ";");
+		
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM course as C ")
+		.append("left join lecturer as L on C.lecturerId=L.id ")
+		.append("left join student as S on S.courseId=C.id ")
+		.append("left join lection as Le on Le.courseId=C.id ")
+		.append("WHERE C.id=").append(id)
+		.append("ORDER BY C.id;");
+		
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		Course course = null;
 		try {
 			course = parseResultSet(result).get(FIRST_POSITION);
@@ -74,7 +84,14 @@ public class CourseRepository implements ICourseRepository {
 	public List<Course> getAll(Connection connection) throws SQLException {
 
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM Course;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM course as C ")
+		.append("left join lecturer as L on C.lecturerId=L.id ")
+		.append("left join student as S on S.courseId=C.id ")
+		.append("left join lection as Le on Le.courseId=C.id ")
+		.append("ORDER BY C.id;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
@@ -82,30 +99,62 @@ public class CourseRepository implements ICourseRepository {
 	public List<Course> getSortedByStartDate(Connection connection) throws SQLException {
 
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM Course ORDER BY startDate;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM course as C ")
+		.append("left join lecturer as L on C.lecturerId=L.id ")
+		.append("left join student as S on S.courseId=C.id ")
+		.append("left join lection as Le on Le.courseId=C.id ")
+		.append("ORDER BY C.startDate;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
 	@Override
 	public List<Course> getSortedByStudentsCount(Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery(
-				"SELECT id,name,startDate,finalDate,maxStudents,maxLections,lecturerId FROM course AS C JOIN (SELECT courseId,count(courseId) as count FROM student GROUP BY courseId) as B ON B.courseId=C.id ORDER BY count;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM course as C ")
+		.append("left join lecturer as L on C.lecturerId=L.id ")
+		.append("left join student as S on S.courseId=C.id ")
+		.append("left join lection as Le on Le.courseId=C.id ")
+		.append("left JOIN ")
+		.append("(SELECT courseId,count(courseId) as count ")
+		.append("FROM student ")
+		.append("GROUP BY courseId) as Cc ")
+		.append("ON Cc.courseId=C.id ")
+		.append("ORDER BY Cc.count;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
+				
 		return parseResultSet(result);
 	}
 
 	@Override
 	public List<Course> getSortedByLecturer(Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery(
-				"SELECT C.id,C.name,startDate,finalDate,maxStudents,maxLections,lecturerId FROM course AS C JOIN lecturer as B ON B.id=C.lecturerId ORDER BY B.name;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM course as C ")
+		.append("left join lecturer as L on C.lecturerId=L.id ")
+		.append("left join student as S on S.courseId=C.id ")
+		.append("left join lection as Le on Le.courseId=C.id ")
+		.append("ORDER BY L.name;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
 	@Override
 	public List<Course> getSortedByName(Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM course ORDER BY name;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM course as C ")
+		.append("left join lecturer as L on C.lecturerId=L.id ")
+		.append("left join student as S on S.courseId=C.id ")
+		.append("left join lection as Le on Le.courseId=C.id ")
+		.append("ORDER BY C.name;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
@@ -121,8 +170,15 @@ public class CourseRepository implements ICourseRepository {
 	public List<Course> getCoursesInInterval(Connection connection, Date dateFrom, Date dateTo) throws SQLException {
 
 		Statement statement = connection.createStatement();
-		ResultSet result = statement
-				.executeQuery("SELECT * FROM course WHERE startDate>=" + dateFrom + " AND finalDate<=" + dateTo + ";");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM course as C ")
+		.append("left join lecturer as L on C.lecturerId=L.id ")
+		.append("left join student as S on S.courseId=C.id ")
+		.append("left join lection as Le on Le.courseId=C.id ")
+		.append("WHERE C.startDate>=").append(dateFrom).append(" AND C.finalDate<=").append(dateTo)
+		.append(" ORDER BY C.id;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
@@ -131,8 +187,15 @@ public class CourseRepository implements ICourseRepository {
 
 		Date curDate = new Date(System.currentTimeMillis());
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM course WHERE startDate<=" + curDate
-				+ " AND finalDate>=" + curDate + " ORDER BY startDate;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM course as C ")
+		.append("left join lecturer as L on C.lecturerId=L.id ")
+		.append("left join student as S on S.courseId=C.id ")
+		.append("left join lection as Le on Le.courseId=C.id ")
+		.append("WHERE C.startDate<=").append(curDate).append(" AND C.finalDate>=").append(curDate)
+		.append(" ORDER BY C.startDate;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
@@ -140,9 +203,20 @@ public class CourseRepository implements ICourseRepository {
 	public List<Course> getCurrentCoursesSortedByStudentsCount(Connection connection) throws SQLException {
 		Date curDate = new Date(System.currentTimeMillis());
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery(
-				"SELECT id,name,startDate,finalDate,maxStudents,maxLections,lecturerId FROM course AS C JOIN (SELECT courseId,count(courseId) as count FROM student GROUP BY courseId) as B ON B.courseId=C.id WHERE startDate<="
-						+ curDate + " AND finalDate>=" + curDate + " ORDER BY count;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM course as C ")
+		.append("left join lecturer as L on C.lecturerId=L.id ")
+		.append("left join student as S on S.courseId=C.id ")
+		.append("left join lection as Le on Le.courseId=C.id ")
+		.append("left join ")
+		.append("(SELECT courseId,count(courseId) as count ")
+		.append("FROM student ")
+		.append("GROUP BY courseId) as Cc ")
+		.append("ON Cc.courseId=C.id ")
+		.append("WHERE C.startDate<=").append(curDate).append(" AND C.finalDate>=").append(curDate)
+		.append(" ORDER BY Cc.count;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
@@ -150,9 +224,15 @@ public class CourseRepository implements ICourseRepository {
 	public List<Course> getCurrentCoursesSortedByLecturer(Connection connection) throws SQLException {
 		Date curDate = new Date(System.currentTimeMillis());
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery(
-				"SELECT C.id,C.name,startDate,finalDate,maxStudents,maxLections,lecturerId FROM course AS C JOIN lecturer as B ON B.id=C.lecturerId WHERE startDate<="
-						+ curDate + " AND finalDate>=" + curDate + " ORDER BY B.name;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM course as C ")
+		.append("left join lecturer as L on C.lecturerId=L.id ")
+		.append("left join student as S on S.courseId=C.id ")
+		.append("left join lection as Le on Le.courseId=C.id ")
+		.append("WHERE C.startDate<=").append(curDate).append(" AND C.finalDate>=").append(curDate)
+		.append(" ORDER BY L.name;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
@@ -160,34 +240,65 @@ public class CourseRepository implements ICourseRepository {
 	public List<Course> getCurrentCoursesSortedByName(Connection connection) throws SQLException {
 		Date curDate = new Date(System.currentTimeMillis());
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery(
-				"SELECT * FROM course WHERE startDate<=" + curDate + " AND finalDate>=" + curDate + " ORDER BY name;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM course as C ")
+		.append("left join lecturer as L on C.lecturerId=L.id ")
+		.append("left join student as S on S.courseId=C.id ")
+		.append("left join lection as Le on Le.courseId=C.id ")
+		.append("WHERE C.startDate<=").append(curDate).append(" AND C.finalDate>=").append(curDate)
+		.append(" ORDER BY C.name;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
 	@Override
 	public List<Course> getCoursesAfterDateSortedByStartDate(Connection connection, Date date) throws SQLException {
 		Statement statement = connection.createStatement();
-		ResultSet result = statement
-				.executeQuery("SELECT * FROM course WHERE startDate>" + date + " ORDER BY startDate;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM course as C ")
+		.append("left join lecturer as L on C.lecturerId=L.id ")
+		.append("left join student as S on S.courseId=C.id ")
+		.append("left join lection as Le on Le.courseId=C.id ")
+		.append("WHERE C.startDate>").append(date)
+		.append(" ORDER BY C.startDate;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
 	@Override
 	public List<Course> getCoursesAfterDateSortedByStudentsCount(Connection connection, Date date) throws SQLException {
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery(
-				"SELECT id,name,startDate,finalDate,maxStudents,maxLections,lecturerId FROM course AS C JOIN (SELECT courseId,count(courseId) as count FROM student GROUP BY courseId) as B ON B.courseId=C.id WHERE startDate>"
-						+ date + " ORDER BY count;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM course as C ")
+		.append("left join lecturer as L on C.lecturerId=L.id ")
+		.append("left join student as S on S.courseId=C.id ")
+		.append("left join lection as Le on Le.courseId=C.id ")
+		.append("left join ")
+		.append("(SELECT courseId,count(courseId) as count ")
+		.append("FROM student ")
+		.append("GROUP BY courseId) as Cc ")
+		.append("ON Cc.courseId=C.id ")
+		.append("WHERE C.startDate>").append(date)
+		.append(" ORDER BY Cc.count;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
 	@Override
 	public List<Course> getCoursesAfterDateSortedByLecturer(Connection connection, Date date) throws SQLException {
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery(
-				"SELECT C.id,C.name,startDate,finalDate,maxStudents,maxLections,lecturerId FROM course AS C JOIN lecturer as B ON B.id=C.lecturerId WHERE startDate>"
-						+ date + " ORDER BY B.name;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM course as C ")
+		.append("left join lecturer as L on C.lecturerId=L.id ")
+		.append("left join student as S on S.courseId=C.id ")
+		.append("left join lection as Le on Le.courseId=C.id ")
+		.append("WHERE C.startDate>").append(date)
+		.append(" ORDER BY L.name;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
@@ -195,7 +306,15 @@ public class CourseRepository implements ICourseRepository {
 	public List<Course> getCoursesAfterDateSortedByName(Connection connection, Date date) throws SQLException {
 
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM course WHERE startDate>=" + date + " ORDER BY name;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM course as C ")
+		.append("left join lecturer as L on C.lecturerId=L.id ")
+		.append("left join student as S on S.courseId=C.id ")
+		.append("left join lection as Le on Le.courseId=C.id ")
+		.append("WHERE C.startDate>").append(date)
+		.append(" ORDER BY C.name;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
@@ -229,15 +348,17 @@ public class CourseRepository implements ICourseRepository {
 		HashMap<Integer, List<Integer>> courseStudents = new HashMap<>();
 		HashMap<Integer, Integer> courseLecturer = new HashMap<>();
 
+		List<Integer> courseOrder = new ArrayList<>();
+		
 		this.fillByEntities(courseMap, lectionMap, lecturerMap, studentMap, courseLections, courseStudents,
-				courseLecturer, resultSet);
+				courseLecturer, resultSet, courseOrder);
 
-		int courseId;
+		Course course;
 		List<Student> students;
 		List<Lection> lections;
-		for (Course course : courseMap.values()) {
+		for (Integer courseId : courseOrder) {
 
-			courseId = course.getId();
+			course = courseMap.get(courseId);
 			lections = new ArrayList<>();
 			students = new ArrayList<>();
 
@@ -262,7 +383,7 @@ public class CourseRepository implements ICourseRepository {
 	private void fillByEntities(HashMap<Integer, Course> courses, HashMap<Integer, Lection> lections,
 			HashMap<Integer, Lecturer> lecturers, HashMap<Integer, Student> students,
 			HashMap<Integer, List<Integer>> courseLections, HashMap<Integer, List<Integer>> courseStudents,
-			HashMap<Integer, Integer> courseLecturer, ResultSet resultSet) throws SQLException {
+			HashMap<Integer, Integer> courseLecturer, ResultSet resultSet, List<Integer> courseOrder) throws SQLException {
 
 		String name;
 		Date startDate, finalDate;
@@ -282,10 +403,11 @@ public class CourseRepository implements ICourseRepository {
 				maxLections = resultSet.getInt(6);
 				tempCourse = new Course(name, startDate, finalDate, maxStudents, maxLections);
 				tempCourse.setId(courseId);
-
 				courses.put(courseId, tempCourse);
 				courseLections.put(courseId, new ArrayList<>());
 				courseLecturer.put(courseId, null);
+				
+				courseOrder.add(courseId);
 			}
 
 			lecturerId = resultSet.getInt(LECTURER_ID_COLUMN_INDEX);

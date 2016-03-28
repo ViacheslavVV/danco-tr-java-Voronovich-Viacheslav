@@ -34,7 +34,14 @@ public class LectionRepository implements ILectionRepository {
 	@Override
 	public Lection get(Connection connection, int id) throws SQLException {
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM Lection WHERE id=" + id + ";");
+		
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM Lection as L ")
+		.append("JOIN Course as C on L.courseId=C.id ")
+		.append("WHERE L.id=").append(id)
+		.append(" ORDER BY L.id;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		Lection lection = null;
 		try {
 			lection = parseResultSet(result).get(FIRST_POSITION);
@@ -63,7 +70,12 @@ public class LectionRepository implements ILectionRepository {
 	public List<Lection> getAll(Connection connection) throws SQLException {
 
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM Lection;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM Lection as L ")
+		.append("JOIN Course as C on L.courseId=C.id ")
+		.append(" ORDER BY L.id;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
@@ -71,28 +83,44 @@ public class LectionRepository implements ILectionRepository {
 	public List<Lection> getSortedByDate(Connection connection) throws SQLException {
 
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM Lection ORDER BY date;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM Lection as L ")
+		.append("JOIN Course as C on L.courseId=C.id ")
+		.append(" ORDER BY L.date;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
 	@Override
 	public List<Lection> getSortedByName(Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM Lection ORDER BY name;");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM Lection as L ")
+		.append("JOIN Course as C on L.courseId=C.id ")
+		.append(" ORDER BY L.name;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
 	@Override
 	public List<Lection> getLectionsByDate(Connection connection, Date date) throws SQLException {
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM Lection WHERE date=" + date + ";");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+		.append("SELECT * FROM Lection as L ")
+		.append("JOIN Course as C on L.courseId=C.id ")
+		.append("WHERE date=").append(date)
+		.append(" ORDER BY L.id;");
+		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);
 	}
 
 	@Override
 	public int getCount(Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT count(id) as count FROM lection;");
+		ResultSet result = statement.executeQuery("SELECT count(id) as count FROM Lection;");
 		result.next();
 		return result.getInt("count");
 	}
