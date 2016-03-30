@@ -9,7 +9,6 @@ public class MenuBuilder {
 	public Menu generateMenu(IMessageHandler messageHandler) {
 
 		Menu mainMenu = new Menu("Main menu");
-		Menu workWithDataMenu = new Menu("Work with Data menu");
 		Menu courseMenu = new Menu("Course menu");
 		Menu lecturerMenu = new Menu("Lecturer menu");
 		Menu lectionMenu = new Menu("Lection menu");
@@ -19,19 +18,13 @@ public class MenuBuilder {
 		Menu lectionsMenu = new Menu("Lections menu");
 		Menu studentsMenu = new Menu("Students menu");
 
-		// Main
-		mainMenu.addMenuItem(new NavigationItem(workWithDataMenu));
-		mainMenu.addMenuItem(new LoadDataItem(mainMenu, messageHandler));
-		mainMenu.addMenuItem(new SaveDataItem(mainMenu, messageHandler));
-		mainMenu.addMenuItem(new NavigationItem("Exit", null));
-
 		// Work with data menu
-		workWithDataMenu.addMenuItem(new NavigationItem(courseMenu));
-		workWithDataMenu.addMenuItem(new NavigationItem(lecturerMenu));
-		workWithDataMenu.addMenuItem(new NavigationItem(lectionMenu));
-		workWithDataMenu.addMenuItem(new NavigationItem(studentMenu));
-		workWithDataMenu.addMenuItem(new NavigationItem(mainMenu));
-
+		mainMenu.addMenuItem(new NavigationItem(courseMenu));
+		mainMenu.addMenuItem(new NavigationItem(lecturerMenu));
+		mainMenu.addMenuItem(new NavigationItem(lectionMenu));
+		mainMenu.addMenuItem(new NavigationItem(studentMenu));
+		mainMenu.addMenuItem(new NavigationItem("Exit", null));
+		
 		// Course menu
 		courseMenu.addMenuItem(new NewCourseItem(courseMenu, messageHandler));
 		courseMenu.addMenuItem(new CourseItem(courseMenu, messageHandler));
@@ -49,7 +42,7 @@ public class MenuBuilder {
 		courseMenu.addMenuItem(new StudentsByCourseItem(courseMenu, messageHandler));
 		courseMenu.addMenuItem(new LecturerByCourseItem(courseMenu, messageHandler));
 		courseMenu.addMenuItem(new NavigationItem(coursesMenu));
-		courseMenu.addMenuItem(new NavigationItem(workWithDataMenu));
+		courseMenu.addMenuItem(new NavigationItem(mainMenu));
 
 		// Courses menu
 		coursesMenu.addMenuItem(new AllCoursesItem(coursesMenu, messageHandler));
@@ -78,7 +71,7 @@ public class MenuBuilder {
 		lecturerMenu.addMenuItem(new ExportLecturersItem(lecturerMenu, messageHandler));
 		lecturerMenu.addMenuItem(new ExportAllLecturersItem(lecturerMenu, messageHandler));
 		lecturerMenu.addMenuItem(new NavigationItem(lecturersMenu));
-		lecturerMenu.addMenuItem(new NavigationItem(workWithDataMenu));
+		lecturerMenu.addMenuItem(new NavigationItem(mainMenu));
 
 		// Lecturers menu
 		lecturersMenu.addMenuItem(new AllLecturersItem(lecturersMenu, messageHandler));
@@ -95,7 +88,7 @@ public class MenuBuilder {
 		lectionMenu.addMenuItem(new ExportLectionsItem(lectionMenu, messageHandler));
 		lectionMenu.addMenuItem(new ExportAllLectionsItem(lectionMenu, messageHandler));
 		lectionMenu.addMenuItem(new NavigationItem(lectionsMenu));
-		lectionMenu.addMenuItem(new NavigationItem(workWithDataMenu));
+		lectionMenu.addMenuItem(new NavigationItem(mainMenu));
 
 		// Lections menu
 		lectionsMenu.addMenuItem(new AllLectionsItem(lectionsMenu, messageHandler));
@@ -112,7 +105,7 @@ public class MenuBuilder {
 		studentMenu.addMenuItem(new ExportStudentsItem(studentMenu, messageHandler));
 		studentMenu.addMenuItem(new ExportAllStudentsItem(studentMenu, messageHandler));
 		studentMenu.addMenuItem(new NavigationItem(studentsMenu));
-		studentMenu.addMenuItem(new NavigationItem(workWithDataMenu));
+		studentMenu.addMenuItem(new NavigationItem(mainMenu));
 
 		// Students menu
 		studentsMenu.addMenuItem(new AllStudentsItem(studentsMenu, messageHandler));

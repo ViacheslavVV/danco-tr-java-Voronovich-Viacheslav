@@ -12,7 +12,6 @@ public class MenuBuilder {
 		IFacade facade = (IFacade) DependencyInjectionManager.getClassInstance(IFacade.class);
 		
 		Menu mainMenu = new Menu("Main menu");
-		Menu workWithDataMenu = new Menu("Work with Data menu");
 		Menu courseMenu = new Menu("Course menu");
 		Menu lecturerMenu = new Menu("Lecturer menu");
 		Menu lectionMenu = new Menu("Lection menu");
@@ -22,18 +21,13 @@ public class MenuBuilder {
 		Menu lectionsMenu = new Menu("Lections menu");
 		Menu studentsMenu = new Menu("Students menu");
 		
-		//Main
-		mainMenu.addMenuItem(new NavigationItem(workWithDataMenu));
-		mainMenu.addMenuItem(new LoadDataItem(mainMenu,facade));
-		mainMenu.addMenuItem(new SaveDataItem(mainMenu,facade));
+		//Main menu
+		mainMenu.addMenuItem(new NavigationItem(courseMenu));
+		mainMenu.addMenuItem(new NavigationItem(lecturerMenu));
+		mainMenu.addMenuItem(new NavigationItem(lectionMenu));
+		mainMenu.addMenuItem(new NavigationItem(studentMenu));
+		mainMenu.addMenuItem(new NavigationItem(mainMenu));
 		mainMenu.addMenuItem(new NavigationItem("Exit",null));
-		
-		//Work with data menu
-		workWithDataMenu.addMenuItem(new NavigationItem(courseMenu));
-		workWithDataMenu.addMenuItem(new NavigationItem(lecturerMenu));
-		workWithDataMenu.addMenuItem(new NavigationItem(lectionMenu));
-		workWithDataMenu.addMenuItem(new NavigationItem(studentMenu));
-		workWithDataMenu.addMenuItem(new NavigationItem(mainMenu));
 		
 		//Course menu
 		courseMenu.addMenuItem(new NewCourseItem(courseMenu, facade));
@@ -52,7 +46,7 @@ public class MenuBuilder {
 		courseMenu.addMenuItem(new StudentsByCourseItem(courseMenu, facade));
 		courseMenu.addMenuItem(new LecturerByCourseItem(courseMenu, facade));
 		courseMenu.addMenuItem(new NavigationItem(coursesMenu));
-		courseMenu.addMenuItem(new NavigationItem(workWithDataMenu));
+		courseMenu.addMenuItem(new NavigationItem(mainMenu));
 		
 		//Courses menu
 		coursesMenu.addMenuItem(new AllCoursesItem(coursesMenu, facade));
@@ -81,7 +75,7 @@ public class MenuBuilder {
 		lecturerMenu.addMenuItem(new ExportLecturersItem(lecturerMenu, facade));
 		lecturerMenu.addMenuItem(new ExportAllLecturersItem(lecturerMenu, facade));
 		lecturerMenu.addMenuItem(new NavigationItem(lecturersMenu));
-		lecturerMenu.addMenuItem(new NavigationItem(workWithDataMenu));
+		lecturerMenu.addMenuItem(new NavigationItem(mainMenu));
 		
 		//Lecturers menu
 		lecturersMenu.addMenuItem(new AllLecturersItem(lecturersMenu, facade));
@@ -98,7 +92,7 @@ public class MenuBuilder {
 		lectionMenu.addMenuItem(new ExportLectionsItem(lectionMenu, facade));
 		lectionMenu.addMenuItem(new ExportAllLectionsItem(lectionMenu, facade));
 		lectionMenu.addMenuItem(new NavigationItem(lectionsMenu));
-		lectionMenu.addMenuItem(new NavigationItem(workWithDataMenu));
+		lectionMenu.addMenuItem(new NavigationItem(mainMenu));
 		
 		//Lections menu
 		lectionsMenu.addMenuItem(new AllLectionsItem(lectionsMenu, facade));
@@ -115,7 +109,7 @@ public class MenuBuilder {
 		studentMenu.addMenuItem(new ExportStudentsItem(studentMenu, facade));
 		studentMenu.addMenuItem(new ExportAllStudentsItem(studentMenu, facade));
 		studentMenu.addMenuItem(new NavigationItem(studentsMenu));
-		studentMenu.addMenuItem(new NavigationItem(workWithDataMenu));
+		studentMenu.addMenuItem(new NavigationItem(mainMenu));
 		
 		//Students menu
 		studentsMenu.addMenuItem(new AllStudentsItem(studentsMenu, facade));

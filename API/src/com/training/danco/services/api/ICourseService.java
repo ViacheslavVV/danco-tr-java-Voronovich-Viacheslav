@@ -18,10 +18,6 @@ public interface ICourseService {
 	public boolean cloneCourse(Course course);
 	public int getCount();
 	
-	public Lecturer getLecturerByCourse(Course course);
-	public List<Lection> getLectionsByCourse(Course course);
-	public List<Student> getStudentsByCourse(Course course);
-	
 	public boolean setLecturer(Course course, Lecturer lecturer);
 	public boolean addLection(Course course, Lection lection);
 	public boolean addStudent(Course course, Student student);
@@ -44,4 +40,8 @@ public interface ICourseService {
 	public List<Course> getCoursesAfterDateSortedByStudentsCount(Date date);
 	public List<Course> getCoursesAfterDateSortedByLecturer(Date date);
 	public List<Course> getCoursesAfterDateSortedByName(Date date);
+	
+	public List<Student> getStudentsByCourse(Course course);
+	public List<Lection> getLectionsByCourse(Course course);
+	public Lecturer getLecturerByCourse(Course course);
 }

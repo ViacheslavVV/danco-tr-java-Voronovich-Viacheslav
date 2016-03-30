@@ -1,12 +1,13 @@
 package com.training.danco.services.impl;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.training.danco.dao.api.ICourseRepository;
+import com.training.danco.connection.manager.ConnectionManager;
 import com.training.danco.dao.api.ILecturerRepository;
 import com.training.danco.model.Lecturer;
 import com.training.danco.services.api.ILecturerService;
@@ -25,11 +26,15 @@ public class LecturerService implements ILecturerService {
 	public boolean set(Lecturer lecturer) {
 
 		boolean result = true;
+		Connection connection = null;
 		try {
-			result = this.lecturerRepository.set(lecturer);
+			connection = ConnectionManager.getConnection();
+			result = this.lecturerRepository.set(connection, lecturer);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -38,10 +43,14 @@ public class LecturerService implements ILecturerService {
 	public Lecturer get(int id) {
 
 		Lecturer resultLecturer = null;
+		Connection connection = null;
 		try {
-			resultLecturer = this.lecturerRepository.get(id);
+			connection = ConnectionManager.getConnection();
+			resultLecturer = this.lecturerRepository.get(connection, id);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 
 		return resultLecturer;
@@ -50,18 +59,22 @@ public class LecturerService implements ILecturerService {
 	@Override
 	public boolean update(Lecturer lecturer) {
 		boolean result = false;
+		Connection connection = null;
 		try {
-			Lecturer resultLecturer = this.get(lecturer.getId());
-
-			if (resultLecturer == null) {
-
-				result = this.set(lecturer);
-			} else {
-				result = this.lecturerRepository.update(lecturer);
+			connection = ConnectionManager.getConnection();
+			connection.setAutoCommit(false);
+			result = this.lecturerRepository.update(connection, lecturer);
+			if (!result) {
+				result = this.lecturerRepository.set(connection, lecturer);
 			}
 
+			if (result) {
+				connection.commit();
+			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -70,11 +83,15 @@ public class LecturerService implements ILecturerService {
 	public boolean delete(Lecturer lecturer) {
 
 		boolean result = true;
+		Connection connection = null;
 		try {
-			result = this.lecturerRepository.delete(lecturer);
+			connection = ConnectionManager.getConnection();
+			result = this.lecturerRepository.delete(connection, lecturer);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -83,11 +100,15 @@ public class LecturerService implements ILecturerService {
 	public List<Lecturer> getAll() {
 
 		List<Lecturer> resultLecturers = null;
+		Connection connection = null;
 		try {
-			resultLecturers = this.lecturerRepository.getAll();
+			connection = ConnectionManager.getConnection();
+			resultLecturers = this.lecturerRepository.getAll(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			resultLecturers = new ArrayList<Lecturer>();
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 		return resultLecturers;
 	}
@@ -96,11 +117,15 @@ public class LecturerService implements ILecturerService {
 	public List<Lecturer> getSortedByName() {
 
 		List<Lecturer> tempLecturers = null;
+		Connection connection = null;
 		try {
-			tempLecturers = this.lecturerRepository.getSortedByName();
+			connection = ConnectionManager.getConnection();
+			tempLecturers = this.lecturerRepository.getSortedByName(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempLecturers = new ArrayList<Lecturer>();
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 		return tempLecturers;
 	}
@@ -109,11 +134,15 @@ public class LecturerService implements ILecturerService {
 	public List<Lecturer> getSortedByCoursesCount() {
 
 		List<Lecturer> tempLecturers = null;
+		Connection connection = null;
 		try {
-			tempLecturers = this.lecturerRepository.getSortedByCoursesCount(courseRepository);
+			connection = ConnectionManager.getConnection();
+			tempLecturers = this.lecturerRepository.getSortedByCoursesCount(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempLecturers = new ArrayList<Lecturer>();
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 		return tempLecturers;
 	}
@@ -121,10 +150,14 @@ public class LecturerService implements ILecturerService {
 	@Override
 	public int getCount() {
 		int count = 0;
+		Connection connection = null;
 		try {
-			count = this.lecturerRepository.getCount();
+			connection = ConnectionManager.getConnection();
+			count = this.lecturerRepository.getCount(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 		return count;
 	}

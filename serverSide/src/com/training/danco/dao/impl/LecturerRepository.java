@@ -26,8 +26,8 @@ public class LecturerRepository implements ILecturerRepository {
 	@Override
 	public boolean set(Connection connection, Lecturer lecturer) throws SQLException {
 		Statement statement = connection.createStatement();
-		return statement.executeUpdate("INSERT INTO `mydb`.`lecturer` " + "(`id`, `name`, `age`) " + "VALUES (NULL, "
-				+ lecturer.getName() + ", " + lecturer.getAge() + ");") == 1;
+		return statement.executeUpdate("INSERT INTO `mydb`.`lecturer` " + "(`id`, `name`, `age`) " + "VALUES (NULL, '"
+				+ lecturer.getName() + "', " + lecturer.getAge() + ");") == 1;
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class LecturerRepository implements ILecturerRepository {
 		stringBuilder
 		.append("SELECT * FROM Lecturer AS L ")
 		.append("LEFT JOIN Course as C on L.id=C.lecturerId ")
-		.append("WHERE id=").append(id)
+		.append("WHERE L.id=").append(id)
 		.append(" ORDER BY L.id;");
 		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		Lecturer lecturer = null;

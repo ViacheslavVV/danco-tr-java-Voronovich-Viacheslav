@@ -2,7 +2,6 @@ package com.danco.training.ui.io;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,10 +16,10 @@ public class SocketIOHandler implements IMessageHandler{
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	
-	public SocketIOHandler(Socket socket){
+	public SocketIOHandler(ObjectInputStream in, ObjectOutputStream out){
 		try {
-			in = new ObjectInputStream(socket.getInputStream());
-			out = new ObjectOutputStream(socket.getOutputStream());
+			this.in = in;
+			this.out = out;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}		

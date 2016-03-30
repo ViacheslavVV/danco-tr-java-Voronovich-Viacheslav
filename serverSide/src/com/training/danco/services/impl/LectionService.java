@@ -1,5 +1,6 @@
 package com.training.danco.services.impl;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.training.danco.dao.api.ICourseRepository;
+import com.training.danco.connection.manager.ConnectionManager;
 import com.training.danco.dao.api.ILectionRepository;
 import com.training.danco.model.Lection;
 import com.training.danco.services.api.ILectionService;
@@ -17,22 +18,24 @@ public class LectionService implements ILectionService {
 	private static final Logger LOGGER = LogManager.getLogger(LectionService.class);
 
 	private ILectionRepository lectionRepository;
-	private ICourseRepository courseRepository;
 
-	public LectionService(ILectionRepository lectionRepository, ICourseRepository courseRepository) {
+	public LectionService(ILectionRepository lectionRepository) {
 		this.lectionRepository = lectionRepository;
-		this.courseRepository = courseRepository;
 	}
 
 	@Override
 	public boolean set(Lection lection) {
 
 		boolean result = true;
+		Connection connection = null;
 		try {
-			result = this.lectionRepository.set(lection);
+			connection = ConnectionManager.getConnection();
+			result = this.lectionRepository.set(connection, lection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -41,10 +44,14 @@ public class LectionService implements ILectionService {
 	public Lection get(int id) {
 
 		Lection resultLection = null;
+		Connection connection = null;
 		try {
-			resultLection = this.lectionRepository.get(id);
+			connection = ConnectionManager.getConnection();
+			resultLection = this.lectionRepository.get(connection, id);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 
 		return resultLection;
@@ -54,18 +61,23 @@ public class LectionService implements ILectionService {
 	public boolean update(Lection lection) {
 
 		boolean result = false;
+		Connection connection = null;
 		try {
-			Lection resultLection = this.get(lection.getId());
+			connection = ConnectionManager.getConnection();
+			connection.setAutoCommit(false);
+			result = this.lectionRepository.update(connection, lection);
+			if (!result) {
+				result = this.lectionRepository.set(connection, lection);
+			}
 
-			if (resultLection == null) {
-
-				result = this.set(lection);
-			} else {
-				result = this.lectionRepository.update(lection);
+			if (result) {
+				connection.commit();
 			}
 
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -74,11 +86,15 @@ public class LectionService implements ILectionService {
 	public boolean delete(Lection lection) {
 
 		boolean result = true;
+		Connection connection = null;
 		try {
-			result = this.lectionRepository.delete(lection);
+			connection = ConnectionManager.getConnection();
+			result = this.lectionRepository.delete(connection, lection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -87,11 +103,15 @@ public class LectionService implements ILectionService {
 	public List<Lection> getAll() {
 
 		List<Lection> resultLections = null;
+		Connection connection = null;
 		try {
-			resultLections = this.lectionRepository.getAll();
+			connection = ConnectionManager.getConnection();
+			resultLections = this.lectionRepository.getAll(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			resultLections = new ArrayList<Lection>();
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 		return resultLections;
 	}
@@ -99,11 +119,15 @@ public class LectionService implements ILectionService {
 	@Override
 	public List<Lection> getSortedByDate() {
 		List<Lection> tempLections = null;
+		Connection connection = null;
 		try {
-			tempLections = this.lectionRepository.getSortedByDate();
+			connection = ConnectionManager.getConnection();
+			tempLections = this.lectionRepository.getSortedByDate(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempLections = new ArrayList<Lection>();
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 		return tempLections;
 	}
@@ -111,11 +135,15 @@ public class LectionService implements ILectionService {
 	@Override
 	public List<Lection> getSortedByName() {
 		List<Lection> tempLections = null;
+		Connection connection = null;
 		try {
-			tempLections = this.lectionRepository.getSortedByName();
+			connection = ConnectionManager.getConnection();
+			tempLections = this.lectionRepository.getSortedByName(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempLections = new ArrayList<Lection>();
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 		return tempLections;
 	}
@@ -123,11 +151,15 @@ public class LectionService implements ILectionService {
 	@Override
 	public List<Lection> getLectionsByDate(Date date) {
 		List<Lection> tempLections = null;
+		Connection connection = null;
 		try {
-			tempLections = this.lectionRepository.getLectionsByDate(date);
+			connection = ConnectionManager.getConnection();
+			tempLections = this.lectionRepository.getLectionsByDate(connection,date);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempLections = new ArrayList<Lection>();
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 		return tempLections;
 	}
@@ -135,10 +167,14 @@ public class LectionService implements ILectionService {
 	@Override
 	public int getCount() {
 		int count = 0;
+		Connection connection = null;
 		try {
-			count = this.lectionRepository.getCount();
+			connection = ConnectionManager.getConnection();
+			count = this.lectionRepository.getCount(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+		} finally {
+			ConnectionManager.closeConnection(connection);
 		}
 		return count;
 	}

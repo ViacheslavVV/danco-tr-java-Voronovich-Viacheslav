@@ -1,2 +1,0 @@
-dataFileName=newFile.txt
-DIMConfigFileName=DIMconfig.txt

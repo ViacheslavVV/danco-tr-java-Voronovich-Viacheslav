@@ -25,9 +25,10 @@ public class StudentRepository implements IStudentRepository {
 	public boolean set(Connection connection, Student student) throws SQLException {
 		Statement statement = connection.createStatement();
 		Course course = student.getCourse();
-		return statement.executeUpdate("INSERT INTO `mydb`.`student` " + "(`id`, `name`, `age`, `courseId`) "
-				+ "VALUES (NULL, " + student.getName() + ", " + student.getAge() + course == null ? "NULL"
-						: (course.getId() == 0) ? "NULL" : course.getId() + ");") == 1;
+		Integer courseId = (course == null) ? null : ((course.getId() == 0) ? null : course.getId());
+		boolean result = statement.executeUpdate("INSERT INTO `mydb`.`student` " + "(`id`, `name`, `age`, `courseId`) "
+				+ "VALUES (NULL, '" + student.getName() + "', " + student.getAge() +", "+ (courseId==null ? "NULL" : courseId) + ");") == 1;
+		return result;
 	}
 
 	@Override
@@ -36,8 +37,8 @@ public class StudentRepository implements IStudentRepository {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
 		.append("SELECT * FROM Student as S ")
-		.append("LEFT JOIN Course as C on S.courseId=C.id;")
-		.append("WHERE id=").append(id)
+		.append("LEFT JOIN Course as C on S.courseId=C.id ")
+		.append("WHERE S.id=").append(id)
 		.append(" ORDER BY S.id;");
 		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		Student student = null;
@@ -71,7 +72,7 @@ public class StudentRepository implements IStudentRepository {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
 		.append("SELECT * FROM Student as S ")
-		.append("LEFT JOIN Course as C on S.courseId=C.id;")
+		.append("LEFT JOIN Course as C on S.courseId=C.id")
 		.append(" ORDER BY S.id;");
 		ResultSet result = statement.executeQuery(stringBuilder.toString());
 		return parseResultSet(result);

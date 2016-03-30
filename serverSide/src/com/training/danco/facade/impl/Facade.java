@@ -9,10 +9,20 @@ import org.apache.logging.log4j.Logger;
 
 import com.danco.training.dim.DependencyInjectionManager;
 import com.training.danco.controller.*;
-import com.training.danco.data.manager.api.*;
+import com.training.danco.dao.api.ICourseRepository;
+import com.training.danco.dao.api.ILectionRepository;
+import com.training.danco.dao.api.ILecturerRepository;
+import com.training.danco.dao.api.IStudentRepository;
 import com.training.danco.facade.api.IFacade;
 import com.training.danco.model.*;
-import com.training.danco.text.converter.DataConverter;
+import com.training.danco.services.api.ICourseService;
+import com.training.danco.services.api.ILectionService;
+import com.training.danco.services.api.ILecturerService;
+import com.training.danco.services.api.IStudentService;
+import com.training.danco.services.impl.CourseService;
+import com.training.danco.services.impl.LectionService;
+import com.training.danco.services.impl.LecturerService;
+import com.training.danco.services.impl.StudentService;
 import com.training.danco.text.io.api.IExporter;
 import com.training.danco.text.io.api.IImporter;
 
@@ -25,34 +35,14 @@ public class Facade implements IFacade {
 	private LecturerController lecturerController;
 	private StudentController studentController;
 
-	private IDeserializer dataDeserializer;
-	private ISerializer dataSerializer;
-	private DataConverter dataConverter;
-
 	private IImporter importer;
 	private IExporter exporter;
 
 	public Facade() {
 		this.importer = (IImporter) DependencyInjectionManager.getClassInstance(IImporter.class);
 		this.exporter = (IExporter) DependencyInjectionManager.getClassInstance(IExporter.class);
-		this.dataDeserializer = (IDeserializer) DependencyInjectionManager.getClassInstance(IDeserializer.class);
-		this.dataSerializer = (ISerializer) DependencyInjectionManager.getClassInstance(ISerializer.class);
-		this.dataConverter = new DataConverter();
-		List<Object> data = this.dataDeserializer.getDataObjects();
-		this.dataConverter.convertObjectsToEntities(data);
-		this.dataConverter.fillControllers();
-		this.fillControllersFromConvertor();
+		this.initControllers();
 	}
-
-	private void fillControllersFromConvertor() {
-
-		this.courseController = this.dataConverter.getCourseController();
-		this.lectionController = this.dataConverter.getLectionController();
-		this.lecturerController = this.dataConverter.getLecturerController();
-		this.studentController = this.dataConverter.getStudentController();
-	}
-
-	// Course Region
 
 	public boolean setCourse(Object course) {
 		Course tempCourse = null;
@@ -519,22 +509,6 @@ public class Facade implements IFacade {
 		return studentController.getCount();
 	}
 
-	public synchronized boolean loadDataFromFile() {
-		List<Object> data = this.dataDeserializer.getDataObjects();
-		if (this.dataConverter.convertObjectsToEntities(data)) {
-			this.dataConverter.fillControllers();
-			this.fillControllersFromConvertor();
-			return true;
-		}
-		return false;
-	}
-
-	public synchronized boolean saveDataToFile() {
-		Object data = this.dataConverter.convertDataToObject(this.getAllStudents(), this.getAllLections(),
-				this.getAllLecturers(), this.getAllCourses());
-		return this.dataSerializer.saveData(data);
-	}
-
 	@Override
 	public boolean cloneCourse(Object courseId) {
 		boolean result = false;
@@ -791,6 +765,17 @@ public class Facade implements IFacade {
 			}
 		}
 		return result;
+	}
+
+	private void initControllers() {
+		ICourseService courseService = new CourseService((ICourseRepository)DependencyInjectionManager.getClassInstance(ICourseRepository.class));
+		IStudentService studentService = new StudentService((IStudentRepository)DependencyInjectionManager.getClassInstance(IStudentRepository.class));
+		ILectionService lectionService = new LectionService((ILectionRepository)DependencyInjectionManager.getClassInstance(ILectionRepository.class));
+		ILecturerService lecturerService = new LecturerService((ILecturerRepository)DependencyInjectionManager.getClassInstance(ILecturerRepository.class));
+		this.courseController = new CourseController(courseService, lecturerService, lectionService, studentService);
+		this.lectionController = new LectionController(lectionService);
+		this.lecturerController = new LecturerController(lecturerService);
+		this.studentController = new StudentController(studentService);
 	}
 
 }

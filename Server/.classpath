@@ -8,5 +8,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Message"/>
 	<classpathentry kind="lib" path="/Annotation/log4j-api-2.5.jar"/>
 	<classpathentry kind="lib" path="/Annotation/log4j-core-2.5.jar"/>
+	<classpathentry kind="lib" path="mysql-connector-java-5.1.38-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

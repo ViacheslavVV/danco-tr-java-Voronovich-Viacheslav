@@ -110,10 +110,6 @@ public interface IFacade {
 	
 	public int getStudentsCount();
 	
-	public boolean loadDataFromFile();
-
-	public boolean saveDataToFile();
-	
 	public boolean importCourses(Object fileName);
 
 	public boolean importStudents(Object fileName);

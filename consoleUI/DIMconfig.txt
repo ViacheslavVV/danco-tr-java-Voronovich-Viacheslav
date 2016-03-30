@@ -1,5 +1,0 @@
-com.training.danco.facade.api.IFacade=com.training.danco.facade.impl.Facade
-com.training.danco.data.manager.api.IDeserializer=com.training.danco.data.manager.impl.DataDeserializer
-com.training.danco.data.manager.api.ISerializer=com.training.danco.data.manager.impl.DataSerializer
-com.training.danco.text.io.api.IExporter=com.training.danco.text.io.impl.CSVExporter
-com.training.danco.text.io.api.IImporter=com.training.danco.text.io.impl.CSVImporter

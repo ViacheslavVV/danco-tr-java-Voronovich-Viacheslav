@@ -27,7 +27,7 @@ public class LectionRepository implements ILectionRepository {
 		Statement statement = connection.createStatement();
 		Course course = lection.getCourse();
 		return statement.executeUpdate("INSERT INTO `mydb`.`course` " + "(`id`, `name`, `date`, `courseId`) "
-				+ "VALUES (NULL, " + lection.getName() + ", " + lection.getDate() + ", " + course == null ? "NULL"
+				+ "VALUES (NULL, '" + lection.getName() + "', " + lection.getDate() + ", " + course == null ? "NULL"
 						: (course.getId() == 0) ? "NULL" : course.getId() + ");") == 1;
 	}
 

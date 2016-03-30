@@ -1,5 +1,9 @@
 package com.training.danco.client;
 
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -18,10 +22,15 @@ public class Client {
 		int serverPort = STANDART_PORT; 
 		String address = INET_ADDRESS;
 		Socket clientSocket = new Socket(InetAddress.getByName(address), serverPort);
+		InputStream in = clientSocket.getInputStream();
+		OutputStream s =clientSocket.getOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(s);
+		ObjectInputStream ois = new ObjectInputStream(in);
 		MenuBuilder menuBuilder = new MenuBuilder();
-		IMessageHandler messageHandler = new SocketIOHandler(clientSocket);
+		IMessageHandler messageHandler = new SocketIOHandler(ois,oos);
 		Menu mainMenu = menuBuilder.generateMenu(messageHandler);
 		Controller controller = new Controller();
 		controller.run(mainMenu);
+		clientSocket.close();
 	}
 }
