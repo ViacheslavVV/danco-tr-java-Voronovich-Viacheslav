@@ -15,7 +15,9 @@ public class Course extends BaseModel implements Cloneable{
 	 * 
 	 */
 	private static final long serialVersionUID = -4287990527523836622L;
-	
+
+	@Printable(name="ID", order = 1)
+	private int id;
 	@Printable(order=2)
 	private String name;
 	@Printable(order=3, isDetailedOnly = true)
@@ -162,5 +164,16 @@ public class Course extends BaseModel implements Cloneable{
 		course.setLections(this.lections);
 		course.setLecturer(this.lecturer);
 		return course;
+	}
+
+	@Override
+	public int getId() {
+		return this.id;
+	}
+
+	@Override
+	public void setId(int id) {
+		this.id = id;
+		
 	}
 }

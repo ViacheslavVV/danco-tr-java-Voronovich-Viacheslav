@@ -14,6 +14,8 @@ public class Lection extends BaseModel{
 	 */
 	private static final long serialVersionUID = -2546588600372557892L;
 
+	@Printable(name="ID", order = 1)
+	private int id;
 	@Printable(order=2)
 	private String name;
 	@Printable(order=3, isDetailedOnly = true)
@@ -47,6 +49,14 @@ public class Lection extends BaseModel{
 
 	public void setCourse(Course course) {
 		this.course = course;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }
