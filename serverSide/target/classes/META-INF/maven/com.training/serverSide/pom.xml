@@ -34,17 +34,5 @@
 	  <artifactId>DependencyInjectionMechanism</artifactId>
 	  <version>0.0.1-SNAPSHOT</version>
 	</dependency>
-	
-	<dependency>
-	  <groupId>com.training</groupId>
-	  <artifactId>model</artifactId>
-	  <version>0.0.1-SNAPSHOT</version>
-	</dependency>
-	
-	<dependency>
-	  <groupId>com.training</groupId>
-	  <artifactId>propertyManager</artifactId>
-	  <version>0.0.1-SNAPSHOT</version>
-	</dependency>
   </dependencies>
 </project>
