@@ -30,7 +30,7 @@ public class Course extends BaseModel implements Cloneable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column
 	@Printable(name="ID", order = 1)
-	private int id;
+	private Integer id;
 	
 	@Column
 	@Printable(order=2)
@@ -197,12 +197,12 @@ public class Course extends BaseModel implements Cloneable{
 	}
 
 	@Override
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
 	@Override
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 		
 	}

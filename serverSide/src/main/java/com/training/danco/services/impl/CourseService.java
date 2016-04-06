@@ -1,6 +1,6 @@
 package com.training.danco.services.impl;
 
-import java.sql.Connection;
+import org.hibernate.Session;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,10 +9,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.training.danco.configuration.manager.PropertyManager;
-import com.training.danco.connection.manager.ConnectionManager;
 import com.training.danco.dao.api.*;
 import com.training.danco.model.*;
 import com.training.danco.services.api.ICourseService;
+import com.training.danco.session.manager.SessionManager;
 
 public class CourseService implements ICourseService {
 
@@ -27,16 +27,16 @@ public class CourseService implements ICourseService {
 	@Override
 	public boolean set(Course course) {
 		boolean result = true;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			result = courseRepository.set(connection, course);
 
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -45,14 +45,14 @@ public class CourseService implements ICourseService {
 	public Course get(int id) {
 
 		Course resultCourse = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			resultCourse = this.courseRepository.get(connection, id);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 
 		return resultCourse;
@@ -61,9 +61,9 @@ public class CourseService implements ICourseService {
 	@Override
 	public boolean update(Course course) {
 		boolean result = false;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			connection.setAutoCommit(false);
 			result = this.courseRepository.update(connection, course);
 			if (!result) {
@@ -77,7 +77,7 @@ public class CourseService implements ICourseService {
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -85,15 +85,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public boolean delete(Course course) {
 		boolean result = true;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			result = this.courseRepository.delete(connection, course);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -102,15 +102,15 @@ public class CourseService implements ICourseService {
 	public List<Course> getAll() {
 
 		List<Course> resultCourses = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			resultCourses = this.courseRepository.getAll(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			resultCourses = new ArrayList<Course>();
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return resultCourses;
 	}
@@ -119,14 +119,14 @@ public class CourseService implements ICourseService {
 	public int getCount() {
 
 		int count = 0;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			count = this.courseRepository.getCount(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return count;
 	}
@@ -134,15 +134,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public boolean setLecturer(Course course, Lecturer lecturer) {
 		boolean result = true;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			this.courseRepository.setLecturer(connection, course, lecturer);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return result;
 
@@ -151,10 +151,10 @@ public class CourseService implements ICourseService {
 	@Override
 	public boolean addLection(Course course, Lection lection) {
 		boolean result = true;
-		Connection connection = null;
+		Session session = null;
 		try {
 			int studentCount = 0;
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			connection.setAutoCommit(false);
 			for (Course tempCourse : this.courseRepository.getAll(connection)) {
 				studentCount += tempCourse.getLectionByDate(lection.getDate()).size() * tempCourse.getStudents().size();
@@ -169,7 +169,7 @@ public class CourseService implements ICourseService {
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -177,15 +177,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public boolean addStudent(Course course, Student student) {
 		boolean result = true;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			result = this.courseRepository.addStudent(connection, course, student);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -193,15 +193,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public boolean removeLection(Course course, Lection lection) {
 		boolean result = true;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			result = this.courseRepository.removeLection(connection, course, lection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -209,15 +209,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public boolean removeStudent(Course course, Student student) {
 		boolean result = true;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			result = this.courseRepository.removeStudent(connection, course, student);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -225,15 +225,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Course> getCoursesInInterval(Date dateFrom, Date dateTo) {
 		List<Course> tempCourses = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			tempCourses = this.courseRepository.getCoursesInInterval(connection, dateFrom, dateTo);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempCourses = new ArrayList<Course>();
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return tempCourses;
 	}
@@ -241,15 +241,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Course> getSortedByStartDate() {
 		List<Course> tempCourses = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			tempCourses = this.courseRepository.getSortedByStartDate(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempCourses = new ArrayList<Course>();
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return tempCourses;
 	}
@@ -257,15 +257,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Course> getSortedByStudentsCount() {
 		List<Course> tempCourses = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			tempCourses = this.courseRepository.getSortedByStudentsCount(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempCourses = new ArrayList<Course>();
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return tempCourses;
 	}
@@ -273,15 +273,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Course> getSortedByLecturer() {
 		List<Course> tempCourses = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			tempCourses = this.courseRepository.getSortedByLecturer(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempCourses = new ArrayList<Course>();
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return tempCourses;
 	}
@@ -289,15 +289,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Course> getSortedByName() {
 		List<Course> tempCourses = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			tempCourses = this.courseRepository.getSortedByName(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempCourses = new ArrayList<Course>();
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return tempCourses;
 	}
@@ -305,15 +305,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Course> getCurrentCoursesSortedByStartDate() {
 		List<Course> tempCourses = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			tempCourses = this.courseRepository.getCurrentCoursesSortedByStartDate(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempCourses = new ArrayList<Course>();
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return tempCourses;
 	}
@@ -321,15 +321,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Course> getCurrentCoursesSortedByStudentsCount() {
 		List<Course> tempCourses = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			tempCourses = this.courseRepository.getCurrentCoursesSortedByStudentsCount(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempCourses = new ArrayList<Course>();
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return tempCourses;
 	}
@@ -337,15 +337,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Course> getCurrentCoursesSortedByLecturer() {
 		List<Course> tempCourses = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			tempCourses = this.courseRepository.getCurrentCoursesSortedByLecturer(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempCourses = new ArrayList<Course>();
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return tempCourses;
 	}
@@ -353,15 +353,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Course> getCurrentCoursesSortedByName() {
 		List<Course> tempCourses = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			tempCourses = this.courseRepository.getCurrentCoursesSortedByName(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempCourses = new ArrayList<Course>();
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return tempCourses;
 	}
@@ -369,15 +369,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Course> getCoursesAfterDateSortedByStartDate(Date date) {
 		List<Course> tempCourses = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			tempCourses = this.courseRepository.getCoursesAfterDateSortedByStartDate(connection, date);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempCourses = new ArrayList<Course>();
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return tempCourses;
 	}
@@ -385,15 +385,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Course> getCoursesAfterDateSortedByStudentsCount(Date date) {
 		List<Course> tempCourses = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			tempCourses = this.courseRepository.getCoursesAfterDateSortedByStudentsCount(connection, date);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempCourses = new ArrayList<Course>();
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return tempCourses;
 	}
@@ -401,15 +401,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Course> getCoursesAfterDateSortedByLecturer(Date date) {
 		List<Course> tempCourses = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			tempCourses = this.courseRepository.getCoursesAfterDateSortedByLecturer(connection, date);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempCourses = new ArrayList<Course>();
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return tempCourses;
 	}
@@ -417,15 +417,15 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Course> getCoursesAfterDateSortedByName(Date date) {
 		List<Course> tempCourses = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			tempCourses = this.courseRepository.getCoursesAfterDateSortedByName(connection, date);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempCourses = new ArrayList<Course>();
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return tempCourses;
 	}
@@ -433,9 +433,9 @@ public class CourseService implements ICourseService {
 	@Override
 	public boolean cloneCourse(Course course) {
 		boolean result = true;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			connection.setAutoCommit(false);
 			Course newCourse = this.courseRepository.cloneCourse(connection, course);
 			if (newCourse == null) {
@@ -447,7 +447,7 @@ public class CourseService implements ICourseService {
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 
 		return result;
@@ -456,14 +456,14 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Student> getStudentsByCourse(Course course) {
 		List<Student> students = new ArrayList<>();
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			students = this.courseRepository.getStudentsByCourse(connection, course);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return students;
 	}
@@ -471,14 +471,14 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Lection> getLectionsByCourse(Course course) {
 		List<Lection> lections = new ArrayList<>();
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			lections = this.courseRepository.getLectionsByCourse(connection, course);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return lections;
 	}
@@ -486,14 +486,14 @@ public class CourseService implements ICourseService {
 	@Override
 	public Lecturer getLecturerByCourse(Course course) {
 		Lecturer lecturer = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			lecturer = this.courseRepository.getLecturerByCourse(connection, course);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return lecturer;
 	}

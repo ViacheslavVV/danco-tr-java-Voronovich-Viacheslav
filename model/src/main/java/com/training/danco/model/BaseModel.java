@@ -10,8 +10,8 @@ public abstract class BaseModel implements Serializable{
 	 */
 	private static final long serialVersionUID = 2731347744121501881L;
 
-	public abstract int getId();
+	public abstract Integer getId();
 
-	public abstract void setId(int id);
+	public abstract void setId(Integer id);
 	
 }

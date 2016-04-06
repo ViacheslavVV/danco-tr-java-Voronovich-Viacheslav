@@ -1,16 +1,16 @@
 package com.training.danco.services.impl;
 
-import java.sql.Connection;
+import org.hibernate.Session;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.training.danco.connection.manager.ConnectionManager;
 import com.training.danco.dao.api.IStudentRepository;
 import com.training.danco.model.Student;
 import com.training.danco.services.api.IStudentService;
+import com.training.danco.session.manager.SessionManager;
 
 public class StudentService implements IStudentService {
 
@@ -25,15 +25,15 @@ public class StudentService implements IStudentService {
 	@Override
 	public boolean set(Student student) {
 		boolean result = true;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			result = studentRepository.set(connection, student);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -42,14 +42,14 @@ public class StudentService implements IStudentService {
 	public Student get(int id) {
 		
 		Student resultStudent = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			resultStudent = this.studentRepository.get(connection,id);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		
 		return resultStudent;
@@ -59,9 +59,9 @@ public class StudentService implements IStudentService {
 	public boolean update(Student student) {
 		
 		boolean result = false;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			connection.setAutoCommit(false);
 			result = this.studentRepository.update(connection, student);
 			if (!result) {
@@ -75,7 +75,7 @@ public class StudentService implements IStudentService {
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -83,15 +83,15 @@ public class StudentService implements IStudentService {
 	@Override
 	public boolean delete(Student student) {
 		boolean result = true;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			result = this.studentRepository.delete(connection, student);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return result;
 	}
@@ -100,15 +100,15 @@ public class StudentService implements IStudentService {
 	public List<Student> getAll() {
 
 		List<Student> resultStudents = null;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			resultStudents = this.studentRepository.getAll(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			resultStudents = new ArrayList<Student>();
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return resultStudents;
 	}
@@ -117,14 +117,14 @@ public class StudentService implements IStudentService {
 	public int getCount() {
 		
 		int count = 0;
-		Connection connection = null;
+		Session session = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = SessionManager.getConnection();
 			count = this.studentRepository.getCount(connection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			ConnectionManager.closeConnection(connection);
+			SessionManager.closeConnection(connection);
 		}
 		return count;
 	}

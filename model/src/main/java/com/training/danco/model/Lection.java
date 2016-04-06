@@ -27,7 +27,7 @@ public class Lection extends BaseModel {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
 	@Printable(name = "ID", order = 1)
-	private int id;
+	private Integer id;
 
 	@Column
 	@Printable(order = 2)
@@ -71,11 +71,11 @@ public class Lection extends BaseModel {
 		this.course = course;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
