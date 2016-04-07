@@ -8,7 +8,7 @@ import com.training.danco.model.Lecturer;
 import com.training.danco.model.Student;
 
 public interface IFacade {
-	public boolean setCourse(Object course);
+	public Integer setCourse(Object course);
 	
 	public Course getCourse(Object courseId);
 	
@@ -16,27 +16,21 @@ public interface IFacade {
 	
 	public boolean deleteCourse(Object courseId);
 	
-	public Lecturer getLecturerByCourse(Object courseId);
-	
 	public boolean cloneCourse(Object courseId);
 	
 	public List<Course> getAllCourses();
 	
-	public boolean setLecturerToCourse(Object courseAndLecturerId);
-	
-	public boolean addLectionToCourse(Object courseAndLectionId);
-	
-	public boolean addStudentToCourse(Object courseAndStudentId);
-	
-	public boolean removeLectionFromCourse(Object courseAndLectionId);
+	public int getCoursesCount();
 	
 	public boolean removeStudentFromCourse(Object courseAndStudentId);
 	
-	public int getCoursesCount();
+	public boolean removeLectionFromCourse(Object courseAndLectionId);
 	
-	public List<Lection> getLectionsByCourse(Object courseId);
+	public boolean addStudentToCourse(Object courseAndStudentId);
 	
-	public List<Student> getStudentsByCourse(Object courseId);
+	public boolean addLectionToCourse(Object courseAndLectionId);
+	
+	public boolean setLecturerToCourse(Object courseAndLecturerId);
 	
 	public List<Course> getCoursesInInterval(Object dateFromAndTo);
 	
@@ -64,7 +58,7 @@ public interface IFacade {
 	
 	public List<Course> getCoursesAfterDateSortedByName(Object date);
 		
-	public boolean setLection(Object lection);
+	public Integer setLection(Object lection);
 	
 	public Lection getLection(Object lectionId);
 	
@@ -82,7 +76,7 @@ public interface IFacade {
 	
 	public int getLectionsCount();
 	
-	public boolean setLecturer(Object lecturer);
+	public Integer setLecturer(Object lecturer);
 	
 	public Lecturer getLecturer(Object lecturerId);
 	
@@ -98,7 +92,7 @@ public interface IFacade {
 	
 	public int getLecturersCount();
 	
-	public boolean setStudent(Object student);
+	public Integer setStudent(Object student);
 	
 	public Student getStudent(Object studentId);
 	

@@ -12,22 +12,21 @@ import org.apache.logging.log4j.Logger;
 
 public class SessionManager {
 
-	{
-		try {
-			Configuration configuration = new Configuration().configure();
-			ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-					.applySettings(configuration.getProperties()).build();
-			sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-		} catch (Exception e) {
-			LOGGER.info(e.getMessage());
-		}
-	}
-
 	private static final Logger LOGGER = LogManager.getLogger(SessionManager.class);
 
 	private static SessionFactory sessionFactory;
 
 	public static Session getSession() {
+		if (sessionFactory == null){
+			try {
+				Configuration configuration = new Configuration().configure();
+				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+						.applySettings(configuration.getProperties()).build();
+				sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+			} catch (Exception e) {
+				LOGGER.info(e.getMessage());
+			}
+		}
 		return sessionFactory.openSession();
 	}
 

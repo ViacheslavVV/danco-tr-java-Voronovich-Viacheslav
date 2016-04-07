@@ -1,6 +1,8 @@
 package com.training.danco.services.impl;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,18 +25,18 @@ public class LecturerService implements ILecturerService {
 	}
 
 	@Override
-	public boolean set(Lecturer lecturer) {
+	public Integer set(Lecturer lecturer) {
 
-		boolean result = true;
+		Integer result;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			result = this.lecturerRepository.set(connection, lecturer);
+			session = SessionManager.getSession();
+			result = this.lecturerRepository.set(session, lecturer);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
-			result = false;
+			result = null;
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return result;
 	}
@@ -45,12 +47,12 @@ public class LecturerService implements ILecturerService {
 		Lecturer resultLecturer = null;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			resultLecturer = this.lecturerRepository.get(connection, id);
+			session = SessionManager.getSession();
+			resultLecturer = this.lecturerRepository.get(session, id);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 
 		return resultLecturer;
@@ -60,21 +62,27 @@ public class LecturerService implements ILecturerService {
 	public boolean update(Lecturer lecturer) {
 		boolean result = false;
 		Session session = null;
+		Transaction transaction = null;
 		try {
-			connection = SessionManager.getConnection();
-			connection.setAutoCommit(false);
-			result = this.lecturerRepository.update(connection, lecturer);
-			if (!result) {
-				result = this.lecturerRepository.set(connection, lecturer);
+			session = SessionManager.getSession();
+			transaction = session.beginTransaction();
+
+			if (lecturer.getId() == null) {
+				this.lecturerRepository.set(session, lecturer);
+			} else if (this.lecturerRepository.get(session, lecturer.getId()) != null) {
+				this.lecturerRepository.update(session, lecturer);
+			} else {
+				this.lecturerRepository.set(session, lecturer);
 			}
 
-			if (result) {
-				connection.commit();
-			}
+			transaction.commit();
 		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			LOGGER.error(e.getMessage());
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return result;
 	}
@@ -85,13 +93,13 @@ public class LecturerService implements ILecturerService {
 		boolean result = true;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			result = this.lecturerRepository.delete(connection, lecturer);
+			session = SessionManager.getSession();
+			this.lecturerRepository.delete(session, lecturer);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return result;
 	}
@@ -102,13 +110,13 @@ public class LecturerService implements ILecturerService {
 		List<Lecturer> resultLecturers = null;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			resultLecturers = this.lecturerRepository.getAll(connection);
+			session = SessionManager.getSession();
+			resultLecturers = this.lecturerRepository.getAll(session);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			resultLecturers = new ArrayList<Lecturer>();
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return resultLecturers;
 	}
@@ -119,13 +127,13 @@ public class LecturerService implements ILecturerService {
 		List<Lecturer> tempLecturers = null;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			tempLecturers = this.lecturerRepository.getSortedByName(connection);
+			session = SessionManager.getSession();
+			tempLecturers = this.lecturerRepository.getSortedByName(session);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempLecturers = new ArrayList<Lecturer>();
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return tempLecturers;
 	}
@@ -136,13 +144,13 @@ public class LecturerService implements ILecturerService {
 		List<Lecturer> tempLecturers = null;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			tempLecturers = this.lecturerRepository.getSortedByCoursesCount(connection);
+			session = SessionManager.getSession();
+			tempLecturers = this.lecturerRepository.getSortedByCoursesCount(session);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempLecturers = new ArrayList<Lecturer>();
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return tempLecturers;
 	}
@@ -152,12 +160,12 @@ public class LecturerService implements ILecturerService {
 		int count = 0;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			count = this.lecturerRepository.getCount(connection);
+			session = SessionManager.getSession();
+			count = this.lecturerRepository.getCount(session);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return count;
 	}

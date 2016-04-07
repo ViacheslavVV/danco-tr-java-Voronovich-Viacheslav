@@ -3,6 +3,7 @@ package com.training.danco.model;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,8 +14,8 @@ import javax.persistence.Table;
 import com.training.danco.annotation.Printable;
 import com.training.danco.annotation.PrintableObject;
 import com.training.danco.annotation.PrintableRef;
-
-@Table(name = "lection")
+@Entity
+@Table(name = "Section")
 @PrintableObject(name = "Lection")
 public class Lection extends BaseModel {
 
@@ -42,6 +43,9 @@ public class Lection extends BaseModel {
 	@PrintableRef(name = "Course", order = 4)
 	private Course course;
 
+	public Lection() {
+	}
+	
 	public Lection(String name, Date date) {
 		this.name = name;
 		this.date = date;

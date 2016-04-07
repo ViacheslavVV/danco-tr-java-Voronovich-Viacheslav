@@ -15,7 +15,7 @@ public class LectionController {
 		this.lectionService = lectionService;
 	}
 	
-	public boolean setLection(Lection lection)
+	public Integer setLection(Lection lection)
 	{
 		return this.lectionService.set(lection);
 	}

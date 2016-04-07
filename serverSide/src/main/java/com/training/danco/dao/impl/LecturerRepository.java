@@ -68,7 +68,7 @@ public class LecturerRepository implements ILecturerRepository {
 
 	@Override
 	public int getCount(Session session) throws SQLException {
-		return (int) session.createCriteria(Lecturer.class).setProjection(Projections.rowCount()).uniqueResult();
+		return Integer.parseInt(session.createCriteria(Lecturer.class).setProjection(Projections.rowCount()).uniqueResult().toString());
 	}
 
 }

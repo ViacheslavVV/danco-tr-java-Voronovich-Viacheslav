@@ -1,5 +1,6 @@
 package com.training.danco.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import com.training.danco.model.*;
 
 public class CourseRepository implements ICourseRepository {
 
+	private static final int COURSE_POSITION = 0;
 	private static final String ID = "id";
 	private static final String NAME = "name";
 	private static final String FINAL_DATE = "finalDate";
@@ -66,11 +68,11 @@ public class CourseRepository implements ICourseRepository {
 		Criteria criteria = session.createCriteria(Course.class);
 		criteria.setFetchMode("students", FetchMode.JOIN).createAlias("students", "stud");
 		ProjectionList projectionList = Projections.projectionList();
-		projectionList.add(Projections.groupProperty("stud.course"), "studGr");
+		projectionList.add(Projections.groupProperty("stud.course"));
 		projectionList.add(Projections.rowCount(), "studCount");
 		criteria.setProjection(projectionList);
 		criteria.addOrder(Order.asc("studCount"));
-		return criteria.list();
+		return getCoursesFromMixedResult(criteria.list());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -91,7 +93,7 @@ public class CourseRepository implements ICourseRepository {
 
 	@Override
 	public int getCount(Session session) throws SQLException {
-		return (int) session.createCriteria(Course.class).setProjection(Projections.rowCount()).uniqueResult();
+		return Integer.parseInt(session.createCriteria(Course.class).setProjection(Projections.rowCount()).uniqueResult().toString());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -125,7 +127,7 @@ public class CourseRepository implements ICourseRepository {
 		criteria.setProjection(projectionList).add(Restrictions.le(START_DATE, curDate))
 				.add(Restrictions.ge(FINAL_DATE, curDate));
 		criteria.addOrder(Order.asc("studCount"));
-		return criteria.list();
+		return getCoursesFromMixedResult(criteria.list());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -164,7 +166,7 @@ public class CourseRepository implements ICourseRepository {
 		projectionList.add(Projections.rowCount(), "studCount");
 		criteria.setProjection(projectionList).add(Restrictions.gt(START_DATE, date));
 		criteria.addOrder(Order.asc("studCount"));
-		return criteria.list();
+		return getCoursesFromMixedResult(criteria.list());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -192,5 +194,16 @@ public class CourseRepository implements ICourseRepository {
 		}
 		clone.setId(id);
 		return clone;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	private List<Course> getCoursesFromMixedResult(List<Object> list){
+		List<Course> courses = new ArrayList<>();
+		for (Object obj : list) {
+			obj.getClass();
+			courses.add((Course)((Object[])obj)[COURSE_POSITION]);	
+		}
+		return courses;
 	}
 }

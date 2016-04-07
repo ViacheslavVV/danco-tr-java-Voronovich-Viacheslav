@@ -28,7 +28,7 @@ public class CourseController {
 		this.studentService = studentService;
 	}
 	
-	public boolean setCourse(Course course)
+	public Integer setCourse(Course course)
 	{
 		return  this.courseService.set(course);
 	}
@@ -94,27 +94,9 @@ public class CourseController {
 		return this.courseService.removeStudent(course, student);
 	}
 	
-	public Lecturer getLecturerByCourse(int courseId){
-		
-		Course course = this.courseService.get(courseId);
-		return this.courseService.getLecturerByCourse(course);
-	}
-	
 	public int getCount()
 	{
 		return this.courseService.getCount();
-	}
-	
-	public List<Lection> getLectionsByCourse(int courseId){
-		
-		Course course = this.courseService.get(courseId);
-		return this.courseService.getLectionsByCourse(course);
-	}
-	
-	public List<Student> getStudentsByCourse(int courseId){
-		
-		Course course = this.courseService.get(courseId);
-		return this.courseService.getStudentsByCourse(course);
 	}
 	
 	public List<Course> getCoursesInInterval(Date dateFrom, Date dateTo)

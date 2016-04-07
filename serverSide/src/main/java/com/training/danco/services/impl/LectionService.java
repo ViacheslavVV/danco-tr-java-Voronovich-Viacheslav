@@ -1,6 +1,8 @@
 package com.training.danco.services.impl;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,18 +26,18 @@ public class LectionService implements ILectionService {
 	}
 
 	@Override
-	public boolean set(Lection lection) {
+	public Integer set(Lection lection) {
 
-		boolean result = true;
+		Integer result;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			result = this.lectionRepository.set(connection, lection);
+			session = SessionManager.getSession();
+			result = this.lectionRepository.set(session, lection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
-			result = false;
+			result = null;
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return result;
 	}
@@ -46,12 +48,12 @@ public class LectionService implements ILectionService {
 		Lection resultLection = null;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			resultLection = this.lectionRepository.get(connection, id);
+			session = SessionManager.getSession();
+			resultLection = this.lectionRepository.get(session, id);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 
 		return resultLection;
@@ -62,22 +64,27 @@ public class LectionService implements ILectionService {
 
 		boolean result = false;
 		Session session = null;
+		Transaction transaction = null;
 		try {
-			connection = SessionManager.getConnection();
-			connection.setAutoCommit(false);
-			result = this.lectionRepository.update(connection, lection);
-			if (!result) {
-				result = this.lectionRepository.set(connection, lection);
+			session = SessionManager.getSession();
+			transaction = session.beginTransaction();
+
+			if (lection.getId() == null) {
+				this.lectionRepository.set(session, lection);
+			} else if (this.lectionRepository.get(session, lection.getId()) != null) {
+				this.lectionRepository.update(session, lection);
+			} else {
+				this.lectionRepository.set(session, lection);
 			}
 
-			if (result) {
-				connection.commit();
-			}
-
+			transaction.commit();
 		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			LOGGER.error(e.getMessage());
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return result;
 	}
@@ -88,13 +95,13 @@ public class LectionService implements ILectionService {
 		boolean result = true;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			result = this.lectionRepository.delete(connection, lection);
+			session = SessionManager.getSession();
+			this.lectionRepository.delete(session, lection);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return result;
 	}
@@ -105,13 +112,13 @@ public class LectionService implements ILectionService {
 		List<Lection> resultLections = null;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			resultLections = this.lectionRepository.getAll(connection);
+			session = SessionManager.getSession();
+			resultLections = this.lectionRepository.getAll(session);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			resultLections = new ArrayList<Lection>();
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return resultLections;
 	}
@@ -121,13 +128,13 @@ public class LectionService implements ILectionService {
 		List<Lection> tempLections = null;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			tempLections = this.lectionRepository.getSortedByDate(connection);
+			session = SessionManager.getSession();
+			tempLections = this.lectionRepository.getSortedByDate(session);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempLections = new ArrayList<Lection>();
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return tempLections;
 	}
@@ -137,13 +144,13 @@ public class LectionService implements ILectionService {
 		List<Lection> tempLections = null;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			tempLections = this.lectionRepository.getSortedByName(connection);
+			session = SessionManager.getSession();
+			tempLections = this.lectionRepository.getSortedByName(session);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempLections = new ArrayList<Lection>();
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return tempLections;
 	}
@@ -153,13 +160,13 @@ public class LectionService implements ILectionService {
 		List<Lection> tempLections = null;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			tempLections = this.lectionRepository.getLectionsByDate(connection,date);
+			session = SessionManager.getSession();
+			tempLections = this.lectionRepository.getLectionsByDate(session,date);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempLections = new ArrayList<Lection>();
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return tempLections;
 	}
@@ -169,12 +176,12 @@ public class LectionService implements ILectionService {
 		int count = 0;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			count = this.lectionRepository.getCount(connection);
+			session = SessionManager.getSession();
+			count = this.lectionRepository.getCount(session);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return count;
 	}

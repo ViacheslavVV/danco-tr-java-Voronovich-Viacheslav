@@ -10,7 +10,7 @@ import com.training.danco.model.Student;
 
 public interface ICourseService {
 
-	public boolean set(Course course);
+	public Integer set(Course course);
 	public Course get(int id);
 	public boolean update(Course course);
 	public boolean delete(Course course);
@@ -40,8 +40,4 @@ public interface ICourseService {
 	public List<Course> getCoursesAfterDateSortedByStudentsCount(Date date);
 	public List<Course> getCoursesAfterDateSortedByLecturer(Date date);
 	public List<Course> getCoursesAfterDateSortedByName(Date date);
-	
-	public List<Student> getStudentsByCourse(Course course);
-	public List<Lection> getLectionsByCourse(Course course);
-	public Lecturer getLecturerByCourse(Course course);
 }

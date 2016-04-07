@@ -3,6 +3,7 @@ package com.training.danco.model;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,8 +14,8 @@ import javax.persistence.Table;
 import com.training.danco.annotation.Printable;
 import com.training.danco.annotation.PrintableObject;
 import com.training.danco.annotation.PrintableRef;
-
-@Table(name = "lecturer")
+@Entity
+@Table(name = "Lecturer")
 @PrintableObject
 public class Lecturer extends BaseModel {
 
@@ -37,10 +38,14 @@ public class Lecturer extends BaseModel {
 	@Printable(order = 3, isDetailedOnly = true, name = "Age")
 	private int age;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "lecturer")
 	@PrintableRef(name = "Courses", order = 4)
 	private List<Course> courses;
 
+	public Lecturer(){
+		
+	}
+	
 	public Lecturer(String name, int age) {
 		this.name = name;
 		this.age = age;

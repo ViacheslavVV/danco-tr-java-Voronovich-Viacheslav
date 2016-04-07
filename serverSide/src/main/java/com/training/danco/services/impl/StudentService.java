@@ -1,6 +1,8 @@
 package com.training.danco.services.impl;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,17 +25,17 @@ public class StudentService implements IStudentService {
 	}
 
 	@Override
-	public boolean set(Student student) {
-		boolean result = true;
+	public Integer set(Student student) {
+		Integer result;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			result = studentRepository.set(connection, student);
+			session = SessionManager.getSession();
+			result = this.studentRepository.set(session, student);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
-			result = false;
+			result = null;
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return result;
 	}
@@ -44,12 +46,12 @@ public class StudentService implements IStudentService {
 		Student resultStudent = null;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			resultStudent = this.studentRepository.get(connection,id);
+			session = SessionManager.getSession();
+			resultStudent = this.studentRepository.get(session,id);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		
 		return resultStudent;
@@ -57,25 +59,29 @@ public class StudentService implements IStudentService {
 
 	@Override
 	public boolean update(Student student) {
-		
 		boolean result = false;
 		Session session = null;
+		Transaction transaction = null;
 		try {
-			connection = SessionManager.getConnection();
-			connection.setAutoCommit(false);
-			result = this.studentRepository.update(connection, student);
-			if (!result) {
-				result = this.studentRepository.set(connection, student);
+			session = SessionManager.getSession();
+			transaction = session.beginTransaction();
+
+			if (student.getId() == null) {
+				this.studentRepository.set(session, student);
+			} else if (this.studentRepository.get(session, student.getId()) != null) {
+				this.studentRepository.update(session, student);
+			} else {
+				this.studentRepository.set(session, student);
 			}
 
-			if (result) {
-				connection.commit();
-			}
-
+			transaction.commit();
 		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			LOGGER.error(e.getMessage());
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return result;
 	}
@@ -85,13 +91,13 @@ public class StudentService implements IStudentService {
 		boolean result = true;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			result = this.studentRepository.delete(connection, student);
+			session = SessionManager.getSession();
+			this.studentRepository.delete(session, student);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return result;
 	}
@@ -102,13 +108,13 @@ public class StudentService implements IStudentService {
 		List<Student> resultStudents = null;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			resultStudents = this.studentRepository.getAll(connection);
+			session = SessionManager.getSession();
+			resultStudents = this.studentRepository.getAll(session);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			resultStudents = new ArrayList<Student>();
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return resultStudents;
 	}
@@ -119,12 +125,12 @@ public class StudentService implements IStudentService {
 		int count = 0;
 		Session session = null;
 		try {
-			connection = SessionManager.getConnection();
-			count = this.studentRepository.getCount(connection);
+			session = SessionManager.getSession();
+			count = this.studentRepository.getCount(session);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
-			SessionManager.closeConnection(connection);
+			SessionManager.closeSession(session);
 		}
 		return count;
 	}

@@ -7,7 +7,7 @@ import com.training.danco.model.Lection;
 
 public interface ILectionService {
 
-	public boolean set(Lection lection);
+	public Integer set(Lection lection);
 	public Lection get(int id);
 	public boolean update(Lection lection);
 	public boolean delete(Lection lection);

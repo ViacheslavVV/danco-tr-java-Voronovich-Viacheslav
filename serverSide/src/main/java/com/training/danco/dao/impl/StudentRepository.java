@@ -45,7 +45,7 @@ public class StudentRepository implements IStudentRepository {
 	@Override
 	public int getCount(Session session) throws SQLException {
 		Criteria criteria = session.createCriteria(Student.class);
-		return (int) criteria.setProjection(Projections.rowCount()).uniqueResult();
+		return Integer.parseInt(criteria.setProjection(Projections.rowCount()).uniqueResult().toString());
 	}
 
 }

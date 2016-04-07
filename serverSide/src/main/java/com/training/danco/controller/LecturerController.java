@@ -14,7 +14,7 @@ public class LecturerController {
 		this.lecturerService = lecturerService;
 	}
 	
-	public boolean setLecturer(Lecturer lecturer)
+	public Integer setLecturer(Lecturer lecturer)
 	{
 		return this.lecturerService.set(lecturer);
 	}

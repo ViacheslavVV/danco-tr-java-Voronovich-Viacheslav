@@ -73,7 +73,7 @@ public class LectionRepository implements ILectionRepository {
 
 	@Override
 	public int getCount(Session session) throws SQLException {
-		return (int) session.createCriteria(Lection.class).setProjection(Projections.rowCount()).uniqueResult();
+		return Integer.parseInt(session.createCriteria(Lection.class).setProjection(Projections.rowCount()).uniqueResult().toString());
 	}
 
 }
