@@ -36,7 +36,7 @@ public class Lecturer extends BaseModel {
 	
 	@Column
 	@Printable(order = 3, isDetailedOnly = true, name = "Age")
-	private int age;
+	private Integer age;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "lecturer")
 	@PrintableRef(name = "Courses", order = 4)
@@ -46,7 +46,7 @@ public class Lecturer extends BaseModel {
 		
 	}
 	
-	public Lecturer(String name, int age) {
+	public Lecturer(String name, Integer age) {
 		this.name = name;
 		this.age = age;
 	}
@@ -75,11 +75,11 @@ public class Lecturer extends BaseModel {
 		this.name = name;
 	}
 
-	public int getAge() {
+	public Integer getAge() {
 		return age;
 	}
 
-	public void setAge(int age) {
+	public void setAge(Integer age) {
 		this.age = age;
 	}
 

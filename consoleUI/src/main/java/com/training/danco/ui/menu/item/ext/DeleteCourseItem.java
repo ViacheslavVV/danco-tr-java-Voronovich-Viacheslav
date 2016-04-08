@@ -22,9 +22,9 @@ public class DeleteCourseItem extends MenuItem {
 	@Override
 	public Menu doWork() {
 		try {
-			int courseId = ConsoleReader.getCourseId();
+			Integer courseId = ConsoleReader.getCourseId();
 			Message message = new Message(DELETE_COURSE, courseId);
-			boolean result = (boolean) messageHandler.sendMessage(message);
+			Boolean result = (Boolean) messageHandler.sendMessage(message);
 			if (result) {
 				ConsoleEntityDisplayer.displayMessage("Course has been deleted.");
 			} else {

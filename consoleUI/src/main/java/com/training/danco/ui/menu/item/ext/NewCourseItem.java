@@ -30,14 +30,14 @@ public class NewCourseItem extends MenuItem {
 			String name = ConsoleReader.getCourseName();
 			Date startDate = ConsoleReader.getCourseStartDate();
 			Date finalDate = ConsoleReader.getCourseFinalDate();
-			int maxStudents = ConsoleReader.getMaxStudentsNumber();
-			int maxLections = ConsoleReader.getMaxLectionsNumber();
+			Integer maxStudents = ConsoleReader.getMaxStudentsNumber();
+			Integer maxLections = ConsoleReader.getMaxLectionsNumber();
 
 			Message message = new Message(SET_COURSE,
 					new ArrayList<Object>(Arrays.asList(name, startDate, finalDate, maxStudents, maxLections)));
-			boolean result = (boolean) messageHandler.sendMessage(message);
+			Integer result = (Integer) messageHandler.sendMessage(message);
 
-			if (result) {
+			if (result != null) {
 				ConsoleEntityDisplayer.displayMessage("Course has been created.");
 			} else {
 				ConsoleEntityDisplayer.displayMessage("Course hasn't been created.");

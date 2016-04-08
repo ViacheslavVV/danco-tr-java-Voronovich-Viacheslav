@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.training.danco.dao.api.ILectionRepository;
 import com.training.danco.model.Lection;
+import com.training.danco.params.SortingParam;
 import com.training.danco.services.api.ILectionService;
 import com.training.danco.session.manager.SessionManager;
 
@@ -43,7 +44,7 @@ public class LectionService implements ILectionService {
 	}
 
 	@Override
-	public Lection get(int id) {
+	public Lection get(Integer id) {
 
 		Lection resultLection = null;
 		Session session = null;
@@ -60,9 +61,9 @@ public class LectionService implements ILectionService {
 	}
 
 	@Override
-	public boolean update(Lection lection) {
+	public Boolean update(Lection lection) {
 
-		boolean result = false;
+		Boolean result = false;
 		Session session = null;
 		Transaction transaction = null;
 		try {
@@ -90,9 +91,9 @@ public class LectionService implements ILectionService {
 	}
 
 	@Override
-	public boolean delete(Lection lection) {
+	public Boolean delete(Lection lection) {
 
-		boolean result = true;
+		Boolean result = true;
 		Session session = null;
 		try {
 			session = SessionManager.getSession();
@@ -124,38 +125,6 @@ public class LectionService implements ILectionService {
 	}
 
 	@Override
-	public List<Lection> getSortedByDate() {
-		List<Lection> tempLections = null;
-		Session session = null;
-		try {
-			session = SessionManager.getSession();
-			tempLections = this.lectionRepository.getSortedByDate(session);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-			tempLections = new ArrayList<Lection>();
-		} finally {
-			SessionManager.closeSession(session);
-		}
-		return tempLections;
-	}
-
-	@Override
-	public List<Lection> getSortedByName() {
-		List<Lection> tempLections = null;
-		Session session = null;
-		try {
-			session = SessionManager.getSession();
-			tempLections = this.lectionRepository.getSortedByName(session);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-			tempLections = new ArrayList<Lection>();
-		} finally {
-			SessionManager.closeSession(session);
-		}
-		return tempLections;
-	}
-
-	@Override
 	public List<Lection> getLectionsByDate(Date date) {
 		List<Lection> tempLections = null;
 		Session session = null;
@@ -172,8 +141,8 @@ public class LectionService implements ILectionService {
 	}
 
 	@Override
-	public int getCount() {
-		int count = 0;
+	public Integer getCount() {
+		Integer count = 0;
 		Session session = null;
 		try {
 			session = SessionManager.getSession();
@@ -184,6 +153,22 @@ public class LectionService implements ILectionService {
 			SessionManager.closeSession(session);
 		}
 		return count;
+	}
+
+	@Override
+	public List<Lection> getSorted(SortingParam sortingParam) {
+		List<Lection> tempLections = null;
+		Session session = null;
+		try {
+			session = SessionManager.getSession();
+			tempLections = this.lectionRepository.getSorted(session,sortingParam);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			tempLections = new ArrayList<Lection>();
+		} finally {
+			SessionManager.closeSession(session);
+		}
+		return tempLections;
 	}
 
 }

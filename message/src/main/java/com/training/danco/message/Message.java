@@ -7,7 +7,7 @@ public class Message implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1936322812909335808L;
+	private static final Long serialVersionUID = -1936322812909335808L;
 	private String text;
 	private Object data;
 	

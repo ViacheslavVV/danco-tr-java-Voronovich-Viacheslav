@@ -17,7 +17,7 @@ public class ClientThread implements Runnable {
 	public Thread thread;
 	
 	private Socket clientSocket;
-	private boolean isAlive = true;
+	private Boolean isAlive = true;
 	private static final Logger LOGGER = LogManager.getLogger(ClientThread.class);
 	
 	public ClientThread(Socket clientSocket) {

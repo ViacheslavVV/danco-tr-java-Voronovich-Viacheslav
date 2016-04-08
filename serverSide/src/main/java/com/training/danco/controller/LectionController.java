@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.training.danco.model.Lection;
+import com.training.danco.params.SortingParam;
 import com.training.danco.services.api.ILectionService;
 
 public class LectionController {
@@ -20,17 +21,17 @@ public class LectionController {
 		return this.lectionService.set(lection);
 	}
 	
-	public Lection getLection(int lectionId)
+	public Lection getLection(Integer lectionId)
 	{
 		return this.lectionService.get(lectionId);
 	}
 	
-	public boolean updateLection(Lection lection)
+	public Boolean updateLection(Lection lection)
 	{
 		return this.lectionService.update(lection);
 	}
 	
-	public boolean deleteLection(int lectionId)
+	public Boolean deleteLection(Integer lectionId)
 	{
 		Lection lection = this.lectionService.get(lectionId);
 		return this.lectionService.delete(lection);
@@ -41,19 +42,16 @@ public class LectionController {
 		return this.lectionService.getAll();
 	}
 
-	public List<Lection> getSortedByDate()
+	public List<Lection> getSorted(SortingParam sortingParam)
 	{
-		return this.lectionService.getSortedByDate();
+		return this.lectionService.getSorted(sortingParam);
 	}
-	public List<Lection> getSortedByName()
-	{
-		return this.lectionService.getSortedByName();
-	}
+	
 	public List<Lection> getLectionsByDate(Date date)
 	{
 		return this.lectionService.getLectionsByDate(date);
 	}
-	public int getCount()
+	public Integer getCount()
 	{
 		return this.lectionService.getCount();
 	}

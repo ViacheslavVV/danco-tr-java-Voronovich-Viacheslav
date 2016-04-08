@@ -30,8 +30,8 @@ public class NewLectionItem extends MenuItem {
 			String name = ConsoleReader.getLectionName();
 			Date date = ConsoleReader.getLectionDate();
 			Message message = new Message(SET_LECTION, new ArrayList<Object>(Arrays.asList(name, date)));
-			boolean result = (boolean) messageHandler.sendMessage(message);
-			if (result) {
+			Integer result = (Integer) messageHandler.sendMessage(message);
+			if (result != null) {
 				ConsoleEntityDisplayer.displayMessage("Lection has been created.");
 			} else {
 				ConsoleEntityDisplayer.displayMessage("Lection hasn't been created.");

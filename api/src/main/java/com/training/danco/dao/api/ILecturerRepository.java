@@ -5,10 +5,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.training.danco.model.Lecturer;
+import com.training.danco.params.SortingParam;
 
-public interface ILecturerRepository extends IBaseRepository<Lecturer> {
+public interface ILecturerRepository extends IBaseRepository<Lecturer,Integer> {
 
-	public List<Lecturer> getSortedByName(Session session) throws SQLException;
-
-	public List<Lecturer> getSortedByCoursesCount(Session session) throws SQLException;
+	public List<Lecturer> getSorted(Session session, SortingParam sortingParam) throws SQLException;
+	public Integer getCount(Session session) throws SQLException;
 }

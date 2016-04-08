@@ -22,9 +22,9 @@ public class DeleteStudentItem extends MenuItem {
 	@Override
 	public Menu doWork() {
 		try {
-			int studentId = ConsoleReader.getStudentId();
+			Integer studentId = ConsoleReader.getStudentId();
 			Message message = new Message(DELETE_STUDENT, studentId);
-			boolean result = (boolean) messageHandler.sendMessage(message);
+			Boolean result = (Boolean) messageHandler.sendMessage(message);
 			if (result) {
 				ConsoleEntityDisplayer.displayMessage("Student has been deleted.");
 			} else {

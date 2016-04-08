@@ -27,10 +27,10 @@ public class NewStudentItem extends MenuItem {
 
 		try {
 			String name = ConsoleReader.getStudentName();
-			int age = ConsoleReader.getStudentAge();
+			Integer age = ConsoleReader.getStudentAge();
 			Message message = new Message(SET_STUDENT, new ArrayList<Object>(Arrays.asList(name, age)));
-			boolean result = (boolean) messageHandler.sendMessage(message);
-			if (result) {
+			Integer result = (Integer) messageHandler.sendMessage(message);
+			if (result != null) {
 				ConsoleEntityDisplayer.displayMessage("Student has been created.");
 			} else {
 				ConsoleEntityDisplayer.displayMessage("Student hasn't been created.");

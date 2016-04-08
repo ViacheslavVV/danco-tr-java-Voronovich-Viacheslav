@@ -7,37 +7,27 @@ import com.training.danco.model.Course;
 import com.training.danco.model.Lection;
 import com.training.danco.model.Lecturer;
 import com.training.danco.model.Student;
+import com.training.danco.params.CourseDateParam;
+import com.training.danco.params.SortingParam;
 
 public interface ICourseService {
 
 	public Integer set(Course course);
-	public Course get(int id);
-	public boolean update(Course course);
-	public boolean delete(Course course);
+	public Course get(Integer id);
+	public Boolean update(Course course);
+	public Boolean delete(Course course);
 	public List<Course> getAll();
-	public boolean cloneCourse(Course course);
-	public int getCount();
+	public Boolean cloneCourse(Course course);
+	public Integer getCount();
 	
-	public boolean setLecturer(Course course, Lecturer lecturer);
-	public boolean addLection(Course course, Lection lection);
-	public boolean addStudent(Course course, Student student);
-	public boolean removeLection(Course course, Lection lection);
-	public boolean removeStudent(Course course, Student student);
+	public Boolean setLecturer(Course course, Lecturer lecturer);
+	public Boolean addLection(Course course, Lection lection);
+	public Boolean addStudent(Course course, Student student);
+	public Boolean removeLection(Course course, Lection lection);
+	public Boolean removeStudent(Course course, Student student);
 	
 	public List<Course> getCoursesInInterval(Date dateFrom, Date dateTo);
 
-	public List<Course> getSortedByStartDate();
-	public List<Course> getSortedByStudentsCount();
-	public List<Course> getSortedByLecturer();
-	public List<Course> getSortedByName();
-	
-	public List<Course> getCurrentCoursesSortedByStartDate();
-	public List<Course> getCurrentCoursesSortedByStudentsCount();
-	public List<Course> getCurrentCoursesSortedByLecturer();
-	public List<Course> getCurrentCoursesSortedByName();
-
-	public List<Course> getCoursesAfterDateSortedByStartDate(Date date);
-	public List<Course> getCoursesAfterDateSortedByStudentsCount(Date date);
-	public List<Course> getCoursesAfterDateSortedByLecturer(Date date);
-	public List<Course> getCoursesAfterDateSortedByName(Date date);
+	public List<Course> getSorted(CourseDateParam courseDateParam, SortingParam sortingParam,
+			Date date);
 }

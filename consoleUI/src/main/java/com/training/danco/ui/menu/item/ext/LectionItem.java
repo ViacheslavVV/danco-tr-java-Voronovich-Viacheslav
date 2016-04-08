@@ -23,7 +23,7 @@ public class LectionItem extends MenuItem {
 	@Override
 	public Menu doWork() {
 		try {
-			int lectionId = ConsoleReader.getLectionId();
+			Integer lectionId = ConsoleReader.getLectionId();
 			Message message = new Message(GET_LECTION, lectionId);
 			Lection lection = (Lection) messageHandler.sendMessage(message);
 			if (lection == null) {

@@ -22,7 +22,7 @@ public class CoursesCountItem extends MenuItem {
 	public Menu doWork() {
 		try {
 			Message message = new Message(GET_COURSES_COUNT, null);
-			int count = (int) messageHandler.sendMessage(message);
+			Integer count = (Integer) messageHandler.sendMessage(message);
 			ConsoleEntityDisplayer.displayMessage("Number of courses : " + count);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());

@@ -15,7 +15,7 @@ import com.training.danco.model.Student;
 
 public class CSVConverter {
 
-	private static final int MONTH_SHIFT = 1;
+	private static final Integer MONTH_SHIFT = 1;
 	private static final String SPLIT_DELIMITER = "[;]";
 	private static final String DELIMITER = ";";
 	private static final String SPACE = " ";
@@ -43,7 +43,7 @@ public class CSVConverter {
 	}
 
 	private static void appendListAsString(StringBuilder sb, List<? extends BaseModel> list, String delimiter) {
-		boolean isEmpty = true;
+		Boolean isEmpty = true;
 		for (BaseModel bm : list) {
 			if (bm != null) {
 				sb.append(bm.getId());
@@ -101,7 +101,7 @@ public class CSVConverter {
 		newCourse.setId(Integer.parseInt(params[13]));
 
 		if (!params[14].isEmpty()) {
-			int lecturerId = Integer.parseInt(params[14]);
+			Integer lecturerId = Integer.parseInt(params[14]);
 			newCourse.setLecturer(facade.getLecturer(lecturerId));
 		}
 
@@ -115,7 +115,7 @@ public class CSVConverter {
 		return newCourse;
 	}
 
-	private static List<Student> getStudentsByIds(String[] studentsIds, int maxStudents, IFacade facade) {
+	private static List<Student> getStudentsByIds(String[] studentsIds, Integer maxStudents, IFacade facade) {
 		List<Student> students = new ArrayList<Student>();
 		Student curStudent = null;
 		for (String id : studentsIds) {
@@ -134,7 +134,7 @@ public class CSVConverter {
 		return students;
 	}
 
-	private static List<Lection> getLectionsByIds(String[] lectionsIds, int maxLections, IFacade facade) {
+	private static List<Lection> getLectionsByIds(String[] lectionsIds, Integer maxLections, IFacade facade) {
 		List<Lection> lections = new ArrayList<Lection>();
 		Lection curLection = null;
 		for (String id : lectionsIds) {

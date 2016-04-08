@@ -25,7 +25,7 @@ public class LecturerByCourseItem extends MenuItem {
 	@Override
 	public Menu doWork() {
 		try {
-			int courseId = ConsoleReader.getCourseId();
+			Integer courseId = ConsoleReader.getCourseId();
 			Message message = new Message(GET_COURSE, courseId);
 			Course course = (Course) messageHandler.sendMessage(message);
 			message.setText(GET_LECTURER_BY_COURSE);

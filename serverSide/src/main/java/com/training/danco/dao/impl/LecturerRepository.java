@@ -12,63 +12,46 @@ import java.util.List;
 
 import com.training.danco.dao.api.ILecturerRepository;
 import com.training.danco.model.Lecturer;
+import com.training.danco.params.SortingParam;
 
-public class LecturerRepository implements ILecturerRepository {
+public class LecturerRepository extends AbstractRepository<Lecturer, Integer> implements ILecturerRepository {
 
+	private static final String ID = "id";
 	private static final String NAME = "name";
 
 	public LecturerRepository() {
 	}
 
-	@Override
-	public Integer set(Session session, Lecturer lecturer) throws SQLException {
-		return (Integer) session.save(lecturer);
-	}
-
-	@Override
-	public Lecturer get(Session session, int id) throws SQLException {
-		return (Lecturer) session.get(Lecturer.class, id);
-	}
-
-	@Override
-	public void update(Session session, Lecturer lecturer) throws SQLException {
-		session.update(lecturer);
-	}
-
-	@Override
-	public void delete(Session session, Lecturer lecturer) throws SQLException {
-		session.delete(lecturer);
-	}
-
 	@SuppressWarnings("unchecked")
-	@Override
-	public List<Lecturer> getAll(Session session) throws SQLException {
-		return session.createCriteria(Lecturer.class).list();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Lecturer> getSortedByName(Session session) throws SQLException {
+	public List<Lecturer> getSorted(Session session, SortingParam sortingParam) throws SQLException {
 		Criteria criteria = session.createCriteria(Lecturer.class);
-		return criteria.addOrder(Order.asc(NAME)).list();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Lecturer> getSortedByCoursesCount(Session session) throws SQLException {
-		Criteria criteria = session.createCriteria(Lecturer.class);
-		criteria.setFetchMode("courses", FetchMode.JOIN).createAlias("courses", "cour");
-		ProjectionList projectionList = Projections.projectionList();
-		projectionList.add(Projections.groupProperty("cour.lecturer"),"courGr");
-		projectionList.add(Projections.rowCount(),"courCount");
-		criteria.setProjection(projectionList);
-		criteria.addOrder(Order.asc("courCount"));
+		switch (sortingParam) {
+			case NAME: {
+				criteria.addOrder(Order.asc(NAME));
+				break;
+			}
+			
+			case COURSE_COUNT: {
+				criteria.setFetchMode("courses", FetchMode.JOIN).createAlias("courses", "cour");
+				ProjectionList projectionList = Projections.projectionList();
+				projectionList.add(Projections.groupProperty("cour.lecturer"), "courGr");
+				projectionList.add(Projections.rowCount(), "courCount");
+				criteria.setProjection(projectionList);
+				criteria.addOrder(Order.asc("courCount"));
+				break;
+			}
+	
+			default: {
+				criteria.addOrder(Order.asc(ID));
+			}
+		}
 		return criteria.list();
 	}
 
 	@Override
-	public int getCount(Session session) throws SQLException {
-		return Integer.parseInt(session.createCriteria(Lecturer.class).setProjection(Projections.rowCount()).uniqueResult().toString());
+	public Integer getCount(Session session) throws SQLException {
+		return Integer.parseInt(
+				session.createCriteria(Lecturer.class).setProjection(Projections.rowCount()).uniqueResult().toString());
 	}
 
 }

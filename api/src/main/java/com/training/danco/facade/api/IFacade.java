@@ -12,25 +12,25 @@ public interface IFacade {
 	
 	public Course getCourse(Object courseId);
 	
-	public boolean updateCourse(Object course);
+	public Boolean updateCourse(Object course);
 	
-	public boolean deleteCourse(Object courseId);
+	public Boolean deleteCourse(Object courseId);
 	
-	public boolean cloneCourse(Object courseId);
+	public Boolean cloneCourse(Object courseId);
 	
 	public List<Course> getAllCourses();
 	
-	public int getCoursesCount();
+	public Integer getCoursesCount();
 	
-	public boolean removeStudentFromCourse(Object courseAndStudentId);
+	public Boolean removeStudentFromCourse(Object courseAndStudentId);
 	
-	public boolean removeLectionFromCourse(Object courseAndLectionId);
+	public Boolean removeLectionFromCourse(Object courseAndLectionId);
 	
-	public boolean addStudentToCourse(Object courseAndStudentId);
+	public Boolean addStudentToCourse(Object courseAndStudentId);
 	
-	public boolean addLectionToCourse(Object courseAndLectionId);
+	public Boolean addLectionToCourse(Object courseAndLectionId);
 	
-	public boolean setLecturerToCourse(Object courseAndLecturerId);
+	public Boolean setLecturerToCourse(Object courseAndLecturerId);
 	
 	public List<Course> getCoursesInInterval(Object dateFromAndTo);
 	
@@ -62,9 +62,9 @@ public interface IFacade {
 	
 	public Lection getLection(Object lectionId);
 	
-	public boolean updateLection(Object lection);
+	public Boolean updateLection(Object lection);
 	
-	public boolean deleteLection(Object lectionId);
+	public Boolean deleteLection(Object lectionId);
 	
 	public List<Lection> getAllLections();
 
@@ -74,15 +74,15 @@ public interface IFacade {
 	
 	public List<Lection> getLectionsByDate(Object date);
 	
-	public int getLectionsCount();
+	public Integer getLectionsCount();
 	
 	public Integer setLecturer(Object lecturer);
 	
 	public Lecturer getLecturer(Object lecturerId);
 	
-	public boolean updateLecturer(Object lecturer);
+	public Boolean updateLecturer(Object lecturer);
 	
-	public boolean deleteLecturer(Object lecturerId);
+	public Boolean deleteLecturer(Object lecturerId);
 	
 	public List<Lecturer> getAllLecturers();
 
@@ -90,41 +90,41 @@ public interface IFacade {
 	
 	public List<Lecturer> getLecturersSortedByCoursesCount();
 	
-	public int getLecturersCount();
+	public Integer getLecturersCount();
 	
 	public Integer setStudent(Object student);
 	
 	public Student getStudent(Object studentId);
 	
-	public boolean updateStudent(Object student);
+	public Boolean updateStudent(Object student);
 	
-	public boolean deleteStudent(Object studentId);
+	public Boolean deleteStudent(Object studentId);
 	
 	public List<Student> getAllStudents();
 	
-	public int getStudentsCount();
+	public Integer getStudentsCount();
 	
-	public boolean importCourses(Object fileName);
+	public Boolean importCourses(Object fileName);
 
-	public boolean importStudents(Object fileName);
+	public Boolean importStudents(Object fileName);
 	
-	public boolean importLections(Object fileName);
+	public Boolean importLections(Object fileName);
 	
-	public boolean importLecturers(Object fileName);
+	public Boolean importLecturers(Object fileName);
 	
-	public boolean exportAllCourses(Object fileName);
+	public Boolean exportAllCourses(Object fileName);
 	
-	public boolean exportAllStudents(Object fileName);
+	public Boolean exportAllStudents(Object fileName);
 	
-	public boolean exportAllLections(Object fileName);
+	public Boolean exportAllLections(Object fileName);
 	
-	public boolean exportAllLecturers(Object fileName);
+	public Boolean exportAllLecturers(Object fileName);
 	
-	public boolean exportCourses(Object fileNameAndCourseIds);
+	public Boolean exportCourses(Object fileNameAndCourseIds);
 	
-	public boolean exportStudents(Object fileNameAndStudentIds);
+	public Boolean exportStudents(Object fileNameAndStudentIds);
 	
-	public boolean exportLections(Object fileNameAndLectionIds);
+	public Boolean exportLections(Object fileNameAndLectionIds);
 	
-	public boolean exportLecturers(Object fileNameAndLecturerIds);
+	public Boolean exportLecturers(Object fileNameAndLecturerIds);
 }

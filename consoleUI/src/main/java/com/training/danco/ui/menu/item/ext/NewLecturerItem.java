@@ -27,10 +27,10 @@ public class NewLecturerItem extends MenuItem {
 
 		try{
 			String name = ConsoleReader.getLecturerName();
-			int age = ConsoleReader.getLecturerAge();
+			Integer age = ConsoleReader.getLecturerAge();
 			Message message = new Message(SET_LECTURER, new ArrayList<Object>(Arrays.asList(name, age)));
-			boolean result = (boolean) messageHandler.sendMessage(message);
-			if (result){
+			Integer result = (Integer) messageHandler.sendMessage(message);
+			if (result != null){
 				ConsoleEntityDisplayer.displayMessage("Lecturer has been created.");
 			}else {
 				ConsoleEntityDisplayer.displayMessage("Lecturer hasn't been created.");

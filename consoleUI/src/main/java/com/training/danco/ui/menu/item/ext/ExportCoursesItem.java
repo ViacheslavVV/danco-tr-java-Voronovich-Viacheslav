@@ -29,7 +29,7 @@ public class ExportCoursesItem extends MenuItem {
 			String fileName = ConsoleReader.getExportFileName();
 			List<Object> ids = ConsoleReader.getCourseIds();
 			Message message = new Message(EXPORT_COURSES, new ArrayList<Object>(Arrays.asList(fileName, ids)));
-			boolean result = (boolean) messageHandler.sendMessage(message);
+			Boolean result = (Boolean) messageHandler.sendMessage(message);
 			if (result) {
 				ConsoleEntityDisplayer.displayMessage("Courses has been exported.");
 			} else {

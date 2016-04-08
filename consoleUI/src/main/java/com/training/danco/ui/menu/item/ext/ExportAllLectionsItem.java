@@ -24,7 +24,7 @@ public class ExportAllLectionsItem extends MenuItem {
 		try {
 			String fileName = ConsoleReader.getExportFileName();
 			Message message = new Message(EXPORT_ALL_LECTIONS, fileName);
-			boolean result = (boolean) messageHandler.sendMessage(message);
+			Boolean result = (Boolean) messageHandler.sendMessage(message);
 			if (result) {
 				ConsoleEntityDisplayer.displayMessage("Lections has been exported.");
 			} else {

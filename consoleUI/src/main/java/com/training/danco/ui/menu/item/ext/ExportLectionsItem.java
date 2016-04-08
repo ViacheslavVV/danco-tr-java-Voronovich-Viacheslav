@@ -29,7 +29,7 @@ public class ExportLectionsItem extends MenuItem {
 			String fileName = ConsoleReader.getExportFileName();
 			List<Object> ids = ConsoleReader.getLectionIds();
 			Message message = new Message(EXPORT_LECTIONS, new ArrayList<Object>(Arrays.asList(fileName, ids)));
-			boolean result = (boolean) messageHandler.sendMessage(message);
+			Boolean result = (Boolean) messageHandler.sendMessage(message);
 			if (result) {
 				ConsoleEntityDisplayer.displayMessage("Lections has been exported.");
 			} else {

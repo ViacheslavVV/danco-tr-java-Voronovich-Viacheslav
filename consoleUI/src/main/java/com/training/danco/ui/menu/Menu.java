@@ -26,7 +26,7 @@ public class Menu {
 		menuItems.add(menuItem);
 	}
 	
-	public MenuItem getMenuItem(int index){
+	public MenuItem getMenuItem(Integer index){
 		if (index < this.menuItems.size() && index >= 0){
 			return this.menuItems.get(index);
 		}

@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 public class ConsoleReader {
 
-	private static final int MONTH_SHIFT = 1;
+	private static final Integer MONTH_SHIFT = 1;
 	private static final String INPUT_STUDENT_ID = "Input student id";
 	private static final String INPUT_LECTURER_ID = "Input lecturer id";
 	private static final String INPUT_LECTION_ID = "Input lection id";
@@ -23,9 +23,9 @@ public class ConsoleReader {
 
 	private static Scanner scanner = new Scanner(System.in);
 
-	public static int getInt(String message) throws RuntimeException {
-		int num = 0;
-		boolean validData = false;
+	public static Integer getInt(String message) throws RuntimeException {
+		Integer num = 0;
+		Boolean validData = false;
 		try {
 			while (!validData) {
 				try {
@@ -45,7 +45,7 @@ public class ConsoleReader {
 
 	public static String getString(String message) throws RuntimeException {
 		String resultStr = null;
-		boolean validData = false;
+		Boolean validData = false;
 		try {
 			while (!validData) {
 				try {
@@ -66,7 +66,7 @@ public class ConsoleReader {
 	public static Date getDate(String message) throws RuntimeException {
 		Date resultDate = null;
 		String tempStr = null;
-		boolean validData = false;
+		Boolean validData = false;
 		try {
 			while (!validData) {
 				try {
@@ -112,8 +112,8 @@ public class ConsoleReader {
 		return getString("Input lecturer's name");
 	}
 
-	public static int getLecturerAge() throws RuntimeException {
-		int resultAge = 0;
+	public static Integer getLecturerAge() throws RuntimeException {
+		Integer resultAge = 0;
 		while (resultAge < 22 || resultAge > 100) {
 			resultAge = getInt("Input lecturer's age");
 		}
@@ -124,23 +124,23 @@ public class ConsoleReader {
 		return getString("Input student's name");
 	}
 
-	public static int getStudentAge() throws RuntimeException {
-		int resultAge = 0;
+	public static Integer getStudentAge() throws RuntimeException {
+		Integer resultAge = 0;
 		while (resultAge < 16 || resultAge > 100) {
 			resultAge = getInt("Input student's age");
 		}
 		return resultAge;
 	}
 
-	public static int getMenuMode() throws RuntimeException {
+	public static Integer getMenuMode() throws RuntimeException {
 		return getInt("Input section number");
 	}
 
-	public static int getMaxStudentsNumber() {
+	public static Integer getMaxStudentsNumber() {
 		return getInt("Input max number of students");
 	}
 
-	public static int getMaxLectionsNumber() {
+	public static Integer getMaxLectionsNumber() {
 		return getInt("Input max number of lections");
 	}
 
@@ -189,7 +189,7 @@ public class ConsoleReader {
 		List<Object> result = new ArrayList<Object>();
 		String tempStr;
 		System.out.println("Input '-1' to exit");
-		int entityId;
+		Integer entityId;
 		do {
 			entityId = getInt(message);
 			if (entityId != -1) {
@@ -205,19 +205,19 @@ public class ConsoleReader {
 		return result;
 	}
 
-	public static int getCourseId() {
+	public static Integer getCourseId() {
 		return getInt(INPUT_COURSE_ID);
 	}
 
-	public static int getLectionId() {
+	public static Integer getLectionId() {
 		return getInt(INPUT_LECTION_ID);
 	}
 
-	public static int getLecturerId() {
+	public static Integer getLecturerId() {
 		return getInt(INPUT_LECTURER_ID);
 	}
 
-	public static int getStudentId() {
+	public static Integer getStudentId() {
 		return getInt(INPUT_STUDENT_ID);
 	}
 	

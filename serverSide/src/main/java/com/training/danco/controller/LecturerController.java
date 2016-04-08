@@ -3,6 +3,7 @@ package com.training.danco.controller;
 import java.util.List;
 
 import com.training.danco.model.Lecturer;
+import com.training.danco.params.SortingParam;
 import com.training.danco.services.api.ILecturerService;
 
 public class LecturerController {
@@ -19,17 +20,17 @@ public class LecturerController {
 		return this.lecturerService.set(lecturer);
 	}
 	
-	public Lecturer getLecturer(int lecturerId)
+	public Lecturer getLecturer(Integer lecturerId)
 	{
 		return this.lecturerService.get(lecturerId);
 	}
 	
-	public boolean updateLecturer(Lecturer lecturer)
+	public Boolean updateLecturer(Lecturer lecturer)
 	{
 		return this.lecturerService.update(lecturer);
 	}
 	
-	public boolean deleteLecturer(int lecturerId)
+	public Boolean deleteLecturer(Integer lecturerId)
 	{
 		Lecturer lecturer = this.lecturerService.get(lecturerId);
 		return this.lecturerService.delete(lecturer);
@@ -41,15 +42,12 @@ public class LecturerController {
 	}
 	
 
-	public List<Lecturer> getSortedByName()
+	public List<Lecturer> getSorted(SortingParam sortingParam)
 	{
-		return this.lecturerService.getSortedByName();
+		return this.lecturerService.getSorted(sortingParam);
 	}
-	public List<Lecturer> getSortedByCoursesCount()
-	{
-		return this.lecturerService.getSortedByCoursesCount();
-	}
-	public int getCount()
+	
+	public Integer getCount()
 	{
 		return this.lecturerService.getCount();
 	}

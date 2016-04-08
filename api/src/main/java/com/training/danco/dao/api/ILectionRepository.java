@@ -6,10 +6,11 @@ import java.util.Date;
 import java.util.List;
 
 import com.training.danco.model.Lection;
+import com.training.danco.params.SortingParam;
 
-public interface ILectionRepository extends IBaseRepository<Lection>{
+public interface ILectionRepository extends IBaseRepository<Lection,Integer>{
 
-	public List<Lection> getSortedByDate(Session session) throws SQLException;
-	public List<Lection> getSortedByName(Session session) throws SQLException;
+	public List<Lection> getSorted(Session session, SortingParam sortingParam) throws SQLException;
 	public List<Lection> getLectionsByDate(Session session, Date date) throws SQLException;
+	public Integer getCount(Session session) throws SQLException;
 }

@@ -41,7 +41,7 @@ public class StudentService implements IStudentService {
 	}
 
 	@Override
-	public Student get(int id) {
+	public Student get(Integer id) {
 		
 		Student resultStudent = null;
 		Session session = null;
@@ -58,8 +58,8 @@ public class StudentService implements IStudentService {
 	}
 
 	@Override
-	public boolean update(Student student) {
-		boolean result = false;
+	public Boolean update(Student student) {
+		Boolean result = false;
 		Session session = null;
 		Transaction transaction = null;
 		try {
@@ -87,8 +87,8 @@ public class StudentService implements IStudentService {
 	}
 
 	@Override
-	public boolean delete(Student student) {
-		boolean result = true;
+	public Boolean delete(Student student) {
+		Boolean result = true;
 		Session session = null;
 		try {
 			session = SessionManager.getSession();
@@ -120,9 +120,9 @@ public class StudentService implements IStudentService {
 	}
 
 	@Override
-	public int getCount() {
+	public Integer getCount() {
 		
-		int count = 0;
+		Integer count = 0;
 		Session session = null;
 		try {
 			session = SessionManager.getSession();

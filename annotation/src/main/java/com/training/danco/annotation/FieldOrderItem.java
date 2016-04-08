@@ -5,9 +5,9 @@ import java.lang.reflect.Field;
 public class FieldOrderItem {
 
 	private Field field;
-	private int order;
+	private Integer order;
 	
-	public FieldOrderItem(Field field, int order) {
+	public FieldOrderItem(Field field, Integer order) {
 		this.field = field;
 		this.order = order;
 	}
@@ -20,11 +20,11 @@ public class FieldOrderItem {
 		this.field = field;
 	}
 
-	public int getOrder() {
+	public Integer getOrder() {
 		return order;
 	}
 
-	public void setOrder(int order) {
+	public void setOrder(Integer order) {
 		this.order = order;
 	}
 }

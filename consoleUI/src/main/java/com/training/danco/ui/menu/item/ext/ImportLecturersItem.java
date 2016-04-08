@@ -27,7 +27,7 @@ public class ImportLecturersItem extends MenuItem {
 				return this.menu;
 			}
 			Message message = new Message(IMPORT_LECTURERS, fileName);
-			boolean result = (boolean) messageHandler.sendMessage(message);
+			Boolean result = (Boolean) messageHandler.sendMessage(message);
 			if (result) {
 				ConsoleEntityDisplayer.displayMessage("Lecturers has been imported.");
 			} else {

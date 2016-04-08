@@ -25,11 +25,11 @@ public class SetLecturerToCourseItem extends MenuItem {
 	@Override
 	public Menu doWork() {
 		try {
-			int courseId = ConsoleReader.getCourseId();
-			int lecturerId = ConsoleReader.getLecturerId();
+			Integer courseId = ConsoleReader.getCourseId();
+			Integer lecturerId = ConsoleReader.getLecturerId();
 
 			Message message = new Message(SET_LECTURER_TO_COURSE, new ArrayList<Object>(Arrays.asList(courseId, lecturerId)));
-			boolean result = (boolean) messageHandler.sendMessage(message);
+			Boolean result = (Boolean) messageHandler.sendMessage(message);
 			if (result) {
 				ConsoleEntityDisplayer.displayMessage("The lecturer has been apppointed.");
 			} else {

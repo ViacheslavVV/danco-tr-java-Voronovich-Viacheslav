@@ -7,6 +7,8 @@ import com.training.danco.model.Course;
 import com.training.danco.model.Lection;
 import com.training.danco.model.Lecturer;
 import com.training.danco.model.Student;
+import com.training.danco.params.CourseDateParam;
+import com.training.danco.params.SortingParam;
 import com.training.danco.services.api.ICourseService;
 import com.training.danco.services.api.ILectionService;
 import com.training.danco.services.api.ILecturerService;
@@ -33,23 +35,23 @@ public class CourseController {
 		return  this.courseService.set(course);
 	}
 	
-	public Course getCourse(int courseId)
+	public Course getCourse(Integer courseId)
 	{
 		return this.courseService.get(courseId);
 	}
 	
-	public boolean updateCourse(Course course)
+	public Boolean updateCourse(Course course)
 	{
 		return this.courseService.update(course);
 	}
 	
-	public boolean deleteCourse(int id)
+	public Boolean deleteCourse(Integer id)
 	{
 		Course course = this.courseService.get(id);
 		return this.courseService.delete(course);
 	}
 	
-	public boolean cloneCourse(int courseId){
+	public Boolean cloneCourse(Integer courseId){
 		Course course = this.courseService.get(courseId);
 		return this.courseService.cloneCourse(course);
 	}
@@ -59,42 +61,42 @@ public class CourseController {
 		return this.courseService.getAll();
 	}
 	
-	public boolean setLecturer(int courseId, int lecturerId)
+	public Boolean setLecturer(Integer courseId, Integer lecturerId)
 	{
 		Course course = this.courseService.get(courseId);
 		Lecturer lecturer = lecturerService.get(lecturerId);
 		return this.courseService.setLecturer(course, lecturer);
 	}
 	
-	public boolean addLection(int courseId, int lectionId)
+	public Boolean addLection(Integer courseId, Integer lectionId)
 	{
 		Course course = this.courseService.get(courseId);
 		Lection lection = this.lectionService.get(lectionId);
 		return this.courseService.addLection(course, lection);
 	}
 	
-	public boolean addStudent(int courseId, int studentId)
+	public Boolean addStudent(Integer courseId, Integer studentId)
 	{
 		Course course = this.courseService.get(courseId);
 		Student student = this.studentService.get(studentId);
 		return this.courseService.addStudent(course, student);
 	}
 	
-	public boolean removeLection(int courseId, int lectionId)
+	public Boolean removeLection(Integer courseId, Integer lectionId)
 	{
 		Course course = this.courseService.get(courseId);
 		Lection lection = this.lectionService.get(lectionId);
 		return this.courseService.removeLection(course, lection);
 	}
 	
-	public boolean removeStudent(int courseId, int studentId)
+	public Boolean removeStudent(Integer courseId, Integer studentId)
 	{
 		Course course = this.courseService.get(courseId);
 		Student student = this.studentService.get(studentId);
 		return this.courseService.removeStudent(course, student);
 	}
 	
-	public int getCount()
+	public Integer getCount()
 	{
 		return this.courseService.getCount();
 	}
@@ -103,53 +105,10 @@ public class CourseController {
 	{
 		return this.courseService.getCoursesInInterval(dateFrom, dateTo);
 	}
-	public List<Course> getSortedByStartDate()
+	
+	public List<Course> getSorted(CourseDateParam courseDateParam, SortingParam sortingParam, Date date)
 	{
-		return this.courseService.getSortedByStartDate();
-	}
-	public List<Course> getSortedByStudentsCount()
-	{
-		return this.courseService.getSortedByStudentsCount();
-	}
-	public List<Course> getSortedByLecturer()
-	{
-		return this.courseService.getSortedByLecturer();
-	}
-	public List<Course> getSortedByName()
-	{
-		return this.courseService.getSortedByName();
-	}
-	public List<Course> getCurrentCoursesSortedByStartDate()
-	{
-		return this.courseService.getCurrentCoursesSortedByStartDate();
-	}
-	public List<Course> getCurrentCoursesSortedByStudentsCount()
-	{
-		return this.courseService.getCurrentCoursesSortedByStudentsCount();
-	}
-	public List<Course> getCurrentCoursesSortedByLecturer()
-	{
-		return this.courseService.getCurrentCoursesSortedByLecturer();
-	}
-	public List<Course> getCurrentCoursesSortedByName()
-	{
-		return this.courseService.getCurrentCoursesSortedByName();
-	}
-	public List<Course> getCoursesAfterDateSortedByStartDate(Date date)
-	{
-		return this.courseService.getCoursesAfterDateSortedByStartDate(date);
-	}
-	public List<Course> getCoursesAfterDateSortedByStudentsCount(Date date)
-	{
-		return this.courseService.getCoursesAfterDateSortedByStudentsCount(date);
-	}
-	public List<Course> getCoursesAfterDateSortedByLecturer(Date date)
-	{
-		return this.courseService.getCoursesAfterDateSortedByLecturer(date);
-	}
-	public List<Course> getCoursesAfterDateSortedByName(Date date)
-	{
-		return this.courseService.getCoursesAfterDateSortedByName(date);
+		return this.courseService.getSorted(courseDateParam, sortingParam, date);
 	}
 	
 }

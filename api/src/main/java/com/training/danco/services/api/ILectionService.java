@@ -4,16 +4,16 @@ import java.util.Date;
 import java.util.List;
 
 import com.training.danco.model.Lection;
+import com.training.danco.params.SortingParam;
 
 public interface ILectionService {
 
 	public Integer set(Lection lection);
-	public Lection get(int id);
-	public boolean update(Lection lection);
-	public boolean delete(Lection lection);
+	public Lection get(Integer id);
+	public Boolean update(Lection lection);
+	public Boolean delete(Lection lection);
 	public List<Lection> getAll();
-	public List<Lection> getSortedByDate();
-	public List<Lection> getSortedByName();
+	public List<Lection> getSorted(SortingParam sortingParam);
 	public List<Lection> getLectionsByDate(Date date);
-	public int getCount();
+	public Integer getCount();
 }

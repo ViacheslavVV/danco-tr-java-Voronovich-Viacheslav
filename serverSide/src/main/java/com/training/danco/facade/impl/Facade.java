@@ -15,6 +15,8 @@ import com.training.danco.dao.api.ILecturerRepository;
 import com.training.danco.dao.api.IStudentRepository;
 import com.training.danco.facade.api.IFacade;
 import com.training.danco.model.*;
+import com.training.danco.params.CourseDateParam;
+import com.training.danco.params.SortingParam;
 import com.training.danco.services.api.ICourseService;
 import com.training.danco.services.api.ILectionService;
 import com.training.danco.services.api.ILecturerService;
@@ -53,7 +55,7 @@ public class Facade implements IFacade {
 				List<Object> courseData = (List<Object>) course;
 
 				tempCourse = new Course((String) courseData.get(0), (Date) courseData.get(1), (Date) courseData.get(2),
-						(int) courseData.get(3), (int) courseData.get(4));
+						(Integer) courseData.get(3), (Integer) courseData.get(4));
 				
 				result = this.courseController.setCourse(tempCourse);
 			} catch (Exception e) {
@@ -66,15 +68,15 @@ public class Facade implements IFacade {
 	public Course getCourse(Object courseId) {
 		Course course = null;
 		try {
-			course = courseController.getCourse((int) courseId);
+			course = courseController.getCourse((Integer) courseId);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
 		return course;
 	}
 
-	public boolean updateCourse(Object course) {
-		boolean result = false;
+	public Boolean updateCourse(Object course) {
+		Boolean result = false;
 		synchronized (this.courseController) {
 			try {
 				result = courseController.updateCourse((Course) course);
@@ -85,11 +87,11 @@ public class Facade implements IFacade {
 		return result;
 	}
 
-	public boolean deleteCourse(Object courseId) {
-		boolean result = false;
+	public Boolean deleteCourse(Object courseId) {
+		Boolean result = false;
 		synchronized (this.courseController) {
 			try {
-				result = courseController.deleteCourse((int) courseId);
+				result = courseController.deleteCourse((Integer) courseId);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
 			}
@@ -102,14 +104,14 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean setLecturerToCourse(Object courseAndLecturerId) {
-		boolean result = false;
+	public Boolean setLecturerToCourse(Object courseAndLecturerId) {
+		Boolean result = false;
 		synchronized (this.courseController) {
 			try {
 				@SuppressWarnings("unchecked")
 				List<Object> data = (List<Object>) courseAndLecturerId;
-				int courseId = (int) data.get(0);
-				int lecturerId = (int) data.get(1);
+				Integer courseId = (Integer) data.get(0);
+				Integer lecturerId = (Integer) data.get(1);
 				result = courseController.setLecturer(courseId, lecturerId);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
@@ -119,13 +121,13 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean addLectionToCourse(Object courseAndLectionId) {
-		boolean result = false;
+	public Boolean addLectionToCourse(Object courseAndLectionId) {
+		Boolean result = false;
 		try {
 			@SuppressWarnings("unchecked")
 			List<Object> data = (List<Object>) courseAndLectionId;
-			int courseId = (int) data.get(0);
-			int lectionId = (int) data.get(1);
+			Integer courseId = (Integer) data.get(0);
+			Integer lectionId = (Integer) data.get(1);
 			result = courseController.addLection(courseId, lectionId);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -134,14 +136,14 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean addStudentToCourse(Object courseAndStudentId) {
-		boolean result = false;
+	public Boolean addStudentToCourse(Object courseAndStudentId) {
+		Boolean result = false;
 		synchronized (this.courseController) {
 			try {
 				@SuppressWarnings("unchecked")
 				List<Object> data = (List<Object>) courseAndStudentId;
-				int courseId = (int) data.get(0);
-				int studentId = (int) data.get(1);
+				Integer courseId = (Integer) data.get(0);
+				Integer studentId = (Integer) data.get(1);
 				result = courseController.addStudent(courseId, studentId);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
@@ -151,14 +153,14 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean removeLectionFromCourse(Object courseAndLectionId) {
-		boolean result = false;
+	public Boolean removeLectionFromCourse(Object courseAndLectionId) {
+		Boolean result = false;
 		synchronized (this.courseController) {
 			try {
 				@SuppressWarnings("unchecked")
 				List<Object> data = (List<Object>) courseAndLectionId;
-				int courseId = (int) data.get(0);
-				int lectionId = (int) data.get(1);
+				Integer courseId = (Integer) data.get(0);
+				Integer lectionId = (Integer) data.get(1);
 				result = courseController.removeLection(courseId, lectionId);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
@@ -168,14 +170,14 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean removeStudentFromCourse(Object courseAndStudentId) {
-		boolean result = false;
+	public Boolean removeStudentFromCourse(Object courseAndStudentId) {
+		Boolean result = false;
 		synchronized (this.courseController) {
 			try {
 				@SuppressWarnings("unchecked")
 				List<Object> data = (List<Object>) courseAndStudentId;
-				int courseId = (int) data.get(0);
-				int studentId = (int) data.get(1);
+				Integer courseId = (Integer) data.get(0);
+				Integer studentId = (Integer) data.get(1);
 				result = courseController.removeStudent(courseId, studentId);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
@@ -185,7 +187,7 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public int getCoursesCount() {
+	public Integer getCoursesCount() {
 		return courseController.getCount();
 	}
 
@@ -206,49 +208,49 @@ public class Facade implements IFacade {
 
 	@Override
 	public List<Course> getCoursesSortedByStartDate() {
-		return courseController.getSortedByStartDate();
+		return courseController.getSorted(CourseDateParam.NONE, SortingParam.START_DATE, null);
 	}
 
 	@Override
 	public List<Course> getCoursesSortedByStudentsCount() {
-		return courseController.getSortedByStudentsCount();
+		return courseController.getSorted(CourseDateParam.NONE, SortingParam.STUDENTS_COUNT, null);
 	}
 
 	@Override
 	public List<Course> getCoursesSortedByLecturer() {
-		return courseController.getSortedByLecturer();
+		return courseController.getSorted(CourseDateParam.NONE, SortingParam.LECTURER, null);
 	}
 
 	@Override
 	public List<Course> getCoursesSortedByName() {
-		return courseController.getSortedByName();
+		return courseController.getSorted(CourseDateParam.NONE, SortingParam.NAME, null);
 	}
 
 	@Override
 	public List<Course> getCurrentCoursesSortedByStartDate() {
-		return courseController.getCurrentCoursesSortedByStartDate();
+		return courseController.getSorted(CourseDateParam.CURRENT, SortingParam.START_DATE, null);
 	}
 
 	@Override
 	public List<Course> getCurrentCoursesSortedByStudentsCount() {
-		return courseController.getCurrentCoursesSortedByStudentsCount();
+		return courseController.getSorted(CourseDateParam.CURRENT, SortingParam.STUDENTS_COUNT, null);
 	}
 
 	@Override
 	public List<Course> getCurrentCoursesSortedByLecturer() {
-		return courseController.getCurrentCoursesSortedByLecturer();
+		return courseController.getSorted(CourseDateParam.CURRENT, SortingParam.LECTURER, null);
 	}
 
 	@Override
 	public List<Course> getCurrentCoursesSortedByName() {
-		return courseController.getCurrentCoursesSortedByName();
+		return courseController.getSorted(CourseDateParam.CURRENT, SortingParam.NAME, null);
 	}
 
 	@Override
 	public List<Course> getCoursesAfterDateSortedByStartDate(Object date) {
 		List<Course> lections = new ArrayList<>();
 		try {
-			lections = courseController.getCoursesAfterDateSortedByStartDate((Date) date);
+			lections = courseController.getSorted(CourseDateParam.AFTER_DATE, SortingParam.START_DATE,(Date) date);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -259,7 +261,7 @@ public class Facade implements IFacade {
 	public List<Course> getCoursesAfterDateSortedByStudentsCount(Object date) {
 		List<Course> lections = new ArrayList<>();
 		try {
-			lections = courseController.getCoursesAfterDateSortedByStudentsCount((Date) date);
+			lections = courseController.getSorted(CourseDateParam.AFTER_DATE, SortingParam.STUDENTS_COUNT,(Date) date);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -270,7 +272,7 @@ public class Facade implements IFacade {
 	public List<Course> getCoursesAfterDateSortedByLecturer(Object date) {
 		List<Course> lections = new ArrayList<>();
 		try {
-			lections = courseController.getCoursesAfterDateSortedByLecturer((Date) date);
+			lections = courseController.getSorted(CourseDateParam.AFTER_DATE, SortingParam.LECTURER,(Date) date);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -281,7 +283,7 @@ public class Facade implements IFacade {
 	public List<Course> getCoursesAfterDateSortedByName(Object date) {
 		List<Course> lections = new ArrayList<>();
 		try {
-			lections = courseController.getCoursesAfterDateSortedByName((Date) date);
+			lections = courseController.getSorted(CourseDateParam.AFTER_DATE, SortingParam.NAME,(Date) date);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -312,7 +314,7 @@ public class Facade implements IFacade {
 	public Lection getLection(Object lectionId) {
 		Lection lection = null;
 		try {
-			lection = lectionController.getLection((int) lectionId);
+			lection = lectionController.getLection((Integer) lectionId);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -320,8 +322,8 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean updateLection(Object lection) {
-		boolean result = false;
+	public Boolean updateLection(Object lection) {
+		Boolean result = false;
 		synchronized (this.lectionController) {
 			try {
 				result = lectionController.updateLection((Lection) lection);
@@ -333,11 +335,11 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean deleteLection(Object lectionId) {
-		boolean result = false;
+	public Boolean deleteLection(Object lectionId) {
+		Boolean result = false;
 		synchronized (this.lectionController) {
 			try {
-				result = lectionController.deleteLection((int) lectionId);
+				result = lectionController.deleteLection((Integer) lectionId);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
 			}
@@ -352,12 +354,12 @@ public class Facade implements IFacade {
 	
 	@Override
 	public List<Lection> getLectionsSortedByDate() {
-		return lectionController.getSortedByDate();
+		return lectionController.getSorted(SortingParam.DATE);
 	}
 
 	@Override
 	public List<Lection> getLectionsSortedByName() {
-		return lectionController.getSortedByName();
+		return lectionController.getSorted(SortingParam.NAME);
 	}
 	
 	@Override
@@ -372,7 +374,7 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public int getLectionsCount() {
+	public Integer getLectionsCount() {
 		return lectionController.getCount();
 	}
 
@@ -386,7 +388,7 @@ public class Facade implements IFacade {
 			try {
 				@SuppressWarnings("unchecked")
 				List<Object> lecturerData = (List<Object>) lecturer;
-				tempLecturer = new Lecturer((String) lecturerData.get(0), (int) lecturerData.get(1));
+				tempLecturer = new Lecturer((String) lecturerData.get(0), (Integer) lecturerData.get(1));
 				result = lecturerController.setLecturer(tempLecturer);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
@@ -400,7 +402,7 @@ public class Facade implements IFacade {
 	public Lecturer getLecturer(Object lecturerId) {
 		Lecturer lecturer = null;
 		try {
-			lecturer = lecturerController.getLecturer((int) lecturerId);
+			lecturer = lecturerController.getLecturer((Integer) lecturerId);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -408,8 +410,8 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean updateLecturer(Object lecturer) {
-		boolean result = false;
+	public Boolean updateLecturer(Object lecturer) {
+		Boolean result = false;
 		synchronized (this.lecturerController) {
 			try {
 				result = lecturerController.updateLecturer((Lecturer) lecturer);
@@ -421,11 +423,11 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean deleteLecturer(Object lecturerId) {
-		boolean result = false;
+	public Boolean deleteLecturer(Object lecturerId) {
+		Boolean result = false;
 		synchronized (this.lecturerController) {
 			try {
-				result = lecturerController.deleteLecturer((int) lecturerId);
+				result = lecturerController.deleteLecturer((Integer) lecturerId);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
 			}
@@ -440,16 +442,16 @@ public class Facade implements IFacade {
 
 	@Override
 	public List<Lecturer> getLecturersSortedByName() {
-		return lecturerController.getSortedByName();
+		return lecturerController.getSorted(SortingParam.NAME);
 	}
 
 	@Override
 	public List<Lecturer> getLecturersSortedByCoursesCount() {
-		return lecturerController.getSortedByCoursesCount();
+		return lecturerController.getSorted(SortingParam.COURSE_COUNT);
 	}
 
 	@Override
-	public int getLecturersCount() {
+	public Integer getLecturersCount() {
 		return lecturerController.getCount();
 	}
 
@@ -464,7 +466,7 @@ public class Facade implements IFacade {
 				@SuppressWarnings("unchecked")
 				List<Object> studentData = (List<Object>) student;
 
-				tempStudent = new Student((String) studentData.get(0), (int) studentData.get(1));
+				tempStudent = new Student((String) studentData.get(0), (Integer) studentData.get(1));
 				result = studentController.setStudent(tempStudent);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
@@ -479,7 +481,7 @@ public class Facade implements IFacade {
 		Student student = null;
 		synchronized (this.studentController) {
 			try {
-				student = studentController.getStudent((int) studentId);
+				student = studentController.getStudent((Integer) studentId);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
 			}
@@ -488,8 +490,8 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean updateStudent(Object student) {
-		boolean result = false;
+	public Boolean updateStudent(Object student) {
+		Boolean result = false;
 		synchronized (this.studentController) {
 			try {
 				result = studentController.updateStudent((Student) student);
@@ -501,11 +503,11 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean deleteStudent(Object studentId) {
-		boolean result = false;
+	public Boolean deleteStudent(Object studentId) {
+		Boolean result = false;
 		synchronized (this.studentController) {
 			try {
-				result = studentController.deleteStudent((int) studentId);
+				result = studentController.deleteStudent((Integer) studentId);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
 			}
@@ -519,15 +521,15 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public int getStudentsCount() {
+	public Integer getStudentsCount() {
 		return studentController.getCount();
 	}
 
 	@Override
-	public boolean cloneCourse(Object courseId) {
-		boolean result = false;
+	public Boolean cloneCourse(Object courseId) {
+		Boolean result = false;
 		try {
-			result = this.courseController.cloneCourse((int) courseId);
+			result = this.courseController.cloneCourse((Integer) courseId);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -535,8 +537,8 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean importCourses(Object fileName) {
-		boolean result = false;
+	public Boolean importCourses(Object fileName) {
+		Boolean result = false;
 		synchronized (this.courseController) {
 			try {
 				List<Course> courses = this.importer.importCourses((String) fileName, this);
@@ -557,8 +559,8 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean importStudents(Object fileName) {
-		boolean result = false;
+	public Boolean importStudents(Object fileName) {
+		Boolean result = false;
 		synchronized (this.studentController) {
 			try {
 				List<Student> students = this.importer.importStudents((String) fileName);
@@ -579,8 +581,8 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean importLections(Object fileName) {
-		boolean result = false;
+	public Boolean importLections(Object fileName) {
+		Boolean result = false;
 		synchronized (this.lectionController) {
 			try {
 				List<Lection> lections = this.importer.importLections((String) fileName);
@@ -601,8 +603,8 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean importLecturers(Object fileName) {
-		boolean result = false;
+	public Boolean importLecturers(Object fileName) {
+		Boolean result = false;
 		synchronized (this.lecturerController) {
 			try {
 				List<Lecturer> lecturers = this.importer.importLecturers((String) fileName);
@@ -623,9 +625,9 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean exportAllCourses(Object fileName) {
+	public Boolean exportAllCourses(Object fileName) {
 
-		boolean result = false;
+		Boolean result = false;
 		synchronized (this.exporter) {
 			try {
 				result = this.exporter.exportCourses((String) fileName, this.getAllCourses());
@@ -637,9 +639,9 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean exportAllStudents(Object fileName) {
+	public Boolean exportAllStudents(Object fileName) {
 
-		boolean result = false;
+		Boolean result = false;
 		synchronized (this.exporter) {
 			try {
 				result = this.exporter.exportStudents((String) fileName, this.getAllStudents());
@@ -651,9 +653,9 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean exportAllLections(Object fileName) {
+	public Boolean exportAllLections(Object fileName) {
 
-		boolean result = false;
+		Boolean result = false;
 		synchronized (this.exporter) {
 			try {
 				result = this.exporter.exportLections((String) fileName, this.getAllLections());
@@ -665,8 +667,8 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public boolean exportAllLecturers(Object fileName) {
-		boolean result = false;
+	public Boolean exportAllLecturers(Object fileName) {
+		Boolean result = false;
 		synchronized (this.exporter) {
 			try {
 				result = this.exporter.exportLecturers((String) fileName, this.getAllLecturers());
@@ -679,8 +681,8 @@ public class Facade implements IFacade {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean exportCourses(Object fileNameAndCourseIds) {
-		boolean result = false;
+	public Boolean exportCourses(Object fileNameAndCourseIds) {
+		Boolean result = false;
 		synchronized (this.exporter) {
 			List<Object> data = null;
 			List<Integer> lectionIds = null;
@@ -705,8 +707,8 @@ public class Facade implements IFacade {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean exportStudents(Object fileNameAndStudentIds) {
-		boolean result = false;
+	public Boolean exportStudents(Object fileNameAndStudentIds) {
+		Boolean result = false;
 		synchronized (this.exporter) {
 			List<Object> data = null;
 			List<Student> students = new ArrayList<Student>();
@@ -731,8 +733,8 @@ public class Facade implements IFacade {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean exportLections(Object fileNameAndLectionIds) {
-		boolean result = false;
+	public Boolean exportLections(Object fileNameAndLectionIds) {
+		Boolean result = false;
 		synchronized (this.exporter) {
 			List<Object> data = null;
 			List<Integer> lectionIds = null;
@@ -757,8 +759,8 @@ public class Facade implements IFacade {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean exportLecturers(Object fileNameAndLecturerIds) {
-		boolean result = false;
+	public Boolean exportLecturers(Object fileNameAndLecturerIds) {
+		Boolean result = false;
 		synchronized (this.exporter) {
 			List<Object> data = null;
 			List<Integer> lecturerIds = null;

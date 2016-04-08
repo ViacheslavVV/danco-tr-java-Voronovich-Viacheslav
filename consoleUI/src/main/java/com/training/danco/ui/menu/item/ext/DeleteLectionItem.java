@@ -22,9 +22,9 @@ public class DeleteLectionItem extends MenuItem {
 	@Override
 	public Menu doWork() {
 		try {
-			int lectionId = ConsoleReader.getLectionId();
+			Integer lectionId = ConsoleReader.getLectionId();
 			Message message = new Message(DELETE_LECTION, lectionId);
-			boolean result = (boolean) messageHandler.sendMessage(message);
+			Boolean result = (Boolean) messageHandler.sendMessage(message);
 			if (result) {
 				ConsoleEntityDisplayer.displayMessage("Lection has been deleted.");
 			} else {

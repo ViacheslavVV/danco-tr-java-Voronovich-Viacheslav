@@ -6,25 +6,17 @@ import java.util.Date;
 import java.util.List;
 
 import com.training.danco.model.Course;
+import com.training.danco.params.CourseDateParam;
+import com.training.danco.params.SortingParam;
 
-public interface ICourseRepository extends IBaseRepository<Course>{
+public interface ICourseRepository extends IBaseRepository<Course, Integer> {
 
 	public Course cloneCourse(Session session, Course course) throws SQLException;
-	
+
 	public List<Course> getCoursesInInterval(Session session, Date dateFrom, Date dateTo) throws SQLException;
 
-	public List<Course> getSortedByStartDate(Session session) throws SQLException;
-	public List<Course> getSortedByStudentsCount(Session session) throws SQLException;
-	public List<Course> getSortedByLecturer(Session session) throws SQLException;
-	public List<Course> getSortedByName(Session session) throws SQLException;
-	
-	public List<Course> getCurrentCoursesSortedByStartDate(Session session) throws SQLException;
-	public List<Course> getCurrentCoursesSortedByStudentsCount(Session session) throws SQLException;
-	public List<Course> getCurrentCoursesSortedByLecturer(Session session) throws SQLException;
-	public List<Course> getCurrentCoursesSortedByName(Session session) throws SQLException;
+	public List<Course> getSorted(Session session, CourseDateParam courseDateParam, SortingParam sortingParam,
+			Date date) throws SQLException;
 
-	public List<Course> getCoursesAfterDateSortedByStartDate(Session session, Date date) throws SQLException;
-	public List<Course> getCoursesAfterDateSortedByStudentsCount(Session session, Date date) throws SQLException;
-	public List<Course> getCoursesAfterDateSortedByLecturer(Session session, Date date) throws SQLException;
-	public List<Course> getCoursesAfterDateSortedByName(Session session, Date date) throws SQLException;
+	public Integer getCount(Session session) throws SQLException;
 }

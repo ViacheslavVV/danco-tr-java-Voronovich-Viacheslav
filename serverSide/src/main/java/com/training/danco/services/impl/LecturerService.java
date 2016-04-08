@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.training.danco.dao.api.ILecturerRepository;
 import com.training.danco.model.Lecturer;
+import com.training.danco.params.SortingParam;
 import com.training.danco.services.api.ILecturerService;
 import com.training.danco.session.manager.SessionManager;
 
@@ -42,7 +43,7 @@ public class LecturerService implements ILecturerService {
 	}
 
 	@Override
-	public Lecturer get(int id) {
+	public Lecturer get(Integer id) {
 
 		Lecturer resultLecturer = null;
 		Session session = null;
@@ -59,8 +60,8 @@ public class LecturerService implements ILecturerService {
 	}
 
 	@Override
-	public boolean update(Lecturer lecturer) {
-		boolean result = false;
+	public Boolean update(Lecturer lecturer) {
+		Boolean result = false;
 		Session session = null;
 		Transaction transaction = null;
 		try {
@@ -88,9 +89,9 @@ public class LecturerService implements ILecturerService {
 	}
 
 	@Override
-	public boolean delete(Lecturer lecturer) {
+	public Boolean delete(Lecturer lecturer) {
 
-		boolean result = true;
+		Boolean result = true;
 		Session session = null;
 		try {
 			session = SessionManager.getSession();
@@ -122,42 +123,8 @@ public class LecturerService implements ILecturerService {
 	}
 
 	@Override
-	public List<Lecturer> getSortedByName() {
-
-		List<Lecturer> tempLecturers = null;
-		Session session = null;
-		try {
-			session = SessionManager.getSession();
-			tempLecturers = this.lecturerRepository.getSortedByName(session);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-			tempLecturers = new ArrayList<Lecturer>();
-		} finally {
-			SessionManager.closeSession(session);
-		}
-		return tempLecturers;
-	}
-
-	@Override
-	public List<Lecturer> getSortedByCoursesCount() {
-
-		List<Lecturer> tempLecturers = null;
-		Session session = null;
-		try {
-			session = SessionManager.getSession();
-			tempLecturers = this.lecturerRepository.getSortedByCoursesCount(session);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-			tempLecturers = new ArrayList<Lecturer>();
-		} finally {
-			SessionManager.closeSession(session);
-		}
-		return tempLecturers;
-	}
-
-	@Override
-	public int getCount() {
-		int count = 0;
+	public Integer getCount() {
+		Integer count = 0;
 		Session session = null;
 		try {
 			session = SessionManager.getSession();
@@ -168,6 +135,22 @@ public class LecturerService implements ILecturerService {
 			SessionManager.closeSession(session);
 		}
 		return count;
+	}
+
+	@Override
+	public List<Lecturer> getSorted(SortingParam sortingParam) {
+		List<Lecturer> tempLecturers = null;
+		Session session = null;
+		try {
+			session = SessionManager.getSession();
+			tempLecturers = this.lecturerRepository.getSorted(session,sortingParam);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			tempLecturers = new ArrayList<Lecturer>();
+		} finally {
+			SessionManager.closeSession(session);
+		}
+		return tempLecturers;
 	}
 
 }

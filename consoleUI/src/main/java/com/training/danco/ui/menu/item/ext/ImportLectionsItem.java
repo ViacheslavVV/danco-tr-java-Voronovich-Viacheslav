@@ -27,7 +27,7 @@ public class ImportLectionsItem extends MenuItem {
 				return this.menu;
 			}
 			Message message = new Message(IMPORT_LECTIONS, fileName);
-			boolean result = (boolean) messageHandler.sendMessage(message);
+			Boolean result = (Boolean) messageHandler.sendMessage(message);
 			if (result) {
 				ConsoleEntityDisplayer.displayMessage("Lections has been imported.");
 			} else {

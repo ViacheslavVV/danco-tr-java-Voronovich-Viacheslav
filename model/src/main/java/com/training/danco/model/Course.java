@@ -61,17 +61,17 @@ public class Course extends BaseModel implements Cloneable {
 
 	@Column
 	@Printable(order = 8, isDetailedOnly = true)
-	private int maxStudents;
+	private Integer maxStudents;
 
 	@Column
 	@Printable(order = 6, isDetailedOnly = true)
-	private int maxLections;
+	private Integer maxLections;
 
 	public Course() {
 
 	}
 
-	public Course(String name, Date startDate, Date finalDate, int maxStudents, int maxLections) {
+	public Course(String name, Date startDate, Date finalDate, Integer maxStudents, Integer maxLections) {
 		this.name = name;
 		this.startDate = startDate;
 		this.finalDate = finalDate;
@@ -121,7 +121,7 @@ public class Course extends BaseModel implements Cloneable {
 		this.students = students;
 	}
 
-	public boolean setStudent(Student student) {
+	public Boolean setStudent(Student student) {
 		if (this.maxStudents > this.students.size()) {
 			this.students.add(student);
 			student.setCourse(this);
@@ -130,7 +130,7 @@ public class Course extends BaseModel implements Cloneable {
 		return false;
 	}
 
-	public boolean setLection(Lection lection) {
+	public Boolean setLection(Lection lection) {
 		if (this.maxLections > this.lections.size()) {
 			this.lections.add(lection);
 			lection.setCourse(this);
@@ -139,8 +139,8 @@ public class Course extends BaseModel implements Cloneable {
 		return false;
 	}
 
-	public boolean removeStudent(Student student) {
-		for (int i = 0; i < this.students.size(); i++) {
+	public Boolean removeStudent(Student student) {
+		for (Integer i = 0; i < this.students.size(); i++) {
 			if (this.students.get(i).getId() == student.getId()) {
 				this.students.remove(i);
 				student.setCourse(null);
@@ -150,8 +150,8 @@ public class Course extends BaseModel implements Cloneable {
 		return false;
 	}
 
-	public boolean removeLection(Lection lection) {
-		for (int i = 0; i < this.lections.size(); i++) {
+	public Boolean removeLection(Lection lection) {
+		for (Integer i = 0; i < this.lections.size(); i++) {
 			if (this.lections.get(i).getId() == lection.getId()) {
 				this.lections.remove(i);
 				lection.setCourse(null);
@@ -183,11 +183,11 @@ public class Course extends BaseModel implements Cloneable {
 		this.lections = lections;
 	}
 
-	public int getMaxStudents() {
+	public Integer getMaxStudents() {
 		return this.maxStudents;
 	}
 
-	public int getMaxLections() {
+	public Integer getMaxLections() {
 		return this.maxLections;
 	}
 

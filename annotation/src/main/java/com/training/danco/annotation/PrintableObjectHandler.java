@@ -17,7 +17,7 @@ public class PrintableObjectHandler {
 	private static final Logger LOGGER = LogManager.getLogger(PrintableObjectHandler.class);
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static String printObject(Object object, boolean isDetailed) {
+	public static String printObject(Object object, Boolean isDetailed) {
 
 		StringBuilder sb = new StringBuilder();
 
@@ -56,7 +56,7 @@ public class PrintableObjectHandler {
 
 			for (FieldOrderItem fieldOrder : list) {
 				Field field = fieldOrder.getField();
-				boolean isAccesible = field.isAccessible();
+				Boolean isAccesible = field.isAccessible();
 				try {
 
 					if (!isAccesible) {
@@ -97,7 +97,7 @@ public class PrintableObjectHandler {
 							}
 							appendHeader(sb, fieldName, true);
 							Collection<Object> innerObjects = (Collection<Object>) fieldValue;
-							int num = 1;
+							Integer num = 1;
 							for (Object obj : innerObjects) {
 								sb.append("Object " + num++);
 								sb.append(NEW_LINE);
@@ -124,7 +124,7 @@ public class PrintableObjectHandler {
 		return sb.toString();
 	}
 
-	private static void appendHeader(StringBuilder sb, String fieldName, boolean isCollection) {
+	private static void appendHeader(StringBuilder sb, String fieldName, Boolean isCollection) {
 		sb.append(OBJECT_AREA);
 		sb.append(NEW_LINE);
 		sb.append("field " + fieldName + " is " + (isCollection ? "collection" : "referenced object") + ".");

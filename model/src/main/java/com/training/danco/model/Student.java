@@ -35,7 +35,7 @@ public class Student extends BaseModel {
 
 	@Column
 	@Printable(order = 3, isDetailedOnly = true, name = "Age")
-	private int age;
+	private Integer age;
 
 	@ManyToOne(targetEntity = Course.class)
 	@JoinColumn(name = "courseId")
@@ -46,7 +46,7 @@ public class Student extends BaseModel {
 
 	}
 
-	public Student(String name, int age) {
+	public Student(String name, Integer age) {
 		super();
 		this.name = name;
 		this.age = age;
@@ -76,11 +76,11 @@ public class Student extends BaseModel {
 		this.name = name;
 	}
 
-	public int getAge() {
+	public Integer getAge() {
 		return age;
 	}
 
-	public void setAge(int age) {
+	public void setAge(Integer age) {
 		this.age = age;
 	}
 

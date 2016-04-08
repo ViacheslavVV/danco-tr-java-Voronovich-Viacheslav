@@ -7,14 +7,14 @@ import org.apache.logging.log4j.Logger;
 
 public class Server {
 
-	private static final int STANDART_PORT = 6265;
+	private static final Integer STANDART_PORT = 6265;
 	private static final String CLIENT_ACCAPTED = "Client accapted!";
 	private static final String WAITING_FOR_A_CLIENT = "Waiting for a client...";
 	private static final Logger LOGGER = LogManager.getLogger(Server.class);
-	private static boolean isWorking = true;
+	private static Boolean isWorking = true;
 
 	public static void main(String[] args) {
-		int port = STANDART_PORT;
+		Integer port = STANDART_PORT;
 		ServerSocket serverSocket = null;
 		ClientThread clientThread = null;
 

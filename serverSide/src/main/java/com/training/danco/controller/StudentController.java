@@ -19,17 +19,17 @@ public class StudentController {
 		return this.studentService.set(student);
 	}
 	
-	public Student getStudent(int studentId)
+	public Student getStudent(Integer studentId)
 	{
 		return this.studentService.get(studentId);
 	}
 	
-	public boolean updateStudent(Student student)
+	public Boolean updateStudent(Student student)
 	{
 		return this.studentService.update(student);
 	}
 	
-	public boolean deleteStudent(int studentId)
+	public Boolean deleteStudent(Integer studentId)
 	{
 		Student student = this.studentService.get(studentId);
 		return this.studentService.delete(student);
@@ -40,7 +40,7 @@ public class StudentController {
 		return this.studentService.getAll();
 	}
 	
-	public int getCount()
+	public Integer getCount()
 	{
 		return this.studentService.getCount();
 	}

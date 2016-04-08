@@ -7,7 +7,7 @@ import com.training.danco.ui.reader.ConsoleReader;
 
 public class Controller {
 
-	private static final int NATURAL_NUMBER_INCREMENT = 1;
+	private static final Integer NATURAL_NUMBER_INCREMENT = 1;
 
 	public Controller() {
 		
@@ -15,7 +15,7 @@ public class Controller {
 
 	public void run(Menu currentMenu){
 		MenuItem currentMenuItem = null;
-		int mode = 0;
+		Integer mode = 0;
 		while(currentMenu != null){
 			ConsoleMenuDisplayer.displayMenu(currentMenu);
 			mode = getMode();	
@@ -29,7 +29,7 @@ public class Controller {
 		}
 	}
 	
-	public int getMode() {
+	public Integer getMode() {
 		return ConsoleReader.getMenuMode();
 	}
 }

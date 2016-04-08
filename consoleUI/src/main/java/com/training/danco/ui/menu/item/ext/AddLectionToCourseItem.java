@@ -25,10 +25,10 @@ public class AddLectionToCourseItem extends MenuItem {
 	@Override
 	public Menu doWork() {
 		try {
-			int courseId = ConsoleReader.getCourseId();
-			int lectionId = ConsoleReader.getLectionId();
+			Integer courseId = ConsoleReader.getCourseId();
+			Integer lectionId = ConsoleReader.getLectionId();
 			Message message = new Message(ADD_LECTION_TO_COURSE, new ArrayList<Object>(Arrays.asList(courseId, lectionId)));
-			boolean result = (boolean) messageHandler.sendMessage(message);
+			Boolean result = (Boolean) messageHandler.sendMessage(message);
 			if (result) {
 				ConsoleEntityDisplayer.displayMessage("The lection has been added.");
 			} else {

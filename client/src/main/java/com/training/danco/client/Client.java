@@ -15,11 +15,11 @@ import com.training.danco.message.handler.IMessageHandler;
 
 public class Client {
 
-	private static final int STANDART_PORT = 6265;
+	private static final Integer STANDART_PORT = 6265;
 	private static final String INET_ADDRESS = "127.0.0.1";
 
 	public static void main(String[] args) throws Exception {
-		int serverPort = STANDART_PORT; 
+		Integer serverPort = STANDART_PORT; 
 		String address = INET_ADDRESS;
 		Socket clientSocket = new Socket(InetAddress.getByName(address), serverPort);
 		InputStream in = clientSocket.getInputStream();

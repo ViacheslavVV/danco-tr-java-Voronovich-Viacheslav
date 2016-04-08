@@ -7,9 +7,9 @@ import com.training.danco.model.Student;
 public interface IStudentService {
 	
 	public Integer set(Student student);
-	public Student get(int id);
-	public boolean update(Student student);
-	public boolean delete(Student student);
+	public Student get(Integer id);
+	public Boolean update(Student student);
+	public Boolean delete(Student student);
 	public List<Student> getAll();
-	public int getCount();
+	public Integer getCount();
 }

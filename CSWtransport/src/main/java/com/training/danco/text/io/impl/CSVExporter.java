@@ -19,7 +19,7 @@ public class CSVExporter implements IExporter{
 	private static final Logger LOGGER = LogManager.getLogger(CSVExporter.class);
 
 	@Override
-	public boolean exportCourses(String fileName, List<Course> courses) {
+	public Boolean exportCourses(String fileName, List<Course> courses) {
 		
 		List<String> lines = new ArrayList<String>();
 		for (Course course : courses){
@@ -30,7 +30,7 @@ public class CSVExporter implements IExporter{
 	}
 
 	@Override
-	public boolean exportStudents(String fileName, List<Student> students) {
+	public Boolean exportStudents(String fileName, List<Student> students) {
 		List<String> lines = new ArrayList<String>();
 		for (Student student : students){
 			lines.add(CSVConverter.convertStudentToString(student));
@@ -40,7 +40,7 @@ public class CSVExporter implements IExporter{
 	}
 
 	@Override
-	public boolean exportLections(String fileName, List<Lection> lections) {
+	public Boolean exportLections(String fileName, List<Lection> lections) {
 		List<String> lines = new ArrayList<String>();
 		for (Lection lection : lections){
 			lines.add(CSVConverter.convertLectionToString(lection));
@@ -50,7 +50,7 @@ public class CSVExporter implements IExporter{
 	}
 
 	@Override
-	public boolean exportLecturers(String fileName, List<Lecturer> lecturers) {
+	public Boolean exportLecturers(String fileName, List<Lecturer> lecturers) {
 		List<String> lines = new ArrayList<String>();
 		for (Lecturer lecturer : lecturers){
 			lines.add(CSVConverter.convertLecturerToString(lecturer));
@@ -61,7 +61,7 @@ public class CSVExporter implements IExporter{
 
 	
 	
-	private boolean writeStringsToFile(List<String> lines, String fileName){
+	private Boolean writeStringsToFile(List<String> lines, String fileName){
 		
 		File file = new File(fileName);
 		if (!file.exists()) {

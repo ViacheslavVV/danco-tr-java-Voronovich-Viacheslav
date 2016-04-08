@@ -23,7 +23,7 @@ public class CourseItem extends MenuItem {
 	@Override
 	public Menu doWork() {
 		try {
-			int courseId = ConsoleReader.getCourseId();
+			Integer courseId = ConsoleReader.getCourseId();
 			Message message = new Message(GET_COURSE, courseId);
 			Course course = (Course) messageHandler.sendMessage(message);
 			if (course == null) {

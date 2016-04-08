@@ -24,7 +24,7 @@ public class ExportAllStudentsItem extends MenuItem {
 		try {
 			String fileName = ConsoleReader.getExportFileName();
 			Message message = new Message(EXPORT_ALL_STUDENTS, fileName);
-			boolean result = (boolean) messageHandler.sendMessage(message);
+			Boolean result = (Boolean) messageHandler.sendMessage(message);
 			if (result) {
 				ConsoleEntityDisplayer.displayMessage("Students has been exported.");
 			} else {

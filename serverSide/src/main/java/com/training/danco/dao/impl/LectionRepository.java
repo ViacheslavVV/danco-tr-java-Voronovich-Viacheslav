@@ -12,8 +12,9 @@ import java.util.List;
 
 import com.training.danco.dao.api.ILectionRepository;
 import com.training.danco.model.Lection;
+import com.training.danco.params.SortingParam;
 
-public class LectionRepository implements ILectionRepository {
+public class LectionRepository extends AbstractRepository<Lection, Integer> implements ILectionRepository {
 
 	private static final String NAME = "name";
 	private static final String ID = "id";
@@ -22,46 +23,24 @@ public class LectionRepository implements ILectionRepository {
 	public LectionRepository() {
 	}
 
-	@Override
-	public Integer set(Session session, Lection lection) throws SQLException {
-		return (Integer) session.save(lection);
-	}
-
-	@Override
-	public Lection get(Session session, int id) throws SQLException {
-		return (Lection) session.get(Lection.class, id);
-	}
-
-	@Override
-	public void update(Session session, Lection lection) throws SQLException {
-		session.update(lection);
-	}
-
-	@Override
-	public void delete(Session session, Lection lection) throws SQLException {
-		session.delete(lection);
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Lection> getAll(Session session) throws SQLException {
-
-		return session.createCriteria(Lection.class).list();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Lection> getSortedByDate(Session session) throws SQLException {
-
+	public List<Lection> getSorted(Session session, SortingParam sortingParam) throws SQLException {
 		Criteria criteria = session.createCriteria(Lection.class);
-		return criteria.addOrder(Order.asc(DATE)).list();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Lection> getSortedByName(Session session) throws SQLException {
-		Criteria criteria = session.createCriteria(Lection.class);
-		return criteria.addOrder(Order.asc(NAME)).list();
+		switch (sortingParam) {
+		case DATE: {
+			criteria.addOrder(Order.asc(DATE));
+			break;
+		}
+		case NAME: {
+			criteria.addOrder(Order.asc(NAME));
+			break;
+		}
+		default: {
+			criteria.addOrder(Order.asc(ID));
+		}
+		}
+		return criteria.list();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -72,8 +51,9 @@ public class LectionRepository implements ILectionRepository {
 	}
 
 	@Override
-	public int getCount(Session session) throws SQLException {
-		return Integer.parseInt(session.createCriteria(Lection.class).setProjection(Projections.rowCount()).uniqueResult().toString());
+	public Integer getCount(Session session) throws SQLException {
+		return Integer.parseInt(
+				session.createCriteria(Lection.class).setProjection(Projections.rowCount()).uniqueResult().toString());
 	}
 
 }
