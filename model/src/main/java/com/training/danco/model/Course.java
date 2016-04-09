@@ -121,60 +121,6 @@ public class Course extends BaseModel implements Cloneable {
 		this.students = students;
 	}
 
-	public Boolean setStudent(Student student) {
-		if (this.maxStudents > this.students.size()) {
-			this.students.add(student);
-			student.setCourse(this);
-			return true;
-		}
-		return false;
-	}
-
-	public Boolean setLection(Lection lection) {
-		if (this.maxLections > this.lections.size()) {
-			this.lections.add(lection);
-			lection.setCourse(this);
-			return true;
-		}
-		return false;
-	}
-
-	public Boolean removeStudent(Student student) {
-		for (Integer i = 0; i < this.students.size(); i++) {
-			if (this.students.get(i).getId() == student.getId()) {
-				this.students.remove(i);
-				student.setCourse(null);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public Boolean removeLection(Lection lection) {
-		for (Integer i = 0; i < this.lections.size(); i++) {
-			if (this.lections.get(i).getId() == lection.getId()) {
-				this.lections.remove(i);
-				lection.setCourse(null);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	@SuppressWarnings("deprecation")
-	public List<Lection> getLectionByDate(Date date) {
-		List<Lection> result = new ArrayList<Lection>();
-		Date lectionDate;
-		for (Lection lection : this.lections) {
-			lectionDate = lection.getDate();
-			if (lectionDate.getDay() == date.getDay() && lectionDate.getMonth() == date.getMonth()
-					&& lectionDate.getYear() == date.getYear()) {
-				result.add(lection);
-			}
-		}
-		return result;
-	}
-
 	public List<Lection> getLections() {
 		return this.lections;
 	}
