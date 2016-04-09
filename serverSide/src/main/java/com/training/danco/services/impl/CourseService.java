@@ -36,11 +36,16 @@ public class CourseService implements ICourseService {
 	public Integer set(Course course) {
 		Integer result;
 		Session session = null;
+		Transaction transaction = null;
 		try {
 			session = SessionManager.getSession();
+			transaction = session.beginTransaction();
 			result = courseRepository.set(session, course);
-
+			transaction.commit();
 		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			LOGGER.error(e.getMessage());
 			result = null;
 		} finally {
@@ -99,10 +104,16 @@ public class CourseService implements ICourseService {
 	public Boolean delete(Course course) {
 		Boolean result = true;
 		Session session = null;
+		Transaction transaction = null;
 		try {
 			session = SessionManager.getSession();
+			transaction = session.beginTransaction();
 			this.courseRepository.delete(session, course);
+			transaction.commit();
 		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {

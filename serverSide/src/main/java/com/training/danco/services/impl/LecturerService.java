@@ -30,10 +30,16 @@ public class LecturerService implements ILecturerService {
 
 		Integer result;
 		Session session = null;
+		Transaction transaction = null;
 		try {
 			session = SessionManager.getSession();
+			transaction = session.beginTransaction();
 			result = this.lecturerRepository.set(session, lecturer);
+			transaction.commit();
 		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			LOGGER.error(e.getMessage());
 			result = null;
 		} finally {
@@ -93,10 +99,16 @@ public class LecturerService implements ILecturerService {
 
 		Boolean result = true;
 		Session session = null;
+		Transaction transaction = null;
 		try {
 			session = SessionManager.getSession();
+			transaction = session.beginTransaction();
 			this.lecturerRepository.delete(session, lecturer);
+			transaction.commit();
 		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {

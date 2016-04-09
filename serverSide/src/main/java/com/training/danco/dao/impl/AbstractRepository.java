@@ -24,10 +24,7 @@ public abstract class AbstractRepository<TEntity extends BaseModel, PK extends S
 	@SuppressWarnings("unchecked")
 	@Override
 	public PK set(Session session, TEntity entity) throws SQLException {
-		Transaction transaction = session.beginTransaction();
-		PK result = (PK) session.save(entity); 
-		transaction.commit();
-		return result;
+		return (PK) session.save(entity);;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -38,16 +35,12 @@ public abstract class AbstractRepository<TEntity extends BaseModel, PK extends S
 
 	@Override
 	public void update(Session session, TEntity entity) throws SQLException {
-		Transaction transaction = session.beginTransaction();
 		session.update(entity);
-		transaction.commit();
 	}
 
 	@Override
 	public void delete(Session session, TEntity entity) throws SQLException {
-		Transaction transaction = session.beginTransaction();
 		session.delete(entity);
-		transaction.commit();
 	}
 
 	@SuppressWarnings("unchecked")

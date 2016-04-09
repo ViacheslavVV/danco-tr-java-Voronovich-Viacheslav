@@ -28,10 +28,16 @@ public class StudentService implements IStudentService {
 	public Integer set(Student student) {
 		Integer result;
 		Session session = null;
+		Transaction transaction = null;
 		try {
 			session = SessionManager.getSession();
+			transaction = session.beginTransaction();
 			result = this.studentRepository.set(session, student);
+			transaction.commit();
 		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			LOGGER.error(e.getMessage());
 			result = null;
 		} finally {
@@ -90,10 +96,16 @@ public class StudentService implements IStudentService {
 	public Boolean delete(Student student) {
 		Boolean result = true;
 		Session session = null;
+		Transaction transaction = null;
 		try {
 			session = SessionManager.getSession();
+			transaction = session.beginTransaction();
 			this.studentRepository.delete(session, student);
+			transaction.commit();
 		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {

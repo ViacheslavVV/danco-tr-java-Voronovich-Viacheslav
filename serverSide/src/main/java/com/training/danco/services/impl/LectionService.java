@@ -30,11 +30,17 @@ public class LectionService implements ILectionService {
 	public Integer set(Lection lection) {
 
 		Integer result;
-		Session session = null;
+		Session session = null;	
+		Transaction transaction = null;
 		try {
 			session = SessionManager.getSession();
+			transaction = session.beginTransaction();
 			result = this.lectionRepository.set(session, lection);
+			transaction.commit();
 		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			LOGGER.error(e.getMessage());
 			result = null;
 		} finally {
@@ -95,10 +101,16 @@ public class LectionService implements ILectionService {
 
 		Boolean result = true;
 		Session session = null;
+		Transaction transaction = null;
 		try {
 			session = SessionManager.getSession();
+			transaction = session.beginTransaction();
 			this.lectionRepository.delete(session, lection);
+			transaction.commit();
 		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			LOGGER.error(e.getMessage());
 			result = false;
 		} finally {
