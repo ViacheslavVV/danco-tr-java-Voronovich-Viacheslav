@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="MyApp" packages="">
+
+  <Properties>
+    <Property name="filename">logs/ServiceLevelLog.log</Property>
+    <Property name="propertyManagerFileName">logs/PropertyManager.log</Property>
+    <Property name="serializationFilename">logs/SerializationLog.log</Property>
+    <Property name="defaultFilename">logs/default.log</Property>
+  </Properties>
+  <Appenders>
+ 	<File name="propertyManagerAppender" fileName="${propertyManagerFileName}">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+      </PatternLayout>
+    </File>
+ 	<File name="defaultAppender" fileName="${defaultFilename}">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+      </PatternLayout>
+    </File>
+    <File name="mainAppender" fileName="${filename}">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+      </PatternLayout>
+    </File>
+    <File name="serializationAppender" fileName="${serializationFilename}">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+      </PatternLayout>
+    </File>
+  </Appenders>
+  <Loggers>
+  	<Logger name="com.training.danco.services.impl.CourseService" level="error" additivity="false">
+      <AppenderRef ref="mainAppender"/>
+    </Logger>
+    <Logger name="com.training.danco.services.impl.LectionService" level="error" additivity="false">
+      <AppenderRef ref="mainAppender"/>
+    </Logger>
+    <Logger name="com.training.danco.services.impl.LecturerService" level="error" additivity="false">
+      <AppenderRef ref="mainAppender"/>
+    </Logger>
+    <Logger name="com.training.danco.services.impl.StudentService" level="error" additivity="false">
+      <AppenderRef ref="mainAppender"/>
+    </Logger>
+    <Logger name="com.training.danco.data.manager.DataSerializer" level="error" additivity="false">
+      <AppenderRef ref="serializationAppender"/>
+    </Logger>
+    <Logger name="com.training.danco.data.manager.DataDeserializer" level="error" additivity="false">
+      <AppenderRef ref="serializationAppender"/>
+    </Logger>
+    <Logger name="com.danco.training.configuration.manager.PropertyManager" level="error" additivity="false">
+      <AppenderRef ref="propertyManagerAppender"/>
+    </Logger>
+    <Root level="all">
+    	<AppenderRef ref="defaultAppender"/> 
+    </Root>
+  </Loggers>
+</Configuration>

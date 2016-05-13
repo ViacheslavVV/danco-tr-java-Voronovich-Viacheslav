@@ -1,0 +1,58 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  
+  <servlet>
+  	<servlet-name>CourseServlet</servlet-name>
+  	<display-name>CourseServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.CourseServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>StudentServlet</servlet-name>
+  	<display-name>StudentServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.StudentServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>LecturerServlet</servlet-name>
+  	<display-name>LecturerServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.LecturerServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>LectionServlet</servlet-name>
+  	<display-name>LectionServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.LectionServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>MainServlet</servlet-name>
+  	<display-name>MainServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.MainServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>CourseServlet</servlet-name>
+  	<url-pattern>/course/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>StudentServlet</servlet-name>
+  	<url-pattern>/student/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LecturerServlet</servlet-name>
+  	<url-pattern>/lecturer/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LectionServlet</servlet-name>
+  	<url-pattern>/lection/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>MainServlet</servlet-name>
+  	<url-pattern>/</url-pattern>
+  </servlet-mapping>
+</web-app>
