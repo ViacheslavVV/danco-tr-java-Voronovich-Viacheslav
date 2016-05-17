@@ -15,7 +15,7 @@ import com.training.danco.annotation.Printable;
 import com.training.danco.annotation.PrintableObject;
 import com.training.danco.annotation.PrintableRef;
 @Entity
-@Table(name = "Section")
+@Table(name = "Lection")
 @PrintableObject(name = "Lection")
 public class Lection extends BaseModel {
 

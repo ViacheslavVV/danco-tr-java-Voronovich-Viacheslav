@@ -8,18 +8,22 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.training.danco.dim.DependencyInjectionManager;
+import com.training.danco.dao.api.IAuditRepository;
 import com.training.danco.dao.api.ICourseRepository;
 import com.training.danco.dao.api.ILectionRepository;
 import com.training.danco.dao.api.ILecturerRepository;
 import com.training.danco.dao.api.IStudentRepository;
+import com.training.danco.dao.api.IUserRepository;
 import com.training.danco.facade.api.IFacade;
 import com.training.danco.model.*;
 import com.training.danco.params.CourseDateParam;
 import com.training.danco.params.SortingParam;
+import com.training.danco.services.impl.AuditService;
 import com.training.danco.services.impl.CourseService;
 import com.training.danco.services.impl.LectionService;
 import com.training.danco.services.impl.LecturerService;
 import com.training.danco.services.impl.StudentService;
+import com.training.danco.services.impl.UserService;
 import com.training.danco.text.io.api.IExporter;
 import com.training.danco.text.io.api.IImporter;
 
@@ -31,7 +35,9 @@ public class Facade implements IFacade {
 	private LectionService lectionService;
 	private LecturerService lecturerService;
 	private StudentService studentService;
-
+	private UserService userService;
+	private AuditService auditService;
+	
 	private IImporter importer;
 	private IExporter exporter;
 
@@ -696,10 +702,60 @@ public class Facade implements IFacade {
 		ILectionRepository lectionRepository = (ILectionRepository)DependencyInjectionManager.getClassInstance(ILectionRepository.class);
 		IStudentRepository studentRepository = (IStudentRepository)DependencyInjectionManager.getClassInstance(IStudentRepository.class);
 		ILecturerRepository lecturerRepository = (ILecturerRepository)DependencyInjectionManager.getClassInstance(ILecturerRepository.class);
+		IUserRepository userRepository = (IUserRepository)DependencyInjectionManager.getClassInstance(IUserRepository.class);
+		IAuditRepository auditRepository = (IAuditRepository)DependencyInjectionManager.getClassInstance(IAuditRepository.class);
 		this.courseService = new CourseService(courseRepository, lectionRepository, studentRepository,lecturerRepository);
 		this.lectionService = new LectionService(lectionRepository);
 		this.lecturerService = new LecturerService(lecturerRepository);
 		this.studentService = new StudentService(studentRepository);
+		this.userService = new UserService(userRepository);
+		this.auditService = new AuditService(auditRepository);
+		
+		
+	}
+
+	@Override
+	public Integer setUser(User user) {
+		Integer result = null;
+		try {
+			result = this.userService.set(user);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public User getUser(Integer userId) {
+		User user = null;
+		try {
+			user = this.userService.get(userId);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return user;
+	}
+
+	@Override
+	public List<User> getAllUsers() {
+		List<User> users = null;
+		try {
+			users = this.userService.getAll();
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return users;
+	}
+
+	@Override
+	public Integer setAudit(Audit audit) {
+		Integer id = null;
+		try {
+			id = this.auditService.set(audit);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return id;
 	}
 
 }

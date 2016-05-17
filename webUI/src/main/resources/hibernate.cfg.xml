@@ -16,7 +16,8 @@
 		<mapping class="com.training.danco.model.Course"/>
 		<mapping class="com.training.danco.model.Lection"/>
 		<mapping class="com.training.danco.model.Student"/>
-		
+		<mapping class="com.training.danco.model.User"/>
+		<mapping class="com.training.danco.model.Audit"/>
 
 	</session-factory>
 </hibernate-configuration>

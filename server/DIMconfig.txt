@@ -1,7 +1,0 @@
-com.training.danco.facade.api.IFacade=com.training.danco.facade.impl.Facade
-com.training.danco.text.io.api.IExporter=com.training.danco.text.io.impl.CSVExporter
-com.training.danco.text.io.api.IImporter=com.training.danco.text.io.impl.CSVImporter
-com.training.danco.dao.api.ICourseRepository=com.training.danco.dao.impl.CourseRepository
-com.training.danco.dao.api.ILectionRepository=com.training.danco.dao.impl.LectionRepository
-com.training.danco.dao.api.ILecturerRepository=com.training.danco.dao.impl.LecturerRepository
-com.training.danco.dao.api.IStudentRepository=com.training.danco.dao.impl.StudentRepository

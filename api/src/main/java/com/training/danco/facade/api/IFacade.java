@@ -3,14 +3,25 @@ package com.training.danco.facade.api;
 import java.util.Date;
 import java.util.List;
 
+import com.training.danco.model.Audit;
 import com.training.danco.model.Course;
 import com.training.danco.model.Lection;
 import com.training.danco.model.Lecturer;
 import com.training.danco.model.Student;
+import com.training.danco.model.User;
 import com.training.danco.params.CourseDateParam;
 import com.training.danco.params.SortingParam;
 
 public interface IFacade {
+	
+	public Integer setUser(User user);
+	
+	public User getUser(Integer userId);
+	
+	public List<User> getAllUsers();
+	
+	public Integer setAudit(Audit audit);
+	
 	public Integer setCourse(Object course);
 	
 	public Course getCourse(Object courseId);
