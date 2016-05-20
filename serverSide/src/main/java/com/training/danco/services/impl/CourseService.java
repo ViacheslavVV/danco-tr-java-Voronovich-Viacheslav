@@ -340,4 +340,36 @@ public class CourseService implements ICourseService {
 		return tempCourses;
 	}
 
+	@Override
+	public List<Course> getCoursesByStudent(Integer studentId) {
+		List<Course> tempCourses = null;
+		Session session = null;
+		try {
+			session = SessionManager.getSession();
+			tempCourses = this.courseRepository.getCoursesByStudent(session, studentId);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			tempCourses = new ArrayList<Course>();
+		} finally {
+			SessionManager.closeSession(session);
+		}
+		return tempCourses;
+	}
+
+	@Override
+	public List<Course> getCoursesByLecturer(Integer lecturerId) {
+		List<Course> tempCourses = null;
+		Session session = null;
+		try {
+			session = SessionManager.getSession();
+			tempCourses = this.courseRepository.getCoursesByLecturer(session, lecturerId);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			tempCourses = new ArrayList<Course>();
+		} finally {
+			SessionManager.closeSession(session);
+		}
+		return tempCourses;
+	}
+
 }

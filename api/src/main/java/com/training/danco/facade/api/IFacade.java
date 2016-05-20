@@ -36,15 +36,27 @@ public interface IFacade {
 	
 	public Integer getCoursesCount();
 	
+	public List<Student> getStudentsExceptCourse(Integer courseId);
+	
+	public List<Lection> getFreeLections();
+	
 	public Boolean removeStudentFromCourse(Object courseAndStudentId);
 	
 	public Boolean removeLectionFromCourse(Object courseAndLectionId);
 	
-	public Boolean addStudentToCourse(Object courseAndStudentId);
+	public Boolean addStudentToCourse(Integer courseId, Integer studentId);
 	
-	public Boolean addLectionToCourse(Object courseAndLectionId);
+	public Boolean addLectionToCourse(Integer courseId, Integer lectionId);
 	
 	public Boolean setLecturerToCourse(Object courseAndLecturerId);
+	
+	public List<Student> getStudentsByCourse(Integer courseId);
+	
+	public List<Lection> getLectionsByCourse(Integer courseId);
+	
+	public List<Course> getCoursesByStudent(Integer studentId);
+	
+	public List<Course> getCoursesByLecturer(Integer lecturerId);
 	
 	public List<Course> getCoursesInInterval(Object dateFromAndTo);
 	

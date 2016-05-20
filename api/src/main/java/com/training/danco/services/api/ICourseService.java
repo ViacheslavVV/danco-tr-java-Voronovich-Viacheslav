@@ -23,6 +23,10 @@ public interface ICourseService {
 	public Boolean removeLection(Integer courseId, Integer lectionId);
 	public Boolean removeStudent(Integer courseId, Integer studentId);
 	
+	public List<Course> getCoursesByStudent(Integer studentId);
+	
+	public List<Course> getCoursesByLecturer(Integer lecturerId);
+	
 	public List<Course> getCoursesInInterval(Date dateFrom, Date dateTo);
 
 	public List<Course> getSorted(CourseDateParam courseDateParam, SortingParam sortingParam,

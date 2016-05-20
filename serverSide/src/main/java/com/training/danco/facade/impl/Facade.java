@@ -122,13 +122,9 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public Boolean addLectionToCourse(Object courseAndLectionId) {
+	public Boolean addLectionToCourse(Integer courseId, Integer lectionId) {
 		Boolean result = false;
 		try {
-			@SuppressWarnings("unchecked")
-			List<Object> data = (List<Object>) courseAndLectionId;
-			Integer courseId = (Integer) data.get(0);
-			Integer lectionId = (Integer) data.get(1);
 			result = courseService.addLection(courseId, lectionId);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -137,14 +133,10 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public Boolean addStudentToCourse(Object courseAndStudentId) {
+	public Boolean addStudentToCourse(Integer courseId, Integer studentId) {
 		Boolean result = false;
 		synchronized (this.courseService) {
 			try {
-				@SuppressWarnings("unchecked")
-				List<Object> data = (List<Object>) courseAndStudentId;
-				Integer courseId = (Integer) data.get(0);
-				Integer studentId = (Integer) data.get(1);
 				result = courseService.addStudent(courseId, studentId);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
@@ -756,6 +748,72 @@ public class Facade implements IFacade {
 			LOGGER.error(e.getMessage());
 		}
 		return id;
+	}
+
+	@Override
+	public List<Student> getStudentsByCourse(Integer courseId) {
+		List<Student> result = null;
+		try {
+			result = this.studentService.getStudentsByCourse(courseId);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public List<Lection> getLectionsByCourse(Integer courseId) {
+		List<Lection> result = null;
+		try {
+			result = this.lectionService.getLectionsByCourse(courseId);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public List<Course> getCoursesByStudent(Integer studentId) {
+		List<Course> result = null;
+		try {
+			result = this.courseService.getCoursesByStudent(studentId);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public List<Course> getCoursesByLecturer(Integer lecturerId) {
+		List<Course> result = null;
+		try {
+			result = this.courseService.getCoursesByLecturer(lecturerId);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public List<Student> getStudentsExceptCourse(Integer courseId) {
+		List<Student> result = null;
+		try {
+			result = this.studentService.getStudentsExceptCourse(courseId);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public List<Lection> getFreeLections() {
+		List<Lection> result = null;
+		try {
+			result = this.lectionService.getFreeLections();
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return result;
 	}
 
 }

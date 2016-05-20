@@ -1,0 +1,96 @@
+body{
+	background: gainsboro;
+}
+
+.data_table th:nth-child(4), .data_table th:nth-child(5), .data_table td:nth-child(4), .data_table td:nth-child(5){
+	width: 12%;
+}
+
+.data_table th:nth-child(4) input, .data_table th:nth-child(5) input, .data_table td:nth-child(4) input, .data_table td:nth-child(5) input{
+	width: 100%;
+}
+
+.data_table th:nth-child(1), .data_table td:nth-child(1){
+	width:16%;
+}
+
+.data_table th:nth-child(1) input, .data_table td:nth-child(1) input{
+	width:100%;
+}
+
+.data_table th:nth-child(2), .data_table th:nth-child(3), .data_table td:nth-child(2), .data_table td:nth-child(3){
+	width:28%;
+}
+
+.data_table th:nth-child(2) input, .data_table th:nth-child(3) input, .data_table td:nth-child(2) input, .data_table td:nth-child(3) input{
+	width:100%;
+}
+
+.data_table th:nth-child(6), .data_table td:nth-child(6){
+	width:4%;
+}
+
+.data_table th:nth-child(6) input, .data_table td:nth-child(6) input{
+	width:100%;
+}
+
+#table_create  table{
+	width: 100%;
+    border-style: solid;
+    border-radius: 20px 20px 0 0;
+    border-color: black;
+    background-color: skyblue;
+}
+
+#table_create input {
+	text-align:center;
+}
+
+#table_main table{
+	text-align:center;
+	width:100%;
+	border-style: solid;
+	border-color: black;
+	background-color: skyblue;
+}
+
+div.data_table {
+    width:80%;
+	padding-left:10%;
+}
+
+#table_main table{
+    border-collapse: collapse; /* Убираем двойные линии между ячейками */
+}
+
+#table_main td{
+    border: 1px solid maroon; /* Параметры рамки */
+}
+
+.date input{
+	width:100%;
+}
+
+.rad {
+	border-radius:5px 5px 5px 5px;
+}
+
+div.sort{
+	width:80%;
+	padding-left:10%;
+}
+
+.sort table{
+	text-align:center;
+	width:100%;
+	
+}
+
+#refresh {
+	background-color:green;
+	color:white;
+}
+
+form{
+	margin-bottom:0;
+}

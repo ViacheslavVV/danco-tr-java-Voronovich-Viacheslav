@@ -2,6 +2,7 @@ package com.training.danco.servlet;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,6 +22,13 @@ public class LoginServlet extends HttpServlet {
 
     public LoginServlet() {
         super();
+    }
+    
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	// TODO Auto-generated method stub
+    	String s = req.getParameter("type");
+    	int k = 9+2;
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

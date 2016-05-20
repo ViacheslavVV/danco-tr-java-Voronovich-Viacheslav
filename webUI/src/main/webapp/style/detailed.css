@@ -1,0 +1,124 @@
+body{
+	background: gainsboro;
+}
+
+.lecturer_table th:nth-child(1), .lecturer_table td:nth-child(1), .student_table th:nth-child(1), .student_table td:nth-child(1){
+	width:80%;
+}
+
+.lecturer_table th:nth-child(2), .lecturer_table td:nth-child(2), .student_table th:nth-child(2), .student_table td:nth-child(2){
+	width:20%;
+}
+
+.course_table th:nth-child(4), .course_table th:nth-child(5), .course_table td:nth-child(4), .course_table td:nth-child(5){
+	width: 12%;
+}
+
+.course_table th:nth-child(1), .course_table td:nth-child(1){
+	width:16%;
+}
+
+.course_table th:nth-child(2), .course_table th:nth-child(3), .course_table td:nth-child(2), .course_table td:nth-child(3){
+	width:28%;
+}
+
+.course_table th:nth-child(6), .course_table td:nth-child(6){
+	width:4%;
+}
+
+.lection_course_table th:nth-child(1), .lection_course_table td:nth-child(1){
+	width:50%;
+}
+
+.lection_course_table th:nth-child(2), .lection_course_table td:nth-child(2){
+	width:40%;
+}
+
+.lection_course_table th:nth-child(3), .lection_course_table td:nth-child(3){
+	width:10%;
+}
+
+
+.lecturer_course_table th:nth-child(1), .lecturer_course_table td:nth-child(1), .student_course_table th:nth-child(1), .student_course_table td:nth-child(1){
+	width:70%;
+}
+
+.lecturer_course_table th:nth-child(2), .lecturer_course_table td:nth-child(2), .student_course_table th:nth-child(2), .student_course_table td:nth-child(2){
+	width:20%;
+}
+
+.lecturer_course_table th:nth-child(3), .lecturer_course_table td:nth-child(3), .student_course_table th:nth-child(3), .student_course_table td:nth-child(3){
+	width:10%;
+}
+
+#table_create  table{
+	width: 100%;
+    border-style: solid;
+    border-radius: 20px 20px 0 0;
+    border-color: black;
+    background-color: skyblue;
+}
+
+#table_create input {
+	text-align:center;
+}
+
+#table_main table{
+	text-align:center;
+	width:100%;
+	border-style: solid;
+	border-color: black;
+	background-color: skyblue;
+}
+
+div.lecturer_table, div.student_table, div.lecturer_course_table, div.student_course_table, div.lection_course_table{
+	width:40%;
+	padding-left:30%;
+}
+
+div.course_table {
+    width:80%;
+	padding-left:10%;
+}
+
+#table_main table{
+    border-collapse: collapse; /* Убираем двойные линии между ячейками */
+}
+
+#table_main td{
+    border: 1px solid maroon; /* Параметры рамки */
+}
+
+.date input{
+	width:100%;
+}
+
+.rad {
+	border-radius:5px 5px 5px 5px;
+}
+
+.rad_add{
+	border-radius:5px 5px 5px 5px;
+	background-color:green;
+	color:white;
+}
+
+div.sort{
+	width:80%;
+	padding-left:10%;
+}
+
+.sort table{
+	text-align:center;
+	width:100%;
+	
+}
+
+#refresh {
+	background-color:green;
+	color:white;
+}
+
+form{
+	margin-bottom:0;
+}

@@ -29,122 +29,82 @@ public class CourseServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		String type = request.getParameter("type");
+		
+		String idParam = request.getParameter("id");
 
 		try {
-			if (type.equals("GetOneCourse")) {
-				Object result = facade.getCourse(Integer.parseInt(request.getParameter("courseId")));
-				if (result == null) {
-					request.setAttribute("result", -1);
-				} else {
-					request.setAttribute("result", result);
-				}
-				request.getRequestDispatcher("/course/getOneCourse.jsp").forward(request, response);
-			} else if (type.equals("GetManyCourses")) {
-				CourseDateParam courseDateParam = CourseDateParam.valueOf(request.getParameter("courseDateParam"));
-				SortingParam sortingParam = SortingParam.valueOf(request.getParameter("sortingParam"));
+			if (idParam != null) {
+				Integer id = Integer.parseInt(idParam);
+				Course result = facade.getCourse(id);
+				Object students = facade.getStudentsByCourse(id);
+				Object lections = facade.getLectionsByCourse(id);
+				request.setAttribute("course", result);
+				request.setAttribute("lecturer", result.getLecturer());
+				request.setAttribute("students", students);
+				request.setAttribute("lections", lections);
+				request.getRequestDispatcher("/course/course_detailed.jsp").forward(request, response);
+			} else {
+				CourseDateParam courseDateParam = null;
+				SortingParam sortingParam = null;
 				Date date = null;
-				if (courseDateParam == CourseDateParam.AFTER_DATE) {
-					date = convertToDate(request.getParameter("date"));
-				}
-				List<Course> result = facade.getSortedCourses(courseDateParam, sortingParam, date);
-				if (result == null) {
-					request.setAttribute("result", -1);
-				} else {
-					request.setAttribute("result", result);
+				Date dateFrom = null;
+				Date dateTo = null;
+
+				boolean cont = true;
+				Object resultList = null;
+				try {
+					dateFrom = convertToDate(request.getParameter("dateFrom"));
+					dateTo = convertToDate(request.getParameter("dateTo"));
+					cont = false;
+					List<Date> dateFromAndTo = new ArrayList<Date>();
+					dateFromAndTo.add(dateFrom);
+					dateFromAndTo.add(dateTo);
+					resultList = facade.getCoursesInInterval(dateFromAndTo);
+				} catch (Exception c) {
 				}
 
-				request.getRequestDispatcher("/course/getManyCourses.jsp").forward(request, response);
-			} else if (type.equals("GetCoursesInInterval")) {
-				List<Object> list = new ArrayList<>();
-				list.add(convertToDate(request.getParameter("dateFrom")));
-				list.add(convertToDate(request.getParameter("dateTo")));
-				List<Course> result = facade.getCoursesInInterval(list);
-				if (result == null) {
-					request.setAttribute("result", -1);
-				} else {
-					request.setAttribute("result", result);
+				if (cont) {
+					try {
+						courseDateParam = CourseDateParam.valueOf(request.getParameter("courseDateParam"));
+						sortingParam = SortingParam.valueOf(request.getParameter("sortingParam"));
+					} catch (Exception e) {
+						courseDateParam = CourseDateParam.NONE;
+						sortingParam = SortingParam.ID;
+					}
+					if (courseDateParam == CourseDateParam.AFTER_DATE) {
+						date = convertToDate(request.getParameter("dateFrom"));
+					}
+					resultList = facade.getSortedCourses(courseDateParam, sortingParam, date);
+					
 				}
-				request.getRequestDispatcher("/course/getCoursesInInterval.jsp").forward(request, response);
-			} else {
-				request.getRequestDispatcher("/course/courseMenu.jsp").forward(request, response);
+				request.setAttribute("courses", resultList);
+				request.getRequestDispatcher("/course/course.jsp").forward(request, response);
 			}
 		} catch (Exception e) {
-			request.setAttribute("error", true);
-			request.getRequestDispatcher("/course/courseMenu.jsp").forward(request, response);
+			request.setAttribute("error", "Something wrong!");
+			request.getRequestDispatcher("/course/course.jsp").forward(request, response);
 		}
 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		String type = request.getParameter("type");
-
-		try {
-			if (type.equals("AddLectionToCourse")) {
-				List<Integer> list = new ArrayList<>();
-				list.add(Integer.parseInt(request.getParameter("courseId")));
-				list.add(Integer.parseInt(request.getParameter("lectionId")));
-				Boolean result = facade.addLectionToCourse(list);
-				request.setAttribute("result", result);
-				request.getRequestDispatcher("/course/addLectionToCourse.jsp").forward(request, response);
-			} else if (type.equals("AddStudentToCourse")) {
-				List<Integer> list = new ArrayList<>();
-				list.add(Integer.parseInt(request.getParameter("courseId")));
-				list.add(Integer.parseInt(request.getParameter("studentId")));
-				Boolean result = facade.addStudentToCourse(list);
-				request.setAttribute("result", result);
-				request.getRequestDispatcher("/course/addStudentToCourse.jsp").forward(request, response);
-			} else if (type.equals("CreateCourse")) {
-				List<Object> list = new ArrayList<>();
-				list.add(request.getParameter("name"));
-				list.add(convertToDate(request.getParameter("startDate")));
-				list.add(convertToDate(request.getParameter("finalDate")));
-				list.add(Integer.parseInt(request.getParameter("maxStudents")));
-				list.add(Integer.parseInt(request.getParameter("maxLections")));
-				Integer id = facade.setCourse(list);
-				if (id == null) {
-					request.setAttribute("result", -1);
-				} else {
-					request.setAttribute("result", id);
-				}
-				request.getRequestDispatcher("/course/createCourse.jsp").forward(request, response);
-			} else if (type.equals("SetLecturerToCourse")) {
-				List<Integer> list = new ArrayList<>();
-				list.add(Integer.parseInt(request.getParameter("courseId")));
-				list.add(Integer.parseInt(request.getParameter("lecturerId")));
-				Boolean result = facade.setLecturerToCourse(list);
-				request.setAttribute("result", result);
-				request.getRequestDispatcher("/course/setLecturerToCourse.jsp").forward(request, response);
-			} else if (type.equals("DeleteCourse")) {
-				Boolean result = facade.deleteCourse(Integer.parseInt(request.getParameter("courseId")));
-				request.setAttribute("result", result);
-				request.getRequestDispatcher("/course/deleteCourse.jsp").forward(request, response);
-			} else if (type.equals("RemoveLectionFromCourse")) {
-				List<Integer> list = new ArrayList<>();
-				list.add(Integer.parseInt(request.getParameter("courseId")));
-				list.add(Integer.parseInt(request.getParameter("lectionId")));
-				Boolean result = facade.removeLectionFromCourse(list);
-				request.setAttribute("result", result);
-				request.getRequestDispatcher("/course/removeLectionFromCourse.jsp").forward(request,
-						response);
-			} else if (type.equals("RemoveStudentFromCourse")) {
-				List<Integer> list = new ArrayList<>();
-				list.add(Integer.parseInt(request.getParameter("courseId")));
-				list.add(Integer.parseInt(request.getParameter("studentId")));
-				Boolean result = facade.removeStudentFromCourse(list);
-				request.setAttribute("result", result);
-				request.getRequestDispatcher("/course/removeStudentFromCourse.jsp").forward(request,
-						response);
-			} else {
-				request.getRequestDispatcher("/course/courseMenu.jsp").forward(request, response);
-			}
-		} catch (Exception e) {
-			request.setAttribute("error", true);
-			request.getRequestDispatcher("/course/courseMenu.jsp").forward(request, response);
+		try{
+		String name = request.getParameter("name");
+		Date startDate = convertToDate(request.getParameter("startDate"));
+		Date finalDate = convertToDate(request.getParameter("finalDate"));
+		Integer maxLections = Integer.parseInt(request.getParameter("maxLections"));
+		Integer maxStudents = Integer.parseInt(request.getParameter("maxStudents"));
+		List<Object> list =  new ArrayList<>();
+		list.add(name);
+		list.add(startDate);
+		list.add(finalDate);
+		list.add(maxStudents);
+		list.add(maxLections);
+		facade.setCourse(list);
+		} catch (Exception e){
 		}
+		response.sendRedirect("/Course");
 	}
 
 	private Date convertToDate(String string) {

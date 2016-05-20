@@ -12,4 +12,6 @@ public interface IStudentService {
 	public Boolean delete(Integer studentId);
 	public List<Student> getAll();
 	public Integer getCount();
+	public List<Student> getStudentsByCourse(Integer courseId);
+	public List<Student> getStudentsExceptCourse(Integer courseId);
 }

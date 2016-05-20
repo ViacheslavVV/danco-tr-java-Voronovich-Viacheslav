@@ -1,6 +1,7 @@
 package com.training.danco.dao.impl;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -54,6 +55,21 @@ public class LectionRepository extends AbstractRepository<Lection, Integer> impl
 	public Integer getCount(Session session) throws SQLException {
 		return Integer.parseInt(
 				session.createCriteria(Lection.class).setProjection(Projections.rowCount()).uniqueResult().toString());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Lection> getLectionsByCourse(Session session, Integer courseId) throws SQLException {
+		Criteria criteria = session.createCriteria(Lection.class);
+		return criteria.setFetchMode("course", FetchMode.JOIN).createAlias("course", "cour")
+				.add(Restrictions.eq("cour.id", courseId)).addOrder(Order.asc(ID)).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Lection> getFreeLections(Session session) throws SQLException {
+		Criteria criteria = session.createCriteria(Lection.class);
+		return criteria.add(Restrictions.isNull("course")).addOrder(Order.asc(ID)).list();
 	}
 
 }

@@ -12,6 +12,10 @@ import com.training.danco.params.SortingParam;
 public interface ICourseRepository extends IBaseRepository<Course, Integer> {
 
 	public Course cloneCourse(Session session, Course course) throws SQLException;
+	
+	public List<Course> getCoursesByStudent(Session session, Integer studentId) throws SQLException;
+	
+	public List<Course> getCoursesByLecturer(Session session, Integer lecturerId) throws SQLException;
 
 	public List<Course> getCoursesInInterval(Session session, Date dateFrom, Date dateTo) throws SQLException;
 

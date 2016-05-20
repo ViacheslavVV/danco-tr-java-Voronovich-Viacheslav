@@ -148,4 +148,36 @@ public class StudentService implements IStudentService {
 		return count;
 	}
 
+	@Override
+	public List<Student> getStudentsByCourse(Integer courseId) {
+		List<Student> resultStudents = null;
+		Session session = null;
+		try {
+			session = SessionManager.getSession();
+			resultStudents = this.studentRepository.getStudentsByCourse(session, courseId);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			resultStudents = new ArrayList<Student>();
+		} finally {
+			SessionManager.closeSession(session);
+		}
+		return resultStudents;
+	}
+
+	@Override
+	public List<Student> getStudentsExceptCourse(Integer courseId) {
+		List<Student> resultStudents = null;
+		Session session = null;
+		try {
+			session = SessionManager.getSession();
+			resultStudents = this.studentRepository.getStudentsExceptCourse(session, courseId);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			resultStudents = new ArrayList<Student>();
+		} finally {
+			SessionManager.closeSession(session);
+		}
+		return resultStudents;
+	}
+
 }

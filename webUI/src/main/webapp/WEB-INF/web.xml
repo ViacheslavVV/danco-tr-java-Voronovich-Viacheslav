@@ -4,7 +4,7 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
-  
+
   <servlet>
   	<servlet-name>CourseServlet</servlet-name>
   	<display-name>CourseServlet</display-name>
@@ -35,6 +35,30 @@
   	<description></description>
   	<servlet-class>com.training.danco.servlet.LoginServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>LecturerSetServlet</servlet-name>
+  	<display-name>LecturerSetServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.LecturerSetServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>LectionAddServlet</servlet-name>
+  	<display-name>LectionAddServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.LectionAddServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>StudentAddServlet</servlet-name>
+  	<display-name>StudentAddServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.StudentAddServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>CourseEditServlet</servlet-name>
+  	<display-name>CourseEditServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.CourseEditServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>CourseServlet</servlet-name>
   	<url-pattern>/Course</url-pattern>
@@ -55,4 +79,24 @@
   	<servlet-name>LoginServlet</servlet-name>
   	<url-pattern>/Login</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LecturerSetServlet</servlet-name>
+  	<url-pattern>/SetLecturer</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LectionAddServlet</servlet-name>
+  	<url-pattern>/AddLection</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>StudentAddServlet</servlet-name>
+  	<url-pattern>/AddStudent</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CourseEditServlet</servlet-name>
+  	<url-pattern>/EditCourse</url-pattern>
+  </servlet-mapping>
+  
+   <welcome-file-list>
+		<welcome-file>/course/course.jsp</welcome-file>
+	</welcome-file-list>
 </web-app>

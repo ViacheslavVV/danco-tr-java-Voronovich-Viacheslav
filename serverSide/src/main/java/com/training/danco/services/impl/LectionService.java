@@ -184,4 +184,36 @@ public class LectionService implements ILectionService {
 		return tempLections;
 	}
 
+	@Override
+	public List<Lection> getLectionsByCourse(Integer courseId) {
+		List<Lection> tempLections = null;
+		Session session = null;
+		try {
+			session = SessionManager.getSession();
+			tempLections = this.lectionRepository.getLectionsByCourse(session, courseId);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			tempLections = new ArrayList<Lection>();
+		} finally {
+			SessionManager.closeSession(session);
+		}
+		return tempLections;
+	}
+
+	@Override
+	public List<Lection> getFreeLections() {
+		List<Lection> tempLections = null;
+		Session session = null;
+		try {
+			session = SessionManager.getSession();
+			tempLections = this.lectionRepository.getFreeLections(session);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			tempLections = new ArrayList<Lection>();
+		} finally {
+			SessionManager.closeSession(session);
+		}
+		return tempLections;
+	}
+
 }

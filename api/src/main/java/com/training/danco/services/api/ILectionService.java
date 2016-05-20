@@ -16,4 +16,6 @@ public interface ILectionService {
 	public List<Lection> getSorted(SortingParam sortingParam);
 	public List<Lection> getLectionsByDate(Date date);
 	public Integer getCount();
+	public List<Lection> getLectionsByCourse(Integer courseId);
+	public List<Lection> getFreeLections();
 }

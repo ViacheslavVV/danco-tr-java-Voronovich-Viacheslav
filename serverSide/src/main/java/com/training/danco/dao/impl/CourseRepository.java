@@ -37,46 +37,46 @@ public class CourseRepository extends AbstractRepository<Course, Integer> implem
 		Criteria criteria = session.createCriteria(Course.class);
 
 		switch (courseDateParam) {
-			case AFTER_DATE: {
-				criteria.add(Restrictions.gt(START_DATE, date));
-				break;
-			}
-			case CURRENT: {
-				Date curDate = new Date(System.currentTimeMillis());
-				criteria.add(Restrictions.le(START_DATE, curDate)).add(Restrictions.ge(FINAL_DATE, curDate));
-				break;
-			}
-			default: {
-			}
+		case AFTER_DATE: {
+			criteria.add(Restrictions.gt(START_DATE, date));
+			break;
+		}
+		case CURRENT: {
+			Date curDate = new Date(System.currentTimeMillis());
+			criteria.add(Restrictions.le(START_DATE, curDate)).add(Restrictions.ge(FINAL_DATE, curDate));
+			break;
+		}
+		default: {
+		}
 		}
 
 		switch (sortingParam) {
-			case LECTURER: {
-				criteria.setFetchMode("lecturer", FetchMode.JOIN).createAlias("lecturer", "lect");
-				criteria.addOrder(Order.asc("lect.name"));
-				break;
-			}
-			case STUDENTS_COUNT:{
-				criteria.setFetchMode("students", FetchMode.JOIN).createAlias("students", "stud");
-				ProjectionList projectionList = Projections.projectionList();
-				projectionList.add(Projections.groupProperty("stud.course"));
-				projectionList.add(Projections.rowCount(), "studCount");
-				criteria.setProjection(projectionList);
-				criteria.addOrder(Order.asc("studCount"));
-				return getCoursesFromMixedResult(criteria.list());
-			}
-			case NAME:{
-				criteria.addOrder(Order.asc(NAME));
-				break;
-			}
-			case START_DATE:{
-				criteria.addOrder(Order.asc(START_DATE));
-				break;
-			}
-			default: {	
-				criteria.addOrder(Order.asc(ID));
-			}
-	
+		case LECTURER: {
+			criteria.setFetchMode("lecturer", FetchMode.JOIN).createAlias("lecturer", "lect");
+			criteria.addOrder(Order.asc("lect.name"));
+			break;
+		}
+		case STUDENTS_COUNT: {
+			criteria.setFetchMode("students", FetchMode.JOIN).createAlias("students", "stud");
+			ProjectionList projectionList = Projections.projectionList();
+			projectionList.add(Projections.groupProperty("stud.course"));
+			projectionList.add(Projections.rowCount(), "studCount");
+			criteria.setProjection(projectionList);
+			criteria.addOrder(Order.asc("studCount"));
+			return getCoursesFromMixedResult(criteria.list());
+		}
+		case NAME: {
+			criteria.addOrder(Order.asc(NAME));
+			break;
+		}
+		case START_DATE: {
+			criteria.addOrder(Order.asc(START_DATE));
+			break;
+		}
+		default: {
+			criteria.addOrder(Order.asc(ID));
+		}
+
 		}
 		return criteria.list();
 
@@ -93,7 +93,7 @@ public class CourseRepository extends AbstractRepository<Course, Integer> implem
 	public List<Course> getCoursesInInterval(Session session, Date dateFrom, Date dateTo) throws SQLException {
 
 		Criteria criteria = session.createCriteria(Course.class);
-		return criteria.add(Restrictions.ge(START_DATE, dateFrom)).add(Restrictions.le(FINAL_DATE, dateTo))
+		return criteria.add(Restrictions.eq(START_DATE, dateFrom)).add(Restrictions.le(FINAL_DATE, dateTo))
 				.addOrder(Order.asc(ID)).list();
 	}
 
@@ -115,6 +115,22 @@ public class CourseRepository extends AbstractRepository<Course, Integer> implem
 			courses.add((Course) ((Object[]) obj)[COURSE_POSITION]);
 		}
 		return courses;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> getCoursesByStudent(Session session, Integer studentId) throws SQLException {
+		Criteria criteria = session.createCriteria(Course.class);
+		return criteria.setFetchMode("students", FetchMode.JOIN).createAlias("students", "stud")
+				.add(Restrictions.eq("stud.id", studentId)).addOrder(Order.asc(ID)).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> getCoursesByLecturer(Session session, Integer lecturerId) throws SQLException {
+		Criteria criteria = session.createCriteria(Course.class);
+		return criteria.setFetchMode("lecturer", FetchMode.JOIN).createAlias("lecturer", "lect")
+				.add(Restrictions.eq("lect.id", lecturerId)).addOrder(Order.asc(ID)).list();
 	}
 
 }
