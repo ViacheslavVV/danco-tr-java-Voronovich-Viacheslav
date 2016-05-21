@@ -20,6 +20,8 @@ public interface IFacade {
 	
 	public List<User> getAllUsers();
 	
+	public User getUserByLogin(String login);
+	
 	public Integer setAudit(Audit audit);
 	
 	public Integer setCourse(Object course);

@@ -13,12 +13,12 @@ import com.training.danco.model.User;
 import com.training.danco.services.api.IUserService;
 import com.training.danco.session.manager.SessionManager;
 
-public class UserService implements IUserService{
+public class UserService implements IUserService {
 
 	private static final Logger LOGGER = LogManager.getLogger(UserService.class);
-	
+
 	private IUserRepository userRepository;
-	
+
 	public UserService(IUserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
@@ -117,16 +117,43 @@ public class UserService implements IUserService{
 	public List<User> getAll() {
 		List<User> resultUsers = null;
 		Session session = null;
+		Transaction transaction = null;
 		try {
 			session = SessionManager.getSession();
+			transaction = session.beginTransaction();
 			resultUsers = this.userRepository.getAll(session);
+			transaction.commit();
 		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			LOGGER.error(e.getMessage());
 			resultUsers = new ArrayList<User>();
 		} finally {
 			SessionManager.closeSession(session);
 		}
 		return resultUsers;
+	}
+
+	@Override
+	public User getUserByLogin(String login) {
+		User resultUser = null;
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = SessionManager.getSession();
+			transaction = session.beginTransaction();
+			resultUser = this.userRepository.getUserByLogin(session, login);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null){
+				transaction.rollback();
+			}
+			LOGGER.error(e.getMessage());
+		} finally {
+			SessionManager.closeSession(session);
+		}
+		return resultUser;
 	}
 
 }

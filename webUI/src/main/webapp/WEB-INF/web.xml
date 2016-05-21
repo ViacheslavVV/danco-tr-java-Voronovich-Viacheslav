@@ -101,6 +101,18 @@
   	<description></description>
   	<servlet-class>com.training.danco.servlet.LecturerDeleteServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>AuthorizationServlet</servlet-name>
+  	<display-name>AuthorizationServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.AuthorizationServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>LogOutServlet</servlet-name>
+  	<display-name>LogOutServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.LogOutServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>CourseServlet</servlet-name>
   	<url-pattern>/Course</url-pattern>
@@ -165,8 +177,13 @@
   	<servlet-name>LecturerDeleteServlet</servlet-name>
   	<url-pattern>/DeleteLecturer</url-pattern>
   </servlet-mapping>
-  
-   <welcome-file-list>
-		<welcome-file>/index.html</welcome-file>
-	</welcome-file-list>
+  <servlet-mapping>
+  	<servlet-name>AuthorizationServlet</servlet-name>
+  	<url-pattern>/LogIn</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LogOutServlet</servlet-name>
+  	<url-pattern>/LogOut</url-pattern>
+  </servlet-mapping>
+
 </web-app>

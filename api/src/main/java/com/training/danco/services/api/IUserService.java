@@ -9,4 +9,5 @@ public interface IUserService {
 	public Boolean update(User user);
 	public Boolean delete(Integer userId);
 	public List<User> getAll();
+	public User getUserByLogin(String login);
 }

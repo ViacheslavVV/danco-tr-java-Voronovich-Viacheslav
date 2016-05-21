@@ -816,4 +816,15 @@ public class Facade implements IFacade {
 		return result;
 	}
 
+	@Override
+	public User getUserByLogin(String login) {
+		User result = null;
+		try {
+			result = this.userService.getUserByLogin(login);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return result;
+	}
+
 }

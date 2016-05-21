@@ -21,6 +21,7 @@ Student detailed
 				<td><a href="/Lecturer">Lecturer</a></td>
 				<td><a href="/Lection">Lection</a></td>
 				<td><a href="/Student">Student</a></td>
+				<td><a href="/welcome.jsp">Main page</a></td>
 			</tr>
 		</table>
 	</div>
