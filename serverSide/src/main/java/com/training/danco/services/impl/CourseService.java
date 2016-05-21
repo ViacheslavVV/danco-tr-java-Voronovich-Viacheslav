@@ -75,19 +75,20 @@ public class CourseService implements ICourseService {
 
 	@Override
 	public Boolean update(Course course) {
-		Boolean result = false;
+		Boolean result = true;
 		Session session = null;
 		Transaction transaction = null;
 		try {
 			session = SessionManager.getSession();
 			transaction = session.beginTransaction();
-
+			Course persistCourse = this.courseRepository.get(session, course.getId());
 			if (course.getId() == null) {
-				this.courseRepository.set(session, course);
-			} else if (this.courseRepository.get(session, course.getId()) != null) {
-				this.courseRepository.update(session, course);
+				result = this.courseRepository.set(session, course) != null;
+			} else if (persistCourse != null) {
+				this.copyFields(course,persistCourse);
+				this.courseRepository.update(session, persistCourse);
 			} else {
-				this.courseRepository.set(session, course);
+				result = false;
 			}
 
 			transaction.commit();
@@ -95,11 +96,20 @@ public class CourseService implements ICourseService {
 			if (transaction != null) {
 				transaction.rollback();
 			}
+			result = false;
 			LOGGER.error(e.getMessage());
 		} finally {
 			SessionManager.closeSession(session);
 		}
 		return result;
+	}
+
+	private void copyFields(Course course, Course persistCourse) {
+		persistCourse.setFinalDate(course.getFinalDate());
+		persistCourse.setName(course.getName());
+		persistCourse.setStartDate(course.getStartDate());
+		persistCourse.setMaxStudents(course.getMaxStudents());
+		persistCourse.setMaxLections(course.getMaxLections());
 	}
 
 	@Override

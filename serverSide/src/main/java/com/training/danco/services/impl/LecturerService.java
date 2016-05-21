@@ -67,19 +67,20 @@ public class LecturerService implements ILecturerService {
 
 	@Override
 	public Boolean update(Lecturer lecturer) {
-		Boolean result = false;
+		Boolean result = true;
 		Session session = null;
 		Transaction transaction = null;
 		try {
 			session = SessionManager.getSession();
 			transaction = session.beginTransaction();
-
+			Lecturer persistLecturer = this.lecturerRepository.get(session, lecturer.getId());
 			if (lecturer.getId() == null) {
-				this.lecturerRepository.set(session, lecturer);
-			} else if (this.lecturerRepository.get(session, lecturer.getId()) != null) {
-				this.lecturerRepository.update(session, lecturer);
+				result = this.lecturerRepository.set(session, lecturer) != null;
+			} else if (persistLecturer != null) {
+				this.copyFields(lecturer, persistLecturer);
+				this.lecturerRepository.update(session, persistLecturer);
 			} else {
-				this.lecturerRepository.set(session, lecturer);
+				result = false;
 			}
 
 			transaction.commit();
@@ -87,11 +88,17 @@ public class LecturerService implements ILecturerService {
 			if (transaction != null) {
 				transaction.rollback();
 			}
+			result = false;
 			LOGGER.error(e.getMessage());
 		} finally {
 			SessionManager.closeSession(session);
 		}
 		return result;
+	}
+
+	private void copyFields(Lecturer lecturer, Lecturer persistLecturer) {
+		persistLecturer.setAge(lecturer.getAge());
+		persistLecturer.setName(lecturer.getName());
 	}
 
 	@Override
@@ -156,7 +163,7 @@ public class LecturerService implements ILecturerService {
 		Session session = null;
 		try {
 			session = SessionManager.getSession();
-			tempLecturers = this.lecturerRepository.getSorted(session,sortingParam);
+			tempLecturers = this.lecturerRepository.getSorted(session, sortingParam);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			tempLecturers = new ArrayList<Lecturer>();

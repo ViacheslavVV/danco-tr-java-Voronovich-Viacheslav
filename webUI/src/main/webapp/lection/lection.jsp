@@ -17,13 +17,14 @@ Lection page
 	<div class="menu">
 		<table>
 			<tr>
-				<td><a href="/course/course.jsp">Course</a></td>
-				<td><a href="/lecturer/lecturer.jsp">Lecturer</a></td>
-				<td><a href="/lection/lection.jsp">Lection</a></td>
-				<td><a href="/student/student.jsp">Student</a></td>
+				<td><a href="/Course">Course</a></td>
+				<td><a href="/Lecturer">Lecturer</a></td>
+				<td><a href="/Lection">Lection</a></td>
+				<td><a href="/Student">Student</a></td>
 			</tr>
 		</table>
 	</div>
+	<c:if test="${error != null}"><H4 class="red_s">${error}</H4></c:if>
 	<form action="/Lection" method="post">
 	<div id="table_create" class="data_table">
 		<table>
@@ -51,8 +52,9 @@ Lection page
 				<td>
 					<label>Sorting param</label>
 					<select name="sortingParam">
-						<option>Пункт 1</option>
-						<option>Пункт 2</option>
+						<option>ID</option>
+						<option>DATE</option>
+						<option>NAME</option>
 					</select>
 				</td>
 				<td>
@@ -77,13 +79,14 @@ Lection page
 				</tr>
 			</thead>
 			<tbody>
+				<c:forEach var="lection" items="${lections}">
 				<tr>
-					<td>Name</td>
-					<td>Date</td>
-					<td><a href="/EditCourse?id=1"><input class="rad" type="button" value="edit"></a></td>
-					<td><a href="/DeleteCourse?id=1"><input class="rad" type="button" value="delete"></a></td>
+					<td>${lection.getName()}</td>
+					<td>${lection.getDate()}</td>
+					<td><a href="/EditLection?id=${lection.getId()}"><input class="rad" type="button" value="edit"></a></td>
+					<td><a href="/DeleteLection?id=${lection.getId()}"><input class="rad" type="button" value="delete"></a></td>
 				</tr>
-				
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>

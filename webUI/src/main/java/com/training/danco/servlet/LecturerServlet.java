@@ -12,78 +12,60 @@ import javax.servlet.http.HttpServletResponse;
 import com.training.danco.dim.DependencyInjectionManager;
 import com.training.danco.facade.api.IFacade;
 import com.training.danco.model.Lecturer;
+import com.training.danco.params.SortingParam;
 
 public class LecturerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private IFacade facade = (IFacade) DependencyInjectionManager.getClassInstance(IFacade.class);
-	
-    public LecturerServlet() {
-        super();
-    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String type = request.getParameter("type");
+	public LecturerServlet() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String idParam = request.getParameter("id");
 
 		try {
-			if (type.equals("GetLecturer")) {
-				Object result = facade.getLecturer(Integer.parseInt(request.getParameter("lecturerId")));
-				if (result == null) {
-					request.setAttribute("result", -1);
-				} else {
-					request.setAttribute("result", result);
-				}
-				request.getRequestDispatcher("/lecturer/getLecturer.jsp").forward(request, response);
-			} else if (type.equals("GetAllLecturers")) {
-				List<Lecturer> result = facade.getAllLecturers();
-				if (result == null) {
-					request.setAttribute("result", -1);
-				} else {
-					request.setAttribute("result", result);
+			if (idParam != null) {
+				Integer id = Integer.parseInt(idParam);
+				Lecturer result = facade.getLecturer(id);
+				request.setAttribute("lecturer", result);
+				request.setAttribute("courses", facade.getCoursesByLecturer(id));
+				request.getRequestDispatcher("/lecturer/lecturer_detailed.jsp").forward(request, response);
+			} else {
+				SortingParam sortingParam = null;
+				try {
+					sortingParam = SortingParam.valueOf(request.getParameter("sortingParam"));
+				} catch (Exception e) {
+					sortingParam = SortingParam.ID;
 				}
 
-				request.getRequestDispatcher("/lecturer/getAllLecturers.jsp").forward(request, response);
-			} else {
-				request.getRequestDispatcher("/lecturer/lecturerMenu.jsp").forward(request, response);
+				Object lecturers = facade.getSortedLecturers(sortingParam);
+
+				request.setAttribute("lecturers", lecturers);
+				request.getRequestDispatcher("/lecturer/lecturer.jsp").forward(request, response);
 			}
 		} catch (Exception e) {
-			request.setAttribute("error", true);
-			request.getRequestDispatcher("/lecturer/lecturerMenu.jsp").forward(request, response);
+			request.setAttribute("error", "Something wrong!");
+			request.getRequestDispatcher("/lecturer/lecturer.jsp").forward(request, response);
 		}
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String type = request.getParameter("type");
-
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
-			if (type.equals("CreateLecturer")) {
-				List<Object> list = new ArrayList<Object>();
-				list.add(request.getParameter("name"));
-				list.add(Integer.parseInt(request.getParameter("age")));
-				Object result = facade.setLecturer(list);
-				if (result == null) {
-					request.setAttribute("result", -1);
-				} else {
-					request.setAttribute("result", result);
-				}
-				request.getRequestDispatcher("/lecturer/createLecturer.jsp").forward(request, response);
-			} else if (type.equals("DeleteLecturer")) {
-				Integer id = Integer.parseInt(request.getParameter("lecturerId"));
-				Boolean result = facade.deleteLecturer(id);
-				if (result == null) {
-					request.setAttribute("result", -1);
-				} else {
-					request.setAttribute("result", result);
-				}
-
-				request.getRequestDispatcher("/lecturer/deleteLecturer.jsp").forward(request, response);
-			} else {
-				request.getRequestDispatcher("/lecturer/lecturerMenu.jsp").forward(request, response);
-			}
+			String name = request.getParameter("name");
+			Integer age = Integer.parseInt(request.getParameter("age"));
+			List<Object> list = new ArrayList<>();
+			list.add(name);
+			list.add(age);
+			facade.setLecturer(list);
 		} catch (Exception e) {
-			request.setAttribute("error", true);
-			request.getRequestDispatcher("/lecturer/lecturerMenu.jsp").forward(request, response);
 		}
+		response.sendRedirect("/Lecturer");
 	}
 
 }

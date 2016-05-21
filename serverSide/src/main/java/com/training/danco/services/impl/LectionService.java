@@ -69,19 +69,20 @@ public class LectionService implements ILectionService {
 	@Override
 	public Boolean update(Lection lection) {
 
-		Boolean result = false;
+		Boolean result = true;
 		Session session = null;
 		Transaction transaction = null;
 		try {
 			session = SessionManager.getSession();
 			transaction = session.beginTransaction();
-
+			Lection persistLection = this.lectionRepository.get(session, lection.getId());
 			if (lection.getId() == null) {
-				this.lectionRepository.set(session, lection);
-			} else if (this.lectionRepository.get(session, lection.getId()) != null) {
-				this.lectionRepository.update(session, lection);
+				result = this.lectionRepository.set(session, lection) == null;
+			} else if (persistLection != null) {
+				this.copyFields(lection, persistLection);
+				this.lectionRepository.update(session, persistLection);
 			} else {
-				this.lectionRepository.set(session, lection);
+				result = false;
 			}
 
 			transaction.commit();
@@ -89,11 +90,17 @@ public class LectionService implements ILectionService {
 			if (transaction != null) {
 				transaction.rollback();
 			}
+			result = false;
 			LOGGER.error(e.getMessage());
 		} finally {
 			SessionManager.closeSession(session);
 		}
 		return result;
+	}
+	
+	private void copyFields(Lection lection, Lection persistLection) {
+		persistLection.setDate(lection.getDate());
+		persistLection.setName(lection.getName());
 	}
 
 	@Override

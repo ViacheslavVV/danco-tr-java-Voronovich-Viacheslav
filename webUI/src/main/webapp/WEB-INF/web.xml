@@ -59,6 +59,48 @@
   	<description></description>
   	<servlet-class>com.training.danco.servlet.CourseEditServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>LectionEditServlet</servlet-name>
+  	<display-name>LectionEditServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.LectionEditServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>LecturerEditServlet</servlet-name>
+  	<display-name>LecturerEditServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.LecturerEditServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>StudentEditServlet</servlet-name>
+  	<display-name>StudentEditServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.StudentEditServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>CourseDeleteServlet</servlet-name>
+  	<display-name>CourseDeleteServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.CourseDeleteServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>StudentDeleteServlet</servlet-name>
+  	<display-name>StudentDeleteServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.StudentDeleteServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>LectionDeleteServlet</servlet-name>
+  	<display-name>LectionDeleteServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.LectionDeleteServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>LecturerDeleteServlet</servlet-name>
+  	<display-name>LecturerDeleteServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.training.danco.servlet.LecturerDeleteServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>CourseServlet</servlet-name>
   	<url-pattern>/Course</url-pattern>
@@ -95,8 +137,36 @@
   	<servlet-name>CourseEditServlet</servlet-name>
   	<url-pattern>/EditCourse</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LectionEditServlet</servlet-name>
+  	<url-pattern>/EditLection</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LecturerEditServlet</servlet-name>
+  	<url-pattern>/EditLecturer</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>StudentEditServlet</servlet-name>
+  	<url-pattern>/EditStudent</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CourseDeleteServlet</servlet-name>
+  	<url-pattern>/DeleteCourse</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>StudentDeleteServlet</servlet-name>
+  	<url-pattern>/DeleteStudent</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LectionDeleteServlet</servlet-name>
+  	<url-pattern>/DeleteLection</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LecturerDeleteServlet</servlet-name>
+  	<url-pattern>/DeleteLecturer</url-pattern>
+  </servlet-mapping>
   
    <welcome-file-list>
-		<welcome-file>/course/course.jsp</welcome-file>
+		<welcome-file>/index.html</welcome-file>
 	</welcome-file-list>
 </web-app>

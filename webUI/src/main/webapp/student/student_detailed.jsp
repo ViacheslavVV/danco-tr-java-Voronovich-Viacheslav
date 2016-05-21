@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>
-Lecturer detailed
+Student detailed
 </title>
 <head>
 	 <link href="/style/detailed.css" rel="stylesheet">
@@ -17,10 +17,10 @@ Lecturer detailed
 	<div class="menu">
 		<table>
 			<tr>
-				<td><a href="/course/course.jsp">Course</a></td>
-				<td><a href="/lecturer/lecturer.jsp">Lecturer</a></td>
-				<td><a href="/lection/lection.jsp">Lection</a></td>
-				<td><a href="/student/student.jsp">Student</a></td>
+				<td><a href="/Course">Course</a></td>
+				<td><a href="/Lecturer">Lecturer</a></td>
+				<td><a href="/Lection">Lection</a></td>
+				<td><a href="/Student">Student</a></td>
 			</tr>
 		</table>
 	</div>
@@ -31,8 +31,8 @@ Lecturer detailed
 					<th>Age</th>
 			</tr>
 			<tr>
-					<td>StudentName</td>
-					<td>StudentAge</td>
+					<td>${student.getName()}</td>
+					<td>${student.getAge()}</td>
 			</tr>
 		</table>
 	</div>
@@ -50,11 +50,11 @@ Lecturer detailed
 			</thead>
 			<tbody>
 				<tr>
-					<td><a href="/Course?id=1">Name</a></td>
-					<td>start date</td>
-					<td>final date</td>
-					<td>max lections</td>
-					<td>max students</td>
+					<td><a href="/Course?id=${course.getId()}">${course.getName()}</a></td>
+					<td>${course.getStartDate()}</td>
+					<td>${course.getFinalDate() }</td>
+					<td>${course.getMaxLections() }</td>
+					<td>${course.getMaxStudents() }</td>
 				</tr>
 				
 			</tbody>

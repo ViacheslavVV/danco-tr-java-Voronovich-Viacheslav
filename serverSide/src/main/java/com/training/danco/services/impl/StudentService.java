@@ -65,19 +65,20 @@ public class StudentService implements IStudentService {
 
 	@Override
 	public Boolean update(Student student) {
-		Boolean result = false;
+		Boolean result = true;
 		Session session = null;
 		Transaction transaction = null;
 		try {
 			session = SessionManager.getSession();
 			transaction = session.beginTransaction();
-
+			Student persistStudent = this.studentRepository.get(session, student.getId());
 			if (student.getId() == null) {
-				this.studentRepository.set(session, student);
-			} else if (this.studentRepository.get(session, student.getId()) != null) {
-				this.studentRepository.update(session, student);
+				result = this.studentRepository.set(session, student) != null;
+			} else if (persistStudent != null) {
+				this.copyFields(student, persistStudent);
+				this.studentRepository.update(session, persistStudent);
 			} else {
-				this.studentRepository.set(session, student);
+				result = false;
 			}
 
 			transaction.commit();
@@ -85,11 +86,17 @@ public class StudentService implements IStudentService {
 			if (transaction != null) {
 				transaction.rollback();
 			}
+			result = false;
 			LOGGER.error(e.getMessage());
 		} finally {
 			SessionManager.closeSession(session);
 		}
 		return result;
+	}
+	
+	private void copyFields(Student student, Student persistStudent) {
+		persistStudent.setAge(student.getAge());
+		persistStudent.setName(student.getName());
 	}
 
 	@Override

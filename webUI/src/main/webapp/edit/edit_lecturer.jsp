@@ -15,22 +15,23 @@
 	<div class="menu">
 		<table>
 			<tr>
-				<td><a href="/course/course.jsp">Course</a></td>
-				<td><a href="/lecturer/lecturer.jsp">Lecturer</a></td>
-				<td><a href="/lection/lection.jsp">Lection</a></td>
-				<td><a href="/student/student.jsp">Student</a></td>
+				<td><a href="/Course">Course</a></td>
+				<td><a href="/Lecturer">Lecturer</a></td>
+				<td><a href="/Lection">Lection</a></td>
+				<td><a href="/Student">Student</a></td>
 			</tr>
 		</table>
 	</div>
 	<form action="/EditLecturer" method="post">
+		<input type="hidden" name="lecturerId" value="${lecturer.getId()}">
 		<div id="table_create" class="data_table">
 			<table>
 				<tr>
-					<td><input type="text" name="name" /></td>
+					<td><input type="text" name="name" value="${lecturer.getName()}"/></td>
 					<td><label>Name</label></td>
 				</tr>
 				<tr>
-					<td><input type="text" name="age" /></td>
+					<td><input type="text" name="age" value="${lecturer.getAge()}"/></td>
 					<td><label>Age</label></td>
 				</tr>
 				<tr>

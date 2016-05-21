@@ -24,68 +24,40 @@ public class StudentServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String type = request.getParameter("type");
+		String idParam = request.getParameter("id");
 
 		try {
-			if (type.equals("GetStudent")) {
-				Object result = facade.getStudent(Integer.parseInt(request.getParameter("studentId")));
-				if (result == null) {
-					request.setAttribute("result", -1);
-				} else {
-					request.setAttribute("result", result);
-				}
-				request.getRequestDispatcher("/student/getStudent.jsp").forward(request, response);
-			} else if (type.equals("GetAllStudents")) {
-				List<Student> result = facade.getAllStudents();
-				if (result == null) {
-					request.setAttribute("result", -1);
-				} else {
-					request.setAttribute("result", result);
-				}
-
-				request.getRequestDispatcher("/student/getAllStudents.jsp").forward(request, response);
+			if (idParam != null) {
+				Integer id = Integer.parseInt(idParam);
+				Student result = facade.getStudent(id);
+				request.setAttribute("student", result);
+				request.setAttribute("course", result.getCourse());
+				request.getRequestDispatcher("/student/student_detailed.jsp").forward(request, response);
 			} else {
-				request.getRequestDispatcher("/student/studentMenu.jsp").forward(request, response);
+
+				Object resultList = facade.getAllStudents();
+					
+				request.setAttribute("students", resultList);
+				request.getRequestDispatcher("/student/student.jsp").forward(request, response);
 			}
 		} catch (Exception e) {
-			request.setAttribute("error", true);
-			request.getRequestDispatcher("/student/studentMenu.jsp").forward(request, response);
+			request.setAttribute("error", "Something wrong!");
+			request.getRequestDispatcher("/student/student.jsp").forward(request, response);
 		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String type = request.getParameter("type");
-
 		try {
-			if (type.equals("CreateStudent")) {
-				List<Object> list = new ArrayList<Object>();
-				list.add(request.getParameter("name"));
-				list.add(Integer.parseInt(request.getParameter("age")));
-				Object result = facade.setStudent(list);
-				if (result == null) {
-					request.setAttribute("result", -1);
-				} else {
-					request.setAttribute("result", result);
-				}
-				request.getRequestDispatcher("/student/createStudent.jsp").forward(request, response);
-			} else if (type.equals("DeleteStudent")) {
-				Integer id = Integer.parseInt(request.getParameter("studentId"));
-				Boolean result = facade.deleteStudent(id);
-				if (result == null) {
-					request.setAttribute("result", -1);
-				} else {
-					request.setAttribute("result", result);
-				}
-
-				request.getRequestDispatcher("/student/deleteStudent.jsp").forward(request, response);
-			} else {
-				request.getRequestDispatcher("/student/studentMenu.jsp").forward(request, response);
-			}
+			String name = request.getParameter("name");
+			Integer age = Integer.parseInt(request.getParameter("age"));
+			List<Object> list = new ArrayList<>();
+			list.add(name);
+			list.add(age);
+			facade.setStudent(list);
 		} catch (Exception e) {
-			request.setAttribute("error", true);
-			request.getRequestDispatcher("/student/studentMenu.jsp").forward(request, response);
 		}
+		response.sendRedirect("/Student");
 	}
 
 }

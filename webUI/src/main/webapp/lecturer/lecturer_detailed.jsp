@@ -17,10 +17,10 @@ Lecturer detailed
 	<div class="menu">
 		<table>
 			<tr>
-				<td><a href="/course/course.jsp">Course</a></td>
-				<td><a href="/lecturer/lecturer.jsp">Lecturer</a></td>
-				<td><a href="/lection/lection.jsp">Lection</a></td>
-				<td><a href="/student/student.jsp">Student</a></td>
+				<td><a href="/Course">Course</a></td>
+				<td><a href="/Lecturer">Lecturer</a></td>
+				<td><a href="/Lection">Lection</a></td>
+				<td><a href="/Student">Student</a></td>
 			</tr>
 		</table>
 	</div>
@@ -31,13 +31,13 @@ Lecturer detailed
 					<th>Age</th>
 			</tr>
 			<tr>
-					<td>LecturerName</td>
-					<td>LecturerAge</td>
+					<td>${lecturer.getName()}</td>
+					<td>${lecturer.getAge()}</td>
 			</tr>
 		</table>
 	</div>
 	<div id="table_main" class="course_table">
-	<H3>Courses</H3>
+	<H3>Course</H3>
 		<table>
 			<thead>
 				<tr>
@@ -49,14 +49,15 @@ Lecturer detailed
 				</tr>
 			</thead>
 			<tbody>
+				<c:forEach var="course" items="${courses}">
 				<tr>
-					<td><a href="/Course?id=1">Name</a></td>
-					<td>start date</td>
-					<td>final date</td>
-					<td>max lections</td>
-					<td>max students</td>
+					<td><a href="/Course?id=${course.getId()}">${course.getName()}</a></td>
+					<td>${course.getStartDate()}</td>
+					<td>${course.getFinalDate()}</td>
+					<td>${course.getMaxLections()}</td>
+					<td>${course.getMaxStudents()}</td>
 				</tr>
-				
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>

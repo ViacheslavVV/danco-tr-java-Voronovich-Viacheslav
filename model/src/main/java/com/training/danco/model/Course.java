@@ -23,10 +23,7 @@ import com.training.danco.annotation.PrintableRef;
 @Table(name = "Course")
 @PrintableObject
 public class Course extends BaseModel implements Cloneable {
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -4287990527523836622L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -153,5 +150,13 @@ public class Course extends BaseModel implements Cloneable {
 	public void setId(Integer id) {
 		this.id = id;
 
+	}
+	
+	public void setMaxStudents(Integer maxStudents) {
+		this.maxStudents = maxStudents;
+	}
+
+	public void setMaxLections(Integer maxLections) {
+		this.maxLections = maxLections;
 	}
 }
