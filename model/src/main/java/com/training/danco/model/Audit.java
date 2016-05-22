@@ -16,6 +16,10 @@ import javax.persistence.Table;
 @Table(name = "Audit")
 public class Audit extends BaseModel {
  
+	public Audit(){
+		
+	}
+	
 	public Audit(User user, Date date, String resources) {
 		super();
 		this.user = user;
@@ -31,7 +35,7 @@ public class Audit extends BaseModel {
 	private Integer id;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "User_idUser")
+	@JoinColumn(name = "userId")
 	private User user;
 	
 	@Column

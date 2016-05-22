@@ -1,6 +1,8 @@
 package com.training.danco.servlet;
 
 import java.io.IOException;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.training.danco.dim.DependencyInjectionManager;
 import com.training.danco.facade.api.IFacade;
+import com.training.danco.model.Audit;
 import com.training.danco.model.User;
 
 public class AuthorizationServlet extends HttpServlet {
@@ -28,6 +31,7 @@ public class AuthorizationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = null;
 		HttpSession session = request.getSession(true);
+		String resourse = ((HttpServletRequest) request).getRequestURL().toString();
 
 		String resultPage = null;
 		user = facade.getUserByLogin(request.getParameter("login"));
@@ -36,6 +40,8 @@ public class AuthorizationServlet extends HttpServlet {
 				&& request.getParameter("password").equals(user.getPassword())) {
 			session.setAttribute("user", user);
 			resultPage = "/welcome.jsp";
+			Audit audit = new Audit(user, new Date(System.currentTimeMillis()), resourse);
+			facade.setAudit(audit);
 		} else {
 			resultPage = "/authorization.html";
 		}
