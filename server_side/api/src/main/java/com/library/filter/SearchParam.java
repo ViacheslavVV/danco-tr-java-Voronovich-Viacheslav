@@ -1,0 +1,25 @@
+package com.library.filter;
+
+public enum SearchParam {
+
+	AUTHOR,
+	YEAR,
+	GENRE,
+	TITLE,
+	CODE,
+	STATUS,
+	CATALOG,
+	FIRST_NAME,
+	SECOND_NAME,
+	LAST_NAME,
+	BIRTH_DATE,
+	DEATH_DATE,
+	PARENT_CATALOG,
+	PHONE,
+	ADDRESS,
+	EMAIL,
+	HAND_OUT_DATE,
+	HAND_OVER_DATE,
+	DEADLINE,
+	LOGIN
+}
